@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+  <title>Tạo Việc Mới &amp; Bro AI Quick Parse — Due Bro</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&amp;family=Outfit:wght@500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              purple: '#7C3AED',
+              purpleHover: '#6D28D9',
+              purpleLight: '#F5F3FF',
+              purpleBorder: '#DDD6FE',
+              charcoal: '#18181B',
+              muted: '#71717A',
+              bg: '#FAFAF9',
+              card: '#FFFFFF',
+              border: '#E4E4E7',
+              coral: '#F97316',
+              coralLight: '#FFF7ED',
+              coralBorder: '#FFEDD5',
+              mint: '#10B981',
+              mintLight: '#ECFDF5',
+              mintBorder: '#A7F3D0',
+            },
+            "mint-reward": "#10B981",
+            "card-bg": "#FFFFFF",
+            "hairline-border": "#E4E4E7",
+            "coral-alert": "#F97316",
+            "surface-subtle": "#F4F4F5",
+          },
+          fontFamily: {
+            outfit: ["Outfit", "sans-serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F4F4F5;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #18181B;
+      -webkit-font-smoothing: antialiased;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .tactile-btn {
+      box-shadow: 0 2px 0 0 #18181B;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    .tactile-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 0 0 0 transparent;
+    }
+    .tactile-purple {
+      box-shadow: 0 2px 0 0 #5B21B6;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    .tactile-purple:active {
+      transform: translateY(2px);
+      box-shadow: 0 0 0 0 transparent;
+    }
+    .tap-effect {
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+    .tap-effect:active {
+      transform: scale(0.97);
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(124, 58, 237, 0); }
+    }
+    .ai-glow {
+      animation: pulseGlow 2s infinite;
+    }
+    .highlight-flash {
+      animation: flashBorder 0.8s ease-out;
+    }
+    @keyframes flashBorder {
+      0% { ring: 4px solid #7C3AED; background-color: #F5F3FF; }
+      100% { ring: 0px solid transparent; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex justify-center items-start sm:py-8 sm:px-4 bg-[#F4F4F5] font-sans text-[#18181B] antialiased selection:bg-[#7C3AED] selection:text-white">
+
+<!-- Outer Mobile Shell -->
+<main class="w-full max-w-[420px] bg-[#FAFAF9] min-h-screen sm:min-h-[860px] sm:rounded-[36px] sm:shadow-2xl border-x sm:border border-[#E4E4E7] relative flex flex-col pb-36 overflow-hidden">
+  
+  <!-- 1. Top Sheet Bar / Header -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E4E4E7] px-4 pt-2 pb-2.5 flex flex-col w-full max-w-[420px] mx-auto">
+    <div class="w-full pb-1.5 flex justify-center items-center">
+      <div class="w-10 h-1 rounded-full bg-[#E4E4E7]"></div>
+    </div>
+    <div class="w-full flex justify-between items-center">
+      <a aria-label="Đóng" class="w-9 h-9 rounded-full bg-white border border-[#E4E4E7] flex items-center justify-center text-[#18181B] hover:bg-[#F4F4F5] active:translate-y-[2px] transition-transform shadow-xs tap-effect" href="index.html">
+        <span class="material-symbols-outlined text-[19px]">close</span>
+      </a>
+      <div class="text-center">
+        <div class="flex items-center justify-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
+          <span class="text-[10px] font-mono font-semibold text-[#71717A]">Phòng 402 • Bro Engine 2.2</span>
+        </div>
+        <h1 class="text-[15px] font-outfit font-bold text-[#18181B] leading-tight flex items-center justify-center gap-1">
+          <span>Tạo Việc Mới</span>
+          <span class="text-[11px] font-mono font-bold text-[#7C3AED] bg-[#F5F3FF] px-1.5 py-0.2 rounded border border-[#DDD6FE]">AI</span>
+        </h1>
+      </div>
+      <button class="text-xs font-mono font-semibold text-[#71717A] hover:text-[#7C3AED] px-2 py-1 rounded-lg tap-effect flex items-center gap-0.5" onclick="resetForm()" type="button">
+        <span class="material-symbols-outlined text-[14px]">refresh</span>
+        <span>Đặt lại</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Scrollable Content Canvas -->
+  <div class="flex-1 overflow-y-auto px-4 py-4 space-y-4 no-scrollbar">
+
+    <!-- 2. SPEED LANE: BRO AI QUICK PARSE (Feature 1 MVP) -->
+    <section class="rounded-3xl border-2 border-[#7C3AED]/70 bg-gradient-to-b from-[#F5F3FF] via-[#FAF5FF] to-white p-4 shadow-sm relative overflow-hidden transition-all" id="ai-parser-card">
+      <div class="flex items-start justify-between gap-3 mb-2.5">
+        <div class="flex-1">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white border border-[#DDD6FE] mb-1.5 shadow-xs">
+            <span class="text-xs">⚡</span>
+            <span class="font-mono text-[10px] font-bold text-[#7C3AED] uppercase tracking-wider">BRO QUICK PARSER • MICRO-AI</span>
+          </div>
+          <h2 class="font-outfit text-[16px] font-bold text-[#18181B] leading-snug">
+            Lười bấm form? Hú Bro 1 câu là xong!
+          </h2>
+          <p class="text-[12px] text-[#71717A] font-medium mt-0.5">
+            Gõ hoặc nói tự nhiên, Bro tự phân tích người làm, giờ chót &amp; điểm chuẩn.
+          </p>
+        </div>
+        <div class="shrink-0 relative">
+          <img alt="Mascot Bro Cool" class="w-12 h-12 rounded-2xl object-cover bg-white border border-[#DDD6FE] shadow-xs" src="https://lh3.googleusercontent.com/aida/AEtjO1WBVvnkY__M4uLkV-x4CQcuTguJvQU_TYfYJqV6SypD5RyZr4c7h3qLyTfJ35NqTprEOGbwIczRVIbar2kCeZ10Z1hYsDZ-AouIsXz5DlvXdlASYlXRV2MseLywTyL8SgGqGnuegwgwD3uSl4TF3xi-0bsVAJbCFM_15-gsPAzLFluj16MiBDlrWtPRIHtvNfJjCppBmt5E8rgq-sRJ3Z_2v8K9bFf_bBvNyIcp0snApUH48loZwpVVd2Q"/>
+          <span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#10B981] border-2 border-white flex items-center justify-center text-[9px] text-white font-bold">✓</span>
+        </div>
+      </div>
+
+      <!-- Natural Language Input Bar -->
+      <div class="relative bg-white rounded-2xl border-2 border-[#7C3AED] p-1.5 flex items-center gap-1.5 shadow-sm focus-within:ring-2 focus-within:ring-[#7C3AED]/20 transition-all">
+        <span class="material-symbols-outlined text-[#7C3AED] text-[20px] ml-2">auto_awesome</span>
+        <input 
+          id="ai-prompt-input" 
+          type="text" 
+          class="w-full bg-transparent p-1 border-0 focus:ring-0 text-[14px] font-sans font-semibold text-[#18181B] placeholder:text-[#A1A1AA] placeholder:font-normal" 
+          placeholder="VD: Tối nay Nam rửa bát trước 22:30 nha Bro..."
+          value=""
+          onkeydown="if(event.key==='Enter') executeAIParse()"
+        />
+        <!-- Clear input button -->
+        <button id="ai-clear-btn" class="hidden text-[#A1A1AA] hover:text-[#18181B] p-1" onclick="clearAIPrompt()" type="button" aria-label="Xóa nội dung">
+          <span class="material-symbols-outlined text-[18px]">cancel</span>
+        </button>
+        <!-- Speech / Mic button simulation -->
+        <button id="ai-mic-btn" onclick="toggleVoiceInput()" class="w-8 h-8 rounded-xl bg-[#F4F4F5] text-[#18181B] hover:bg-[#E4E4E7] flex items-center justify-center shrink-0 tap-effect transition-colors" type="button" title="Đọc lệnh bằng giọng nói">
+          <span class="material-symbols-outlined text-[18px]">mic</span>
+        </button>
+        <!-- Trigger Parse Button -->
+        <button id="ai-parse-btn" onclick="executeAIParse()" class="bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-3 py-2 rounded-xl text-[12px] font-mono font-bold flex items-center gap-1 shrink-0 tactile-purple tap-effect" type="button">
+          <span>Phân tích</span>
+          <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+        </button>
+      </div>
+
+      <!-- Quick Test Prompt Chips -->
+      <div class="mt-2.5">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="font-mono text-[10px] uppercase font-bold text-[#71717A] tracking-wider">Mẫu thử nhanh (Gen Z Samples):</span>
+          <span class="text-[10px] font-mono text-[#7C3AED] font-semibold">1-Tap Test</span>
+        </div>
+        <div class="flex gap-1.5 overflow-x-auto no-scrollbar py-0.5 -mx-1 px-1">
+          <button onclick="applySamplePrompt('Tối nay Nam rửa bát trước 22:30')" class="shrink-0 text-[11px] font-sans font-medium bg-white hover:bg-[#F5F3FF] hover:border-[#DDD6FE] text-[#18181B] px-2.5 py-1 rounded-full border border-[#E4E4E7] active:scale-95 transition-all flex items-center gap-1 shadow-xs" type="button">
+            <span>🍽️</span>
+            <span>Nam rửa bát tối nay 22:30</span>
+          </button>
+          <button onclick="applySamplePrompt('Mai Hoàng cọ toilet 35 điểm')" class="shrink-0 text-[11px] font-sans font-medium bg-white hover:bg-[#F5F3FF] hover:border-[#DDD6FE] text-[#18181B] px-2.5 py-1 rounded-full border border-[#E4E4E7] active:scale-95 transition-all flex items-center gap-1 shadow-xs" type="button">
+            <span>🚽</span>
+            <span>Hoàng cọ toilet 35 pts</span>
+          </button>
+          <button onclick="applySamplePrompt('Ai rảnh quét lau nhà tối nay giúp phòng')" class="shrink-0 text-[11px] font-sans font-medium bg-white hover:bg-[#F5F3FF] hover:border-[#DDD6FE] text-[#18181B] px-2.5 py-1 rounded-full border border-[#E4E4E7] active:scale-95 transition-all flex items-center gap-1 shadow-xs" type="button">
+            <span>🧹</span>
+            <span>Ai rảnh lau nhà (Bounty)</span>
+          </button>
+          <button onclick="applySamplePrompt('Gấp: Hết túi rác, ai mua hộ trước 21h')" class="shrink-0 text-[11px] font-sans font-medium bg-[#FFF7ED] text-[#C2410C] border border-[#FFEDD5] px-2.5 py-1 rounded-full active:scale-95 transition-all flex items-center gap-1 shadow-xs font-semibold" type="button">
+            <span>🚨</span>
+            <span>Gấp: Mua túi rác (SOS)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- AI Dynamic Result & Feedback Banner (Reveals after parse) -->
+      <div id="ai-result-box" class="mt-3 pt-3 border-t border-[#DDD6FE] space-y-2 hidden">
+        <div class="flex items-start gap-2 bg-white rounded-xl p-2.5 border border-[#DDD6FE] shadow-xs">
+          <span class="text-lg shrink-0">🧢</span>
+          <div class="flex-1 text-left">
+            <p id="ai-mascot-speech" class="text-[12px] font-semibold text-[#18181B] leading-tight">
+              Bro đã bóc tách xong! Nam rửa bát tối nay 22:30 nhé!
+            </p>
+            <div class="flex items-center gap-1.5 flex-wrap mt-1.5" id="ai-tags-row">
+              <!-- Dynamically populated tags -->
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-between text-[10px] font-mono text-[#10B981] font-bold px-1">
+          <span class="flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+            <span>Tự động điền hoàn tất form bên dưới</span>
+          </span>
+          <span class="text-[#7C3AED] hover:underline cursor-pointer" onclick="scrollToForm()">Xem form ↓</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 3. Quick Preset Chips (Horizontal row of one-tap chores) -->
+    <section class="space-y-2" id="section-presets">
+      <div class="flex items-center justify-between">
+        <span class="font-mono text-[11px] uppercase text-[#71717A] tracking-wider font-semibold">Chọn Nhanh Mẫu Việc (1-Tap Preset)</span>
+        <span class="font-mono text-[10px] text-[#7C3AED] font-bold">⚡ CHUẨN ĐIỂM</span>
+      </div>
+      <div class="flex gap-2 overflow-x-auto no-scrollbar py-1 -mx-4 px-4" id="preset-container">
+        <button onclick="selectPreset('trash')" data-preset="trash" class="preset-chip shrink-0 flex items-center gap-1.5 bg-[#18181B] text-white px-3.5 py-2 rounded-full border border-[#18181B] active:translate-y-[2px] transition-transform" type="button">
+          <span class="material-symbols-outlined text-[16px] text-mint-reward">delete_sweep</span>
+          <span class="text-[13px] font-semibold">Đổ rác</span>
+          <span class="font-mono text-[11px] text-[#10B981] font-bold ml-0.5">+5 PTS</span>
+        </button>
+        <button onclick="selectPreset('dishes')" data-preset="dishes" class="preset-chip shrink-0 flex items-center gap-1.5 bg-white text-[#18181B] px-3.5 py-2 rounded-full border border-hairline-border hover:bg-surface-subtle active:translate-y-[2px] transition-transform" type="button">
+          <span class="material-symbols-outlined text-[16px] text-[#71717A]">local_laundry_service</span>
+          <span class="text-[13px] font-medium">Rửa chén</span>
+          <span class="font-mono text-[11px] text-[#71717A] font-semibold ml-0.5">+15 PTS</span>
+        </button>
+        <button onclick="selectPreset('sweep')" data-preset="sweep" class="preset-chip shrink-0 flex items-center gap-1.5 bg-white text-[#18181B] px-3.5 py-2 rounded-full border border-hairline-border hover:bg-surface-subtle active:translate-y-[2px] transition-transform" type="button">
+          <span class="material-symbols-outlined text-[16px] text-[#71717A]">mop</span>
+          <span class="text-[13px] font-medium">Quét &amp; Lau</span>
+          <span class="font-mono text-[11px] text-[#71717A] font-semibold ml-0.5">+20 PTS</span>
+        </button>
+        <button onclick="selectPreset('toilet')" data-preset="toilet" class="preset-chip shrink-0 flex items-center gap-1.5 bg-white text-[#18181B] px-3.5 py-2 rounded-full border border-hairline-border hover:bg-surface-subtle active:translate-y-[2px] transition-transform" type="button">
+          <span class="material-symbols-outlined text-[16px] text-[#71717A]">cleaning_services</span>
+          <span class="text-[13px] font-medium">Cọ Toilet</span>
+          <span class="font-mono text-[11px] text-[#71717A] font-semibold ml-0.5">+35 PTS</span>
+        </button>
+        <button onclick="selectPreset('cook')" data-preset="cook" class="preset-chip shrink-0 flex items-center gap-1.5 bg-white text-[#18181B] px-3.5 py-2 rounded-full border border-hairline-border hover:bg-surface-subtle active:translate-y-[2px] transition-transform" type="button">
+          <span class="material-symbols-outlined text-[16px] text-[#71717A]">soup_kitchen</span>
+          <span class="text-[13px] font-medium">Nấu ăn</span>
+          <span class="font-mono text-[11px] text-[#71717A] font-semibold ml-0.5">+30 PTS</span>
+        </button>
+        <button onclick="selectPreset('shopping')" data-preset="shopping" class="preset-chip shrink-0 flex items-center gap-1.5 bg-white text-[#18181B] px-3.5 py-2 rounded-full border border-hairline-border hover:bg-surface-subtle active:translate-y-[2px] transition-transform" type="button">
+          <span class="material-symbols-outlined text-[16px] text-[#71717A]">shopping_cart</span>
+          <span class="text-[13px] font-medium">Mua đồ</span>
+          <span class="font-mono text-[11px] text-[#71717A] font-semibold ml-0.5">+10 PTS</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 4. Chore Input Field -->
+    <section class="space-y-1.5" id="section-task-input">
+      <label class="font-mono text-[11px] uppercase text-[#71717A] tracking-wider font-bold" for="chore-name">
+        TÊN CÔNG VIỆC
+      </label>
+      <div class="relative bg-white rounded-2xl border-2 border-[#18181B] px-3.5 py-2.5 flex items-center gap-2.5 transition-all" id="task-input-box">
+        <span id="task-icon" class="material-symbols-outlined text-[#18181B] text-[20px]">delete_sweep</span>
+        <input 
+          class="w-full bg-transparent p-0 border-0 focus:ring-0 font-outfit text-[16px] text-[#18181B] font-bold placeholder:text-[#A1A1AA]" 
+          id="chore-name" 
+          placeholder="Nhập tên việc..." 
+          type="text" 
+          value="Đổ rác &amp; thay túi rác mới"
+          oninput="state.task = this.value"
+        />
+        <button aria-label="Xóa nội dung" class="text-[#71717A] hover:text-[#18181B]" type="button" onclick="document.getElementById('chore-name').value=''; state.task=''">
+          <span class="material-symbols-outlined text-[18px]">cancel</span>
+        </button>
+      </div>
+      <!-- Microcopy with Mascot Avatar -->
+      <div class="flex items-center gap-2 bg-[#F4F4F5] border border-hairline-border rounded-xl px-3 py-2 mt-1.5">
+        <img alt="Due Bro Mascot" class="w-6 h-6 rounded-full object-cover shrink-0 border border-hairline-border" src="https://lh3.googleusercontent.com/aida/AEtjO1WBVvnkY__M4uLkV-x4CQcuTguJvQU_TYfYJqV6SypD5RyZr4c7h3qLyTfJ35NqTprEOGbwIczRVIbar2kCeZ10Z1hYsDZ-AouIsXz5DlvXdlASYlXRV2MseLywTyL8SgGqGnuegwgwD3uSl4TF3xi-0bsVAJbCFM_15-gsPAzLFluj16MiBDlrWtPRIHtvNfJjCppBmt5E8rgq-sRJ3Z_2v8K9bFf_bBvNyIcp0snApUH48loZwpVVd2Q"/>
+        <p id="mascot-comment" class="text-[12px] text-[#18181B] font-medium leading-tight">
+          Bro sẽ canh giờ và hú anh em trước khi rác bốc mùi 💀
+        </p>
+      </div>
+    </section>
+
+    <!-- 5. Point Matrix & Effort Weight Selector -->
+    <section class="space-y-2" id="section-points">
+      <div class="flex justify-between items-center">
+        <label class="font-mono text-[11px] uppercase text-[#71717A] tracking-wider font-bold">
+          ĐIỂM THƯỞNG CÔNG SỨC (EFFORT PTS)
+        </label>
+        <span class="font-mono text-xs font-bold text-[#10B981] bg-[#ECFDF5] px-2 py-0.5 rounded-md border border-[#10B981]/20">
+          TỰ ĐỘNG CHUẨN HÓA
+        </span>
+      </div>
+      <div class="grid grid-cols-3 gap-2" id="points-grid-1">
+        <!-- 5 PTS -->
+        <div onclick="selectPoints(5)" data-points="5" class="point-card relative border-2 border-[#7C3AED] bg-purple-50/70 p-2.5 rounded-2xl flex flex-col justify-between cursor-pointer transition-all active:translate-y-[1px]">
+          <div class="flex justify-between items-start">
+            <span class="font-mono text-[16px] font-bold text-[#7C3AED]">5 PTS</span>
+            <span class="point-dot w-2.5 h-2.5 rounded-full bg-[#7C3AED]"></span>
+          </div>
+          <div class="mt-2">
+            <span class="block text-[13px] font-bold text-[#18181B] leading-tight">Nhẹ nhàng</span>
+            <span class="font-mono text-[10px] text-[#71717A] font-semibold">5 phút</span>
+          </div>
+        </div>
+        <!-- 15 PTS -->
+        <div onclick="selectPoints(15)" data-points="15" class="point-card border border-hairline-border bg-white p-2.5 rounded-2xl flex flex-col justify-between cursor-pointer hover:bg-surface-subtle transition-all active:translate-y-[1px]">
+          <div class="flex justify-between items-start">
+            <span class="font-mono text-[16px] font-bold text-[#18181B]">15 PTS</span>
+            <span class="point-dot w-2.5 h-2.5 rounded-full border border-[#71717A]"></span>
+          </div>
+          <div class="mt-2">
+            <span class="block text-[13px] font-bold text-[#18181B] leading-tight">Vừa sức</span>
+            <span class="font-mono text-[10px] text-[#71717A] font-semibold">15 phút</span>
+          </div>
+        </div>
+        <!-- 25 PTS -->
+        <div onclick="selectPoints(25)" data-points="25" class="point-card border border-hairline-border bg-white p-2.5 rounded-2xl flex flex-col justify-between cursor-pointer hover:bg-surface-subtle transition-all active:translate-y-[1px]">
+          <div class="flex justify-between items-start">
+            <span class="font-mono text-[16px] font-bold text-[#18181B]">20 PTS</span>
+            <span class="point-dot w-2.5 h-2.5 rounded-full border border-[#71717A]"></span>
+          </div>
+          <div class="mt-2">
+            <span class="block text-[13px] font-bold text-[#18181B] leading-tight">Lau quét</span>
+            <span class="font-mono text-[10px] text-[#71717A] font-semibold">25 phút</span>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2 mt-2">
+        <!-- 35 PTS -->
+        <div onclick="selectPoints(35)" data-points="35" class="point-card border border-hairline-border bg-white p-2.5 rounded-2xl flex items-center justify-between cursor-pointer hover:bg-surface-subtle transition-all active:translate-y-[1px]">
+          <div>
+            <span class="font-mono text-[16px] font-bold text-[#18181B]">35 PTS</span>
+            <span class="block text-[12px] font-medium text-[#71717A]">Khó chịu / Toilet</span>
+          </div>
+          <span class="material-symbols-outlined text-[#71717A] text-lg">wc</span>
+        </div>
+        <!-- 50 PTS -->
+        <div onclick="selectPoints(50)" data-points="50" class="point-card border border-hairline-border bg-white p-2.5 rounded-2xl flex items-center justify-between cursor-pointer hover:bg-surface-subtle transition-all active:translate-y-[1px]">
+          <div>
+            <span class="font-mono text-[16px] font-bold text-[#18181B]">50 PTS</span>
+            <span class="block text-[12px] font-medium text-[#71717A]">Tổng dọn cuối tuần</span>
+          </div>
+          <span class="material-symbols-outlined text-[#71717A] text-lg">hotel_class</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Assignment Mode (Bounty Board vs Direct Assign) -->
+    <section class="space-y-2" id="section-assignment">
+      <label class="font-mono text-[11px] uppercase text-[#71717A] tracking-wider font-bold">
+        CÁCH THỨC NHẬN VIỆC
+      </label>
+      
+      <!-- Bounty Board Card -->
+      <div id="mode-bounty" onclick="selectAssignmentMode('BOUNTY')" class="p-3.5 rounded-2xl border-2 border-[#18181B] bg-white flex items-start gap-3 cursor-pointer shadow-[0_2px_0_0_#18181B] active:translate-y-[1px] transition-all">
+        <div class="bounty-indicator w-5 h-5 rounded-full bg-[#18181B] flex items-center justify-center text-white shrink-0 mt-0.5">
+          <span class="material-symbols-outlined text-[14px]">check</span>
+        </div>
+        <div class="flex-1">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-[14px] font-bold text-[#18181B]">Bảng Tự Nguyện (Bounty Board)</span>
+            <span class="font-mono text-[10px] font-bold bg-[#ECFDF5] text-[#10B981] border border-[#10B981] px-2 py-0.5 rounded-full">
+              +10% PTS Thưởng
+            </span>
+          </div>
+          <p class="text-[12px] text-[#71717A] mt-1 leading-relaxed">
+            Đưa lên bảng tin chung phòng, ai tranh nhận trước được húp trọn điểm thưởng!
+          </p>
+        </div>
+      </div>
+
+      <!-- Direct Assign Card -->
+      <div id="mode-direct" onclick="selectAssignmentMode('DIRECT')" class="p-3.5 rounded-2xl border border-hairline-border bg-white flex flex-col gap-2.5 cursor-pointer hover:bg-surface-subtle active:translate-y-[1px] transition-all">
+        <div class="flex items-start gap-3">
+          <div class="direct-indicator w-5 h-5 rounded-full border-2 border-[#71717A] shrink-0 mt-0.5"></div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <span class="text-[14px] font-bold text-[#18181B]">Chỉ định trực tiếp</span>
+              <span id="assignee-badge" class="hidden font-mono text-[10px] font-bold bg-purple-100 text-[#7C3AED] px-2 py-0.5 rounded-full border border-[#DDD6FE]">
+                Đã gán: Nam
+              </span>
+            </div>
+            <p class="text-[12px] text-[#71717A] mt-0.5">
+              Giao đích danh cho thành viên trong phòng 402:
+            </p>
+          </div>
+        </div>
+
+        <!-- Roommate Interactive Chips -->
+        <div class="flex items-center gap-2 pt-1 border-t border-[#E4E4E7]" id="members-list">
+          <button onclick="selectAssignee('Hoàng', event)" data-member="Hoàng" class="member-chip flex items-center gap-1.5 px-3 py-1 rounded-xl border border-hairline-border bg-[#F4F4F5] hover:bg-white text-[12px] font-semibold text-[#18181B] tap-effect" type="button">
+            <span class="w-4 h-4 rounded-full bg-[#18181B] text-white font-mono text-[9px] flex items-center justify-center font-bold">H</span>
+            <span>Hoàng</span>
+          </button>
+          <button onclick="selectAssignee('Nam', event)" data-member="Nam" class="member-chip flex items-center gap-1.5 px-3 py-1 rounded-xl border border-hairline-border bg-[#F4F4F5] hover:bg-white text-[12px] font-semibold text-[#18181B] tap-effect" type="button">
+            <span class="w-4 h-4 rounded-full bg-[#7C3AED] text-white font-mono text-[9px] flex items-center justify-center font-bold">N</span>
+            <span>Nam</span>
+          </button>
+          <button onclick="selectAssignee('Linh', event)" data-member="Linh" class="member-chip flex items-center gap-1.5 px-3 py-1 rounded-xl border border-hairline-border bg-[#F4F4F5] hover:bg-white text-[12px] font-semibold text-[#18181B] tap-effect" type="button">
+            <span class="w-4 h-4 rounded-full bg-[#10B981] text-white font-mono text-[9px] flex items-center justify-center font-bold">L</span>
+            <span>Linh</span>
+          </button>
+          <button onclick="selectAssignee('Đức', event)" data-member="Đức" class="member-chip flex items-center gap-1.5 px-3 py-1 rounded-xl border border-hairline-border bg-[#F4F4F5] hover:bg-white text-[12px] font-semibold text-[#18181B] tap-effect" type="button">
+            <span class="w-4 h-4 rounded-full bg-[#F97316] text-white font-mono text-[9px] flex items-center justify-center font-bold">Đ</span>
+            <span>Đức</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Due Date & Time Selector -->
+    <section class="space-y-2" id="section-deadline">
+      <div class="flex justify-between items-center">
+        <label class="font-mono text-[11px] uppercase text-[#71717A] tracking-wider font-bold">
+          HẠN CHÓT HOÀN THÀNH
+        </label>
+        <span class="font-mono text-xs font-semibold text-[#71717A] flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">schedule</span> Hôm nay
+        </span>
+      </div>
+      <div class="grid grid-cols-2 gap-2" id="deadline-grid">
+        <button onclick="selectDeadline('TODAY_NIGHT', '21:00')" data-slot="TODAY_NIGHT" class="deadline-btn flex items-center justify-between p-3 rounded-2xl border-2 border-[#18181B] bg-[#18181B] text-white active:translate-y-[1px] transition-all" type="button">
+          <div class="flex flex-col text-left">
+            <span class="text-[12px] font-semibold">Tối nay</span>
+            <span class="font-mono text-[15px] font-bold text-[#10B981]">21:00</span>
+          </div>
+          <span class="material-symbols-outlined text-[20px] text-white">done</span>
+        </button>
+        <button onclick="selectDeadline('BEFORE_SLEEP', '23:30')" data-slot="BEFORE_SLEEP" class="deadline-btn flex items-center justify-between p-3 rounded-2xl border border-hairline-border bg-white text-[#18181B] hover:bg-surface-subtle active:translate-y-[1px] transition-all" type="button">
+          <div class="flex flex-col text-left">
+            <span class="text-[12px] font-medium text-[#71717A]">Trước khi ngủ</span>
+            <span class="font-mono text-[15px] font-bold text-[#18181B]">23:30</span>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[#71717A]">bedtime</span>
+        </button>
+        <button onclick="selectDeadline('TOMORROW_NOON', '12:00')" data-slot="TOMORROW_NOON" class="deadline-btn flex items-center justify-between p-3 rounded-2xl border border-hairline-border bg-white text-[#18181B] hover:bg-surface-subtle active:translate-y-[1px] transition-all" type="button">
+          <div class="flex flex-col text-left">
+            <span class="text-[12px] font-medium text-[#71717A]">Trưa mai</span>
+            <span class="font-mono text-[15px] font-bold text-[#18181B]">12:00</span>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[#71717A]">wb_sunny</span>
+        </button>
+        <button onclick="selectDeadline('CUSTOM', '22:00')" data-slot="CUSTOM" class="deadline-btn flex items-center justify-between p-3 rounded-2xl border border-hairline-border bg-white text-[#18181B] hover:bg-surface-subtle active:translate-y-[1px] transition-all" type="button">
+          <div class="flex flex-col text-left">
+            <span class="text-[12px] font-medium text-[#71717A]">Tùy chọn</span>
+            <span id="custom-time-label" class="font-mono text-[13px] font-bold text-[#18181B]">Chọn giờ...</span>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[#71717A]">calendar_month</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 8. Urgent SOS Bounty Toggle (Chế độ Cứu Bồ) -->
+    <section class="border-2 border-coral-alert bg-[#FFF7ED] p-4 rounded-3xl relative overflow-hidden transition-all shadow-sm" id="section-sos">
+      <div class="flex items-start justify-between gap-3">
+        <div class="space-y-1">
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-coral-alert text-[20px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+            <h2 class="font-outfit text-[15px] font-bold text-[#EA580C]">⚡ Gấp trong 2 giờ (SOS Bounty)</h2>
+          </div>
+          <p class="text-[12px] text-[#9A3412] leading-snug">
+            Bro sẽ hú còi báo động vào phòng và tự động nhân <strong class="font-bold">x1.5 PTS</strong> cho anh em nhận cứu bồ!
+          </p>
+        </div>
+        <!-- Tactile Switch Control -->
+        <button id="sos-toggle" onclick="toggleSOS()" aria-checked="false" aria-label="Kích hoạt SOS Bounty" class="w-12 h-7 bg-zinc-300 rounded-full p-0.5 flex items-center transition-colors relative shrink-0 border border-zinc-400" role="switch" type="button">
+          <div id="sos-knob" class="w-6 h-6 bg-white rounded-full shadow-sm transform translate-x-0 transition-transform flex items-center justify-center">
+            <span id="sos-knob-icon" class="material-symbols-outlined text-[14px] text-zinc-500 font-bold">bolt</span>
+          </div>
+        </button>
+      </div>
+      <div class="mt-3 pt-2.5 border-t border-orange-200/80 flex items-center justify-between text-[11px] font-mono text-[#C2410C]">
+        <span class="font-bold uppercase tracking-wider">Hệ số nhân SOS</span>
+        <span id="sos-multiplier-badge" class="bg-zinc-200 text-zinc-600 px-2 py-0.5 rounded-full font-bold">TẮT</span>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 9. Bottom Sticky CTA Bar -->
+  <div class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-[#E4E4E7] p-4 space-y-3 z-30 shadow-lg">
+    <div class="flex items-center justify-between px-1">
+      <div class="flex flex-col">
+        <span class="font-mono text-[10px] uppercase text-[#71717A] font-bold tracking-wider">Tổng điểm nhận được</span>
+        <div class="flex items-baseline gap-1.5">
+          <span id="total-points-display" class="font-mono text-[24px] text-[#18181B] font-extrabold">+6 PTS</span>
+          <span id="points-breakdown" class="font-mono text-[11px] text-[#10B981] font-semibold">(Gốc 5 + 10% Tự nguyện)</span>
+        </div>
+      </div>
+      <div class="text-right">
+        <span id="bro-status-label" class="font-mono text-[11px] text-[#7C3AED] font-semibold flex items-center gap-1 justify-end">
+          <span class="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
+          <span>Bro AI: Sẵn sàng</span>
+        </span>
+      </div>
+    </div>
+    
+    <button onclick="submitChore()" class="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-outfit text-[16px] font-bold h-13 py-3.5 rounded-2xl flex items-center justify-center gap-2 tactile-purple tap-effect shadow-md" type="button">
+      <span>Tạo Việc &amp; Bắn Tin Ngay</span>
+      <span class="text-lg">🚀</span>
+    </button>
+  </div>
+
+</main>
+
+<!-- Interactive Logic -->
+<script>
+  // Global form state modeling BRD 1.4 schema
+  const state = {
+    task: "Đổ rác & thay túi rác mới",
+    category: "trash",
+    points: 5,
+    assignmentMode: "BOUNTY", // "BOUNTY" or "DIRECT"
+    assignee: null, // "Hoàng", "Nam", "Linh", "Đức"
+    deadlineSlot: "TODAY_NIGHT", // "TODAY_NIGHT", "BEFORE_SLEEP", "TOMORROW_NOON", "CUSTOM"
+    deadlineTime: "21:00",
+    isSos: false,
+    mascotComment: "Bro sẽ canh giờ và hú anh em trước khi rác bốc mùi 💀"
+  };
+
+  // Preset definitions matching BRD 1.2
+  const presets = {
+    trash: { name: "Đổ rác & thay túi rác mới", points: 5, icon: "delete_sweep", comment: "Bro sẽ canh giờ và hú anh em trước khi rác bốc mùi 💀" },
+    dishes: { name: "Rửa chén bát & dọn bồn bếp", points: 15, icon: "local_laundry_service", comment: "Rửa bát sạch sẽ, đừng để mọc nấm men nhé Bro! 🥣" },
+    sweep: { name: "Quét & Lau sàn nhà chung", points: 20, icon: "mop", comment: "Sàn nhà mát rượi, tối tha hồ nằm đất cày game! 🧹" },
+    toilet: { name: "Cọ rửa nhà vệ sinh & bồn cầu", points: 35, icon: "cleaning_services", comment: "Kèo gắt 35 điểm! Bro sẽ trao huy chương danh dự cho ai nhận! 🚽" },
+    cook: { name: "Nấu ăn & chuẩn bị bữa cơm phòng", points: 30, icon: "soup_kitchen", comment: "Bữa cơm phòng trọ gắn kết tình anh em! 🍲" },
+    shopping: { name: "Mua đồ dùng & nhu yếu phẩm phòng", points: 10, icon: "shopping_cart", comment: "Tiện đường rẽ qua WinMart mua ngay nha Bro! 🛒" }
+  };
+
+  // AI Quick Parse Engine (Lightweight Client NLP Simulation)
+  function parseNaturalLanguage(rawText) {
+    const text = rawText.toLowerCase().trim();
+    if (!text) return null;
+
+    let detectedCategory = "trash";
+    let detectedPoints = 5;
+    let detectedTask = "Việc nhà phòng trọ";
+    let detectedAssignee = null;
+    let detectedMode = "BOUNTY";
+    let detectedSlot = "TODAY_NIGHT";
+    let detectedTime = "21:00";
+    let detectedSos = false;
+    let broSpeech = "";
+
+    // 1. Detect Category & Task
+    if (text.includes("chén") || text.includes("bát") || text.includes("dọn bếp") || text.includes("rửa")) {
+      detectedCategory = "dishes";
+      detectedTask = "Rửa chén bát & dọn bồn bếp";
+      detectedPoints = 15;
+    } else if (text.includes("toilet") || text.includes("wc") || text.includes("nhà vệ sinh") || text.includes("bồn cầu") || text.includes("cọ")) {
+      detectedCategory = "toilet";
+      detectedTask = "Cọ rửa nhà vệ sinh & bồn cầu";
+      detectedPoints = 35;
+    } else if (text.includes("quét") || text.includes("lau") || text.includes("hút bụi") || text.includes("sàn")) {
+      detectedCategory = "sweep";
+      detectedTask = "Quét & Lau sàn nhà chung";
+      detectedPoints = 20;
+    } else if (text.includes("nấu") || text.includes("cơm") || text.includes("chợ") || text.includes("bữa")) {
+      detectedCategory = "cook";
+      detectedTask = "Nấu ăn & chuẩn bị bữa cơm";
+      detectedPoints = 30;
+    } else if (text.includes("mua") || text.includes("hết đồ") || text.includes("túi rác") && text.includes("mua") || text.includes("nước mắm")) {
+      detectedCategory = "shopping";
+      detectedTask = "Mua đồ dùng & nhu yếu phẩm phòng";
+      detectedPoints = 10;
+    } else if (text.includes("rác") || text.includes("vứt rác")) {
+      detectedCategory = "trash";
+      detectedTask = "Đổ rác & thay túi rác mới";
+      detectedPoints = 5;
+    }
+
+    // 2. Explicit Points Override (e.g., "35 điểm", "25 pts")
+    const pointMatch = text.match(/(\d+)\s*(pts|điểm|pt)/);
+    if (pointMatch) {
+      detectedPoints = parseInt(pointMatch[1]);
+    }
+
+    // 3. Detect Assignee
+    if (text.includes("nam")) {
+      detectedAssignee = "Nam";
+      detectedMode = "DIRECT";
+    } else if (text.includes("hoàng") || text.includes("hoang")) {
+      detectedAssignee = "Hoàng";
+      detectedMode = "DIRECT";
+    } else if (text.includes("linh")) {
+      detectedAssignee = "Linh";
+      detectedMode = "DIRECT";
+    } else if (text.includes("đức") || text.includes("duc")) {
+      detectedAssignee = "Đức";
+      detectedMode = "DIRECT";
+    } else if (text.includes("ai") || text.includes("tự nguyện") || text.includes("chung")) {
+      detectedAssignee = null;
+      detectedMode = "BOUNTY";
+    }
+
+    // 4. Detect Deadline Time & Slot
+    if (text.includes("ngủ") || text.includes("23h") || text.includes("khuya") || text.includes("đêm")) {
+      detectedSlot = "BEFORE_SLEEP";
+      detectedTime = "23:30";
+    } else if (text.includes("mai") || text.includes("trưa") || text.includes("sáng mai")) {
+      detectedSlot = "TOMORROW_NOON";
+      detectedTime = "12:00";
+    } else if (text.includes("tối nay") || text.includes("21h") || text.includes("20h")) {
+      detectedSlot = "TODAY_NIGHT";
+      detectedTime = "21:00";
+    }
+
+    // Check specific custom hour e.g. "22:30", "22h30", "20h"
+    const timeMatch = text.match(/(\d{1,2})[h:](\d{2})?/);
+    if (timeMatch) {
+      const h = timeMatch[1].padStart(2, '0');
+      const m = timeMatch[2] ? timeMatch[2] : '00';
+      detectedTime = `${h}:${m}`;
+      if (detectedTime === "23:30") detectedSlot = "BEFORE_SLEEP";
+      else if (detectedTime === "21:00") detectedSlot = "TODAY_NIGHT";
+      else if (detectedTime === "12:00") detectedSlot = "TOMORROW_NOON";
+      else detectedSlot = "CUSTOM";
+    }
+
+    // 5. Detect SOS Emergency
+    if (text.includes("gấp") || text.includes("sos") || text.includes("cứu bồ") || text.includes("hết sạch") || text.includes("ngay") || text.includes("khẩn")) {
+      detectedSos = true;
+    }
+
+    // 6. Generate Dynamic Bro Contextual Quote
+    if (detectedSos) {
+      broSpeech = `CÒI BÁO ĐỘNG SOS 🚨: Ca này đang gấp! Ai nhận giải cứu được x1.5 PTS luôn nhé!`;
+    } else if (detectedAssignee) {
+      broSpeech = `Bro đã chốt đơn: ${detectedAssignee} phụ trách kèo này trước ${detectedTime}. Cố lên Bro! 🧢`;
+    } else {
+      broSpeech = `Kèo tự nguyện đã lên bảng! Ai nhanh tay nhận trước húp trọn +10% điểm thưởng! ⚡`;
+    }
+
+    return {
+      task: detectedTask,
+      category: detectedCategory,
+      points: detectedPoints,
+      assignmentMode: detectedMode,
+      assignee: detectedAssignee,
+      deadlineSlot: detectedSlot,
+      deadlineTime: detectedTime,
+      isSos: detectedSos,
+      speech: broSpeech
+    };
+  }
+
+  // Execute AI Parsing
+  function executeAIParse() {
+    const input = document.getElementById('ai-prompt-input');
+    const rawText = input.value.trim();
+    if (!rawText) {
+      alert("Bro ơi, nhập một câu gì đó đã nhé! (Ví dụ: 'Tối nay Nam rửa bát trước 22:30')");
+      input.focus();
+      return;
+    }
+
+    const parseBtn = document.getElementById('ai-parse-btn');
+    const originalContent = parseBtn.innerHTML;
+    parseBtn.innerHTML = `<span class="animate-spin text-xs">⏳</span> <span>Đang lọc...</span>`;
+    parseBtn.disabled = true;
+
+    // Simulate 350ms ultra-fast NLP processing
+    setTimeout(() => {
+      parseBtn.innerHTML = originalContent;
+      parseBtn.disabled = false;
+
+      const parsed = parseNaturalLanguage(rawText);
+      if (parsed) {
+        // Apply to state
+        state.task = parsed.task;
+        state.category = parsed.category;
+        state.points = parsed.points;
+        state.assignmentMode = parsed.assignmentMode;
+        state.assignee = parsed.assignee;
+        state.deadlineSlot = parsed.deadlineSlot;
+        state.deadlineTime = parsed.deadlineTime;
+        state.isSos = parsed.isSos;
+        state.mascotComment = parsed.speech;
+
+        // Render UI
+        renderState();
+        renderAIResult(parsed);
+
+        // Flash visual highlight
+        const inputCard = document.getElementById('section-task-input');
+        inputCard.classList.add('highlight-flash');
+        setTimeout(() => inputCard.classList.remove('highlight-flash'), 800);
+      }
+    }, 350);
+  }
+
+  // Render AI Result Banner
+  function renderAIResult(parsed) {
+    const box = document.getElementById('ai-result-box');
+    const speech = document.getElementById('ai-mascot-speech');
+    const tagsRow = document.getElementById('ai-tags-row');
+
+    speech.innerText = parsed.speech;
+
+    tagsRow.innerHTML = `
+      <span class="inline-flex items-center gap-1 font-mono text-[10px] bg-purple-50 text-[#7C3AED] border border-[#DDD6FE] px-2 py-0.5 rounded-md font-bold">
+        📋 ${parsed.task}
+      </span>
+      <span class="inline-flex items-center gap-1 font-mono text-[10px] bg-zinc-100 text-[#18181B] border border-[#E4E4E7] px-2 py-0.5 rounded-md font-bold">
+        👤 ${parsed.assignee ? parsed.assignee : 'Bounty Tự Nguyện'}
+      </span>
+      <span class="inline-flex items-center gap-1 font-mono text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-md font-bold">
+        ⚡ ${parsed.points} PTS
+      </span>
+      <span class="inline-flex items-center gap-1 font-mono text-[10px] bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-md font-bold">
+        ⏰ ${parsed.deadlineTime}
+      </span>
+      ${parsed.isSos ? `<span class="inline-flex items-center gap-1 font-mono text-[10px] bg-orange-100 text-orange-700 border border-orange-300 px-2 py-0.5 rounded-md font-bold animate-pulse">🔥 SOS ON</span>` : ''}
+    `;
+
+    box.classList.remove('hidden');
+  }
+
+  // Quick apply sample prompt
+  function applySamplePrompt(promptText) {
+    const input = document.getElementById('ai-prompt-input');
+    input.value = promptText;
+    document.getElementById('ai-clear-btn').classList.remove('hidden');
+    executeAIParse();
+  }
+
+  function clearAIPrompt() {
+    const input = document.getElementById('ai-prompt-input');
+    input.value = '';
+    document.getElementById('ai-clear-btn').classList.add('hidden');
+    document.getElementById('ai-result-box').classList.add('hidden');
+    input.focus();
+  }
+
+  function toggleVoiceInput() {
+    const micBtn = document.getElementById('ai-mic-btn');
+    micBtn.classList.add('ai-glow', 'bg-purple-100', 'text-[#7C3AED]');
+    
+    // Simulate voice recording for 1.2s then input text
+    const sampleVoices = [
+      "Tối nay Nam dọn bếp trước 22h30",
+      "Mai Hoàng cọ toilet 35 điểm nha",
+      "Ai rảnh quét lau nhà tối nay giúp phòng"
+    ];
+    const picked = sampleVoices[Math.floor(Math.random() * sampleVoices.length)];
+
+    setTimeout(() => {
+      micBtn.classList.remove('ai-glow', 'bg-purple-100', 'text-[#7C3AED]');
+      applySamplePrompt(picked);
+    }, 1000);
+  }
+
+  function scrollToForm() {
+    document.getElementById('section-presets').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Preset Selection
+  function selectPreset(presetKey) {
+    const p = presets[presetKey];
+    if (!p) return;
+    state.category = presetKey;
+    state.task = p.name;
+    state.points = p.points;
+    state.mascotComment = p.comment;
+    renderState();
+  }
+
+  // Points Selection
+  function selectPoints(pts) {
+    state.points = pts;
+    renderState();
+  }
+
+  // Assignment Mode Selection
+  function selectAssignmentMode(mode) {
+    state.assignmentMode = mode;
+    if (mode === "BOUNTY") {
+      state.assignee = null;
+    } else if (!state.assignee) {
+      state.assignee = "Nam"; // default first member
+    }
+    renderState();
+  }
+
+  // Specific Assignee Member Selection
+  function selectAssignee(name, event) {
+    if (event) event.stopPropagation();
+    state.assignmentMode = "DIRECT";
+    state.assignee = name;
+    renderState();
+  }
+
+  // Deadline Selection
+  function selectDeadline(slot, time) {
+    state.deadlineSlot = slot;
+    state.deadlineTime = time;
+    renderState();
+  }
+
+  // SOS Mode Toggle
+  function toggleSOS() {
+    state.isSos = !state.isSos;
+    renderState();
+  }
+
+  // Reset form back to initial
+  function resetForm() {
+    state.task = "Đổ rác & thay túi rác mới";
+    state.category = "trash";
+    state.points = 5;
+    state.assignmentMode = "BOUNTY";
+    state.assignee = null;
+    state.deadlineSlot = "TODAY_NIGHT";
+    state.deadlineTime = "21:00";
+    state.isSos = false;
+    state.mascotComment = "Bro sẽ canh giờ và hú anh em trước khi rác bốc mùi 💀";
+    
+    document.getElementById('ai-prompt-input').value = '';
+    document.getElementById('ai-clear-btn').classList.add('hidden');
+    document.getElementById('ai-result-box').classList.add('hidden');
+
+    renderState();
+    alert("Đã đặt lại thông tin việc về mặc định!");
+  }
+
+  // Submit Chore
+  function submitChore() {
+    const finalPoints = calculateTotalPoints();
+    const assignedText = state.assignmentMode === "DIRECT" ? `Giao cho: ${state.assignee}` : "Đưa lên Bảng Tự Nguyện";
+    alert(`🚀 ĐÃ TẠO VIỆC THÀNH CÔNG!\n\n📋 Việc: ${state.task}\n⚡ Điểm thưởng: ${finalPoints} PTS\n👤 ${assignedText}\n⏰ Hạn chót: ${state.deadlineTime}\n\nBro đã bắn thông báo tới cả phòng 402!`);
+    window.location.href = "index.html";
+  }
+
+  // Calculate Total Points according to BRD formulas
+  function calculateTotalPoints() {
+    let pts = state.points;
+    if (state.isSos) {
+      pts = Math.round(pts * 1.5);
+    }
+    if (state.assignmentMode === "BOUNTY") {
+      pts = Math.round(pts * 1.1);
+    }
+    return pts;
+  }
+
+  // Render Full State to UI
+  function renderState() {
+    // 1. Task input & Icon
+    const choreInput = document.getElementById('chore-name');
+    if (choreInput) choreInput.value = state.task;
+    
+    const taskIcon = document.getElementById('task-icon');
+    if (taskIcon && presets[state.category]) {
+      taskIcon.innerText = presets[state.category].icon;
+    }
+
+    // 2. Mascot comment
+    const commentEl = document.getElementById('mascot-comment');
+    if (commentEl) commentEl.innerText = state.mascotComment;
+
+    // 3. Preset chips active state
+    document.querySelectorAll('.preset-chip').forEach(btn => {
+      const k = btn.getAttribute('data-preset');
+      if (k === state.category) {
+        btn.className = "preset-chip shrink-0 flex items-center gap-1.5 bg-[#18181B] text-white px-3.5 py-2 rounded-full border border-[#18181B] active:translate-y-[2px] transition-all shadow-xs";
+      } else {
+        btn.className = "preset-chip shrink-0 flex items-center gap-1.5 bg-white text-[#18181B] px-3.5 py-2 rounded-full border border-hairline-border hover:bg-surface-subtle active:translate-y-[2px] transition-all";
+      }
+    });
+
+    // 4. Point cards active state
+    document.querySelectorAll('.point-card').forEach(card => {
+      const p = parseInt(card.getAttribute('data-points'));
+      const dot = card.querySelector('.point-dot');
+      if (p === state.points) {
+        card.classList.add('border-2', 'border-[#7C3AED]', 'bg-purple-50/70');
+        card.classList.remove('border-hairline-border', 'bg-white');
+        if (dot) {
+          dot.classList.add('bg-[#7C3AED]');
+          dot.classList.remove('border', 'border-[#71717A]');
+        }
+      } else {
+        card.classList.remove('border-2', 'border-[#7C3AED]', 'bg-purple-50/70');
+        card.classList.add('border', 'border-hairline-border', 'bg-white');
+        if (dot) {
+          dot.classList.remove('bg-[#7C3AED]');
+          dot.classList.add('border', 'border-[#71717A]');
+        }
+      }
+    });
+
+    // 5. Assignment Mode (Bounty vs Direct)
+    const bountyCard = document.getElementById('mode-bounty');
+    const directCard = document.getElementById('mode-direct');
+    const bountyIndicator = bountyCard.querySelector('.bounty-indicator');
+    const directIndicator = directCard.querySelector('.direct-indicator');
+    const assigneeBadge = document.getElementById('assignee-badge');
+
+    if (state.assignmentMode === "BOUNTY") {
+      bountyCard.className = "p-3.5 rounded-2xl border-2 border-[#18181B] bg-white flex items-start gap-3 cursor-pointer shadow-[0_2px_0_0_#18181B] transition-all";
+      bountyIndicator.innerHTML = `<span class="material-symbols-outlined text-[14px]">check</span>`;
+      bountyIndicator.className = "bounty-indicator w-5 h-5 rounded-full bg-[#18181B] flex items-center justify-center text-white shrink-0 mt-0.5";
+
+      directCard.className = "p-3.5 rounded-2xl border border-hairline-border bg-white flex flex-col gap-2.5 cursor-pointer hover:bg-surface-subtle transition-all";
+      directIndicator.innerHTML = ``;
+      directIndicator.className = "direct-indicator w-5 h-5 rounded-full border-2 border-[#71717A] shrink-0 mt-0.5";
+      assigneeBadge.classList.add('hidden');
+    } else {
+      directCard.className = "p-3.5 rounded-2xl border-2 border-[#7C3AED] bg-purple-50/30 flex flex-col gap-2.5 cursor-pointer shadow-xs transition-all";
+      directIndicator.innerHTML = `<span class="material-symbols-outlined text-[14px]">check</span>`;
+      directIndicator.className = "direct-indicator w-5 h-5 rounded-full bg-[#7C3AED] flex items-center justify-center text-white shrink-0 mt-0.5";
+      
+      bountyCard.className = "p-3.5 rounded-2xl border border-hairline-border bg-white flex items-start gap-3 cursor-pointer hover:bg-surface-subtle transition-all";
+      bountyIndicator.innerHTML = ``;
+      bountyIndicator.className = "bounty-indicator w-5 h-5 rounded-full border-2 border-[#71717A] shrink-0 mt-0.5";
+
+      assigneeBadge.classList.remove('hidden');
+      assigneeBadge.innerText = `Đã gán: ${state.assignee || 'Nam'}`;
+    }
+
+    // Member chips active state
+    document.querySelectorAll('.member-chip').forEach(chip => {
+      const m = chip.getAttribute('data-member');
+      if (state.assignmentMode === "DIRECT" && m === state.assignee) {
+        chip.className = "member-chip flex items-center gap-1.5 px-3 py-1 rounded-xl border-2 border-[#7C3AED] bg-white text-[12px] font-bold text-[#7C3AED] shadow-xs tap-effect";
+      } else {
+        chip.className = "member-chip flex items-center gap-1.5 px-3 py-1 rounded-xl border border-hairline-border bg-[#F4F4F5] hover:bg-white text-[12px] font-semibold text-[#18181B] tap-effect";
+      }
+    });
+
+    // 6. Deadline button active state
+    document.querySelectorAll('.deadline-btn').forEach(btn => {
+      const s = btn.getAttribute('data-slot');
+      if (s === state.deadlineSlot) {
+        btn.className = "deadline-btn flex items-center justify-between p-3 rounded-2xl border-2 border-[#18181B] bg-[#18181B] text-white transition-all shadow-xs";
+        const icon = btn.querySelector('.material-symbols-outlined');
+        if (icon) icon.className = "material-symbols-outlined text-[20px] text-white";
+      } else {
+        btn.className = "deadline-btn flex items-center justify-between p-3 rounded-2xl border border-hairline-border bg-white text-[#18181B] hover:bg-surface-subtle transition-all";
+        const icon = btn.querySelector('.material-symbols-outlined');
+        if (icon) icon.className = "material-symbols-outlined text-[18px] text-[#71717A]";
+      }
+    });
+
+    if (state.deadlineSlot === "CUSTOM") {
+      const customLabel = document.getElementById('custom-time-label');
+      if (customLabel) customLabel.innerText = state.deadlineTime;
+    }
+
+    // 7. SOS Switch State
+    const sosToggle = document.getElementById('sos-toggle');
+    const sosKnob = document.getElementById('sos-knob');
+    const sosKnobIcon = document.getElementById('sos-knob-icon');
+    const sosBadge = document.getElementById('sos-multiplier-badge');
+
+    if (state.isSos) {
+      sosToggle.className = "w-12 h-7 bg-coral-alert rounded-full p-0.5 flex items-center transition-colors relative shrink-0 border border-[#EA580C]";
+      sosToggle.setAttribute('aria-checked', 'true');
+      sosKnob.className = "w-6 h-6 bg-white rounded-full shadow-sm transform translate-x-5 transition-transform flex items-center justify-center";
+      sosKnobIcon.className = "material-symbols-outlined text-[14px] text-coral-alert font-bold";
+      sosBadge.className = "bg-[#EA580C] text-white px-2 py-0.5 rounded-full font-bold";
+      sosBadge.innerText = "x1.5 BOOST KÍCH HOẠT";
+    } else {
+      sosToggle.className = "w-12 h-7 bg-zinc-300 rounded-full p-0.5 flex items-center transition-colors relative shrink-0 border border-zinc-400";
+      sosToggle.setAttribute('aria-checked', 'false');
+      sosKnob.className = "w-6 h-6 bg-white rounded-full shadow-sm transform translate-x-0 transition-transform flex items-center justify-center";
+      sosKnobIcon.className = "material-symbols-outlined text-[14px] text-zinc-500 font-bold";
+      sosBadge.className = "bg-zinc-200 text-zinc-600 px-2 py-0.5 rounded-full font-bold";
+      sosBadge.innerText = "TẮT";
+    }
+
+    // 8. Total points display in bottom sticky CTA bar
+    const total = calculateTotalPoints();
+    document.getElementById('total-points-display').innerText = `+${total} PTS`;
+    
+    let breakdown = `(Gốc ${state.points}`;
+    if (state.isSos) breakdown += ` x1.5 SOS`;
+    if (state.assignmentMode === "BOUNTY") breakdown += ` + 10% Tự nguyện`;
+    breakdown += `)`;
+    document.getElementById('points-breakdown').innerText = breakdown;
+  }
+
+  // Initial render on load
+  document.addEventListener('DOMContentLoaded', () => {
+    renderState();
+    
+    const promptInput = document.getElementById('ai-prompt-input');
+    promptInput.addEventListener('input', () => {
+      const clearBtn = document.getElementById('ai-clear-btn');
+      if (promptInput.value.trim().length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+    });
+  });
+</script>
+</body>
+</html>

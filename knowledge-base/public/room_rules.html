@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Due Bro — Thỏa Thuận & Giao Kèo Phòng 402</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            outfit: ['Outfit', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              purple: '#7C3AED',
+              purpleHover: '#6D28D9',
+              purpleLight: '#F5F3FF',
+              purpleBorder: '#DDD6FE',
+              charcoal: '#18181B',
+              muted: '#71717A',
+              lightMuted: '#A1A1AA',
+              bg: '#FAFAF9',
+              card: '#FFFFFF',
+              border: '#E4E4E7',
+              coral: '#F97316',
+              coralLight: '#FFF7ED',
+              coralBorder: '#FFEDD5',
+              mint: '#10B981',
+              mintLight: '#ECFDF5',
+              mintBorder: '#A7F3D0',
+              gold: '#F59E0B',
+              goldLight: '#FEF3C7',
+            }
+          },
+          boxShadow: {
+            card: '0 2px 8px -2px rgba(24, 24, 27, 0.05), 0 1px 2px rgba(24, 24, 27, 0.04)',
+            floatBtn: '0 8px 24px -4px rgba(124, 58, 237, 0.35), 0 2px 6px -1px rgba(24, 24, 27, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F4F4F5;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #18181B;
+      -webkit-font-smoothing: antialiased;
+    }
+    .tap-effect {
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+    .tap-effect:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex justify-center items-start sm:py-8 sm:px-4 bg-[#F4F4F5]">
+
+  <!-- Mobile Viewport Container (390px - 420px base) -->
+  <main class="w-full max-w-[420px] bg-[#FAFAF9] min-h-screen sm:min-h-[860px] sm:rounded-[36px] sm:shadow-2xl border-x sm:border border-brand-border relative flex flex-col pb-28 overflow-hidden">
+
+    <!-- Top App Bar (Sub-Screen Standard) -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E4E4E7] px-4 py-2.5 flex justify-between items-center w-full max-w-[420px] mx-auto">
+      <!-- Left: Back Button to Parent Tab (Profile) -->
+      <a href="profile.html" class="w-9 h-9 rounded-full bg-white border border-[#E4E4E7] flex items-center justify-center text-[#18181B] hover:bg-[#F4F4F5] active:translate-y-[2px] transition-transform shadow-xs tap-effect" aria-label="Quay lại Profile">
+        <span class="material-symbols-outlined text-[19px]">arrow_back</span>
+      </a>
+
+      <!-- Center: Screen Title -->
+      <div class="text-center">
+        <div class="flex items-center justify-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+          <span class="text-[10px] font-mono font-semibold text-[#71717A]">Phòng 402</span>
+        </div>
+        <h1 class="text-[15px] font-outfit font-bold text-[#18181B] leading-tight">Giao Kèo & Quy Ước</h1>
+      </div>
+
+      <!-- Right: Contract Signatures Status Badge -->
+      <div class="flex items-center justify-end min-w-[36px]">
+        <span class="text-[10px] font-mono bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-full font-bold shadow-xs">
+          4/4 Đã Ký
+        </span>
+      </div>
+    </header>
+
+    <!-- Scrollable Content Area -->
+    <div class="px-4 pt-4 space-y-4 flex-1">
+
+      <!-- Hero Mascot Stamp Card -->
+      <section class="bg-white rounded-3xl p-5 border border-brand-border shadow-card relative overflow-hidden">
+        <div class="flex items-center gap-3.5 mb-3">
+          <div class="w-12 h-12 rounded-2xl bg-brand-purpleLight border border-brand-purpleBorder text-brand-purple flex items-center justify-center text-2xl shrink-0 shadow-sm">
+            📜
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-outfit font-bold text-base text-brand-charcoal">Hợp Đồng Phòng Trọ 402</span>
+              <span class="w-2 h-2 rounded-full bg-brand-mint"></span>
+            </div>
+            <p class="text-xs text-brand-muted font-mono mt-0.5">Hiệu lực: Học kỳ I (2026 - 2027)</p>
+          </div>
+        </div>
+
+        <div class="bg-[#FAFAF9] rounded-2xl p-3 border border-brand-border/80 flex items-center gap-3">
+          <span class="text-2xl">😎</span>
+          <p class="text-xs text-brand-charcoal leading-relaxed">
+            <strong>Mascot Bro chứng nhận:</strong> "Mọi điều khoản đã được cả 4 anh em biểu quyết và ký tên điện tử. Sống chung hòa thuận, cấm bùng việc!"
+          </p>
+        </div>
+      </section>
+
+      <!-- Section Title -->
+      <div class="flex items-center justify-between pt-1">
+        <h3 class="font-outfit font-bold text-xs text-brand-charcoal uppercase tracking-wider">
+          5 Quy Tắc Sống Còn (House Rules)
+        </h3>
+        <span class="text-[11px] font-mono text-brand-purple font-semibold cursor-pointer" onclick="openProposeModal()">+ Đề xuất sửa</span>
+      </div>
+
+      <!-- Rule Cards List -->
+      <div class="space-y-3">
+
+        <!-- Rule 1: Quiet hours -->
+        <article class="bg-white rounded-2xl p-4 border border-brand-border shadow-card border-l-4 border-l-brand-purple">
+          <div class="flex items-start justify-between gap-2 mb-1.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🌙</span>
+              <h4 class="font-outfit font-bold text-sm text-brand-charcoal">1. Giờ Giới Nghiêm & Giữ Yên Lặng</h4>
+            </div>
+            <span class="text-[10px] font-mono bg-brand-purpleLight text-brand-purple px-2 py-0.5 rounded-full font-bold">
+              23:00 - 07:00
+            </span>
+          </div>
+          <p class="text-xs text-brand-muted leading-relaxed pl-7">
+            Sau 23h vui lòng đeo tai nghe khi nghe nhạc/chơi game. Nói chuyện điện thoại ở ban công nếu cuộc gọi kéo dài trên 10 phút.
+          </p>
+        </article>
+
+        <!-- Rule 2: Guests & Friends -->
+        <article class="bg-white rounded-2xl p-4 border border-brand-border shadow-card border-l-4 border-l-brand-gold">
+          <div class="flex items-start justify-between gap-2 mb-1.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">👥</span>
+              <h4 class="font-outfit font-bold text-sm text-brand-charcoal">2. Dẫn Bạn / Người Yêu Về Phòng</h4>
+            </div>
+            <span class="text-[10px] font-mono bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full font-bold">
+              Báo trước 3h
+            </span>
+          </div>
+          <p class="text-xs text-brand-muted leading-relaxed pl-7">
+            Báo trước trên app để anh em chuẩn bị trang phục gọn gàng. Người ngoài ở lại qua đêm tối đa 2 đêm/tuần để giữ sự riêng tư cho phòng.
+          </p>
+        </article>
+
+        <!-- Rule 3: Fridge Boundaries -->
+        <article class="bg-white rounded-2xl p-4 border border-brand-border shadow-card border-l-4 border-l-brand-mint">
+          <div class="flex items-start justify-between gap-2 mb-1.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🧊</span>
+              <h4 class="font-outfit font-bold text-sm text-brand-charcoal">3. Ranh Giới Tủ Lạnh & Đồ Ăn</h4>
+            </div>
+            <span class="text-[10px] font-mono bg-brand-mintLight text-brand-mint px-2 py-0.5 rounded-full font-bold">
+              Ghi tên riêng
+            </span>
+          </div>
+          <p class="text-xs text-brand-muted leading-relaxed pl-7">
+            Đồ mua riêng dán nhãn ghi tên. Đồ ăn/nước uống không ghi tên sau 3 ngày sẽ tự động trở thành "Tài sản công cộng phòng"!
+          </p>
+        </article>
+
+        <!-- Rule 4: Chores & Kitchen -->
+        <article class="bg-white rounded-2xl p-4 border border-brand-border shadow-card border-l-4 border-l-brand-coral">
+          <div class="flex items-start justify-between gap-2 mb-1.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🥣</span>
+              <h4 class="font-outfit font-bold text-sm text-brand-charcoal">4. Bồn Rửa Bát & Rác Thải</h4>
+            </div>
+            <span class="text-[10px] font-mono bg-brand-coralLight text-brand-coral px-2 py-0.5 rounded-full font-bold">
+              Tối đa 6 tiếng
+            </span>
+          </div>
+          <p class="text-xs text-brand-muted leading-relaxed pl-7">
+            Tuyệt đối không ngâm bát đĩa qua đêm (tránh bốc mùi & vi khuẩn). Đổ rác và thay túi mới trước 21h30 mỗi tối.
+          </p>
+        </article>
+
+        <!-- Rule 5: Room Fund & Penalties -->
+        <article class="bg-white rounded-2xl p-4 border border-brand-border shadow-card border-l-4 border-l-brand-charcoal">
+          <div class="flex items-start justify-between gap-2 mb-1.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">💰</span>
+              <h4 class="font-outfit font-bold text-sm text-brand-charcoal">5. Quỹ Phòng & Phạt Vi Phạm</h4>
+            </div>
+            <span class="text-[10px] font-mono bg-[#F4F4F5] text-brand-charcoal px-2 py-0.5 rounded-full font-bold">
+              Quỹ Party
+            </span>
+          </div>
+          <p class="text-xs text-brand-muted leading-relaxed pl-7">
+            Trễ việc nhà > 24h hoặc không đạt Quota tuần tự giác nộp phạt 20.000đ vào Quỹ Party phòng. Tiền này để ăn lẩu cuối tháng!
+          </p>
+        </article>
+
+      </div>
+
+      <!-- Member Signatures Section -->
+      <div class="bg-white rounded-3xl p-4 border border-brand-border shadow-card space-y-3">
+        <h4 class="text-xs font-bold font-outfit text-brand-charcoal uppercase tracking-wider">
+          Chữ Ký Điện Tử Các Thành Viên (4)
+        </h4>
+
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <!-- Member 1: Hoang -->
+          <div class="p-2.5 rounded-xl bg-[#FAFAF9] border border-brand-border/60 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-full bg-brand-charcoal text-white font-bold text-[10px] flex items-center justify-center font-outfit">H</div>
+              <div>
+                <p class="font-semibold text-brand-charcoal">Hoàng (Host)</p>
+                <p class="text-[9px] font-mono text-brand-mint">✓ Đã ký</p>
+              </div>
+            </div>
+          </div>
+          <!-- Member 2: Bao -->
+          <div class="p-2.5 rounded-xl bg-[#FAFAF9] border border-brand-border/60 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold text-[10px] flex items-center justify-center font-outfit">B</div>
+              <div>
+                <p class="font-semibold text-brand-charcoal">Bảo</p>
+                <p class="text-[9px] font-mono text-brand-mint">✓ Đã ký</p>
+              </div>
+            </div>
+          </div>
+          <!-- Member 3: Linh -->
+          <div class="p-2.5 rounded-xl bg-[#FAFAF9] border border-brand-border/60 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-full bg-pink-600 text-white font-bold text-[10px] flex items-center justify-center font-outfit">L</div>
+              <div>
+                <p class="font-semibold text-brand-charcoal">Linh</p>
+                <p class="text-[9px] font-mono text-brand-mint">✓ Đã ký</p>
+              </div>
+            </div>
+          </div>
+          <!-- Member 4: Duc -->
+          <div class="p-2.5 rounded-xl bg-[#FAFAF9] border border-brand-border/60 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-full bg-amber-600 text-white font-bold text-[10px] flex items-center justify-center font-outfit">Đ</div>
+              <div>
+                <p class="font-semibold text-brand-charcoal">Đức</p>
+                <p class="text-[9px] font-mono text-brand-mint">✓ Đã ký</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="alert('Bro ơi, bạn đã ký hợp đồng này rồi! Thỏa thuận có hiệu lực đầy đủ.')" class="w-full py-2.5 bg-[#FAFAF9] hover:bg-zinc-100 text-brand-charcoal rounded-xl text-xs font-outfit font-semibold border border-brand-border tap-effect">
+          Xem lịch sử sửa đổi quy tắc
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Modal: Đề xuất sửa đổi quy tắc -->
+    <div id="proposeModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <div class="w-full max-w-[360px] bg-white rounded-3xl p-5 shadow-2xl border border-brand-border space-y-3.5">
+        <div class="flex items-center justify-between pb-2 border-b border-brand-border">
+          <h3 class="font-outfit font-bold text-base text-brand-charcoal">Đề xuất sửa quy tắc phòng</h3>
+          <button onclick="closeProposeModal()" class="w-7 h-7 rounded-full bg-[#F4F4F5] flex items-center justify-center text-brand-muted text-xs tap-effect">
+            ✕
+          </button>
+        </div>
+
+        <div class="space-y-2.5 text-xs">
+          <div>
+            <label class="font-bold font-outfit text-brand-charcoal block mb-1">Nội dung quy tắc cần thêm / sửa:</label>
+            <textarea id="proposeText" rows="3" placeholder="Ví dụ: Quy định tắt đèn phòng trước 0h hoặc không nấu đồ nặng mùi sau 22h..." class="w-full p-3 rounded-xl border border-brand-border text-xs focus:outline-none focus:border-brand-purple"></textarea>
+          </div>
+          <p class="text-[11px] text-brand-muted leading-tight">
+            Sau khi gửi, cả phòng sẽ có 24h để bấm Vote (Đồng ý / Phản đối). Nếu đạt ≥ 3/4 phiếu thuận, quy tắc sẽ chính thức có hiệu lực!
+          </p>
+        </div>
+
+        <button onclick="submitProposal()" class="w-full py-3 bg-brand-purple hover:bg-brand-purpleHover text-white rounded-xl font-outfit font-bold text-xs tap-effect shadow-sm">
+          Gửi đề xuất để cả phòng biểu quyết
+        </button>
+      </div>
+    </div>
+
+    <!-- Fixed Bottom Navigation Bar (Standard Unified 4 Destinations) -->
+    <nav class="fixed bottom-0 left-0 right-0 w-full max-w-[420px] mx-auto z-50 flex justify-around items-center px-3 py-2 bg-white/95 backdrop-blur-md border-t border-[#E4E4E7] shadow-lg">
+      <!-- 1. Chore Hub -->
+      <a href="index.html" class="flex flex-col items-center justify-center text-[#71717A] px-3 py-1.5 transition-colors hover:text-[#18181B] tap-effect">
+        <span class="material-symbols-outlined text-[22px]">checklist</span>
+        <span class="font-mono text-[10px] mt-0.5 font-medium">Chore Hub</span>
+      </a>
+
+      <!-- 2. Deadlines -->
+      <a href="deadlines.html" class="flex flex-col items-center justify-center text-[#71717A] px-3 py-1.5 transition-colors hover:text-[#18181B] tap-effect">
+        <span class="material-symbols-outlined text-[22px]">schedule</span>
+        <span class="font-mono text-[10px] mt-0.5 font-medium">Deadlines</span>
+      </a>
+
+      <!-- 3. Scoreboard -->
+      <a href="scoreboard.html" class="flex flex-col items-center justify-center text-[#71717A] px-3 py-1.5 transition-colors hover:text-[#18181B] tap-effect">
+        <span class="material-symbols-outlined text-[22px]">leaderboard</span>
+        <span class="font-mono text-[10px] mt-0.5 font-medium">Scoreboard</span>
+      </a>
+
+      <!-- 4. Profile (ACTIVE VIA ROOM RULES) -->
+      <a href="profile.html" class="flex flex-col items-center justify-center bg-[#18181B] text-white rounded-full px-3.5 py-1.5 transition-transform duration-100 active:translate-y-[2px] shadow-sm tap-effect">
+        <span class="material-symbols-outlined text-[20px]" data-weight="fill">person</span>
+        <span class="font-mono text-[10px] mt-0.5 font-bold">Profile</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <script>
+    function openProposeModal() {
+      document.getElementById('proposeModal').classList.remove('hidden');
+    }
+    function closeProposeModal() {
+      document.getElementById('proposeModal').classList.add('hidden');
+    }
+    function submitProposal() {
+      const text = document.getElementById('proposeText').value.trim();
+      if (!text) {
+        alert('Bro ơi, nhập nội dung đề xuất nhé!');
+        return;
+      }
+      closeProposeModal();
+      alert(`🎉 Đã gửi đề xuất: "${text}"!\n\nBro Bot đã mở cuộc bỏ phiếu 24h trong nhóm phòng. Cần ít nhất 3/4 phiếu đồng ý để thông qua.`);
+    }
+  </script>
+
+</body>
+</html>
