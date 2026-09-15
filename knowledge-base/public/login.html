@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+  <title>Đăng Nhập &amp; Điểm Danh — Due Bro</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&amp;family=Outfit:wght@600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              purple: '#7C3AED',
+              purpleHover: '#6D28D9',
+              purpleLight: '#F5F3FF',
+              purpleBorder: '#DDD6FE',
+              charcoal: '#18181B',
+              muted: '#71717A',
+              bg: '#FAFAF9',
+              card: '#FFFFFF',
+              border: '#E4E4E7',
+              coral: '#F97316',
+              mint: '#10B981',
+            }
+          },
+          fontFamily: {
+            outfit: ["Outfit", "sans-serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F4F4F5;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #18181B;
+      -webkit-font-smoothing: antialiased;
+    }
+    .tactile-btn {
+      box-shadow: 0 2px 0 0 #18181B;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    .tactile-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 0 0 0 transparent;
+    }
+    .tactile-purple {
+      box-shadow: 0 2px 0 0 #5B21B6;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    .tactile-purple:active {
+      transform: translateY(2px);
+      box-shadow: 0 0 0 0 transparent;
+    }
+    .tap-effect {
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+    .tap-effect:active {
+      transform: scale(0.97);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex justify-center items-start sm:py-8 sm:px-4 bg-[#F4F4F5]">
+
+<!-- Outer Mobile Shell (Strictly max-w-[420px]) -->
+<main class="w-full max-w-[420px] bg-[#FAFAF9] min-h-screen sm:min-h-[860px] sm:rounded-[36px] sm:shadow-2xl border-x sm:border border-[#E4E4E7] relative flex flex-col pb-8 overflow-hidden">
+  
+  <!-- Header Minimal -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E4E4E7] px-4 py-3 flex justify-between items-center w-full">
+    <div class="flex items-center gap-1.5 bg-white border border-[#E4E4E7] rounded-full px-2.5 py-1 shadow-xs">
+      <span class="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
+      <span class="font-mono text-[11px] text-[#18181B] font-semibold">Due Bro Portal</span>
+    </div>
+    <span class="font-mono text-[11px] text-[#71717A]">v2.4.0</span>
+  </header>
+
+  <!-- Content Canvas -->
+  <div class="flex-1 px-4 py-5 flex flex-col justify-between overflow-y-auto no-scrollbar space-y-5">
+    
+    <!-- Top Branding & Mascot Hero -->
+    <div class="space-y-4">
+      <div class="bg-white rounded-3xl border border-[#E4E4E7] p-5 shadow-sm text-center relative overflow-hidden">
+        <!-- Background decorative badge -->
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-[#F5F3FF] -z-0"></div>
+        
+        <div class="relative z-10 flex flex-col items-center">
+          <div class="relative inline-block mb-3">
+            <img alt="Mascot Bro" class="w-20 h-20 rounded-2xl object-cover border-2 border-[#18181B] shadow-md" src="https://lh3.googleusercontent.com/aida/AEtjO1WBVvnkY__M4uLkV-x4CQcuTguJvQU_TYfYJqV6SypD5RyZr4c7h3qLyTfJ35NqTprEOGbwIczRVIbar2kCeZ10Z1hYsDZ-AouIsXz5DlvXdlASYlXRV2MseLywTyL8SgGqGnuegwgwD3uSl4TF3xi-0bsVAJbCFM_15-gsPAzLFluj16MiBDlrWtPRIHtvNfJjCppBmt5E8rgq-sRJ3Z_2v8K9bFf_bBvNyIcp0snApUH48loZwpVVd2Q"/>
+            <span class="absolute -bottom-1 -right-1 bg-[#7C3AED] text-white text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-full border border-white">402</span>
+          </div>
+
+          <h1 class="font-outfit text-[22px] font-extrabold text-[#18181B] tracking-tight">
+            Bro, vào điểm danh nào!
+          </h1>
+          <p class="text-[13px] text-[#71717A] mt-1 font-medium">
+            Quản lý việc nhà, hạn chót &amp; quỹ phòng không xích mích.
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick 1-Tap Roommate Login (For Instant Demo) -->
+      <div class="bg-white rounded-2xl border border-[#DDD6FE] p-3.5 shadow-xs">
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-mono text-[10px] uppercase font-bold text-[#7C3AED] tracking-wider flex items-center gap-1">
+            <span>⚡</span>
+            <span>CHỌN NHANH ĐỂ TEST 1 CHẠM:</span>
+          </span>
+          <span class="text-[10px] font-mono text-[#71717A]">Phòng 402</span>
+        </div>
+        <div class="grid grid-cols-4 gap-1.5" id="quick-users-grid">
+          <button onclick="quickLogin('Hoàng', 'Host', 'hoang@duebro.app')" class="flex flex-col items-center p-2 rounded-xl border border-hairline-border hover:border-[#7C3AED] hover:bg-[#F5F3FF] active:scale-95 transition-all tap-effect bg-[#FAFAF9]" type="button">
+            <span class="w-8 h-8 rounded-full bg-[#18181B] text-white font-mono text-[11px] flex items-center justify-center font-bold mb-1 ring-2 ring-[#18181B]/20">H</span>
+            <span class="text-[12px] font-bold text-[#18181B]">Hoàng</span>
+            <span class="text-[9px] font-mono text-[#7C3AED] font-semibold">Host</span>
+          </button>
+          <button onclick="quickLogin('Nam', 'Member', 'nam@duebro.app')" class="flex flex-col items-center p-2 rounded-xl border border-hairline-border hover:border-[#7C3AED] hover:bg-[#F5F3FF] active:scale-95 transition-all tap-effect bg-[#FAFAF9]" type="button">
+            <span class="w-8 h-8 rounded-full bg-[#7C3AED] text-white font-mono text-[11px] flex items-center justify-center font-bold mb-1 ring-2 ring-[#7C3AED]/20">N</span>
+            <span class="text-[12px] font-bold text-[#18181B]">Nam</span>
+            <span class="text-[9px] font-mono text-[#71717A]">Thành viên</span>
+          </button>
+          <button onclick="quickLogin('Linh', 'Member', 'linh@duebro.app')" class="flex flex-col items-center p-2 rounded-xl border border-hairline-border hover:border-[#7C3AED] hover:bg-[#F5F3FF] active:scale-95 transition-all tap-effect bg-[#FAFAF9]" type="button">
+            <span class="w-8 h-8 rounded-full bg-[#10B981] text-white font-mono text-[11px] flex items-center justify-center font-bold mb-1 ring-2 ring-[#10B981]/20">L</span>
+            <span class="text-[12px] font-bold text-[#18181B]">Linh</span>
+            <span class="text-[9px] font-mono text-[#71717A]">Thành viên</span>
+          </button>
+          <button onclick="quickLogin('Đức', 'Member', 'duc@duebro.app')" class="flex flex-col items-center p-2 rounded-xl border border-hairline-border hover:border-[#7C3AED] hover:bg-[#F5F3FF] active:scale-95 transition-all tap-effect bg-[#FAFAF9]" type="button">
+            <span class="w-8 h-8 rounded-full bg-[#F97316] text-white font-mono text-[11px] flex items-center justify-center font-bold mb-1 ring-2 ring-[#F97316]/20">Đ</span>
+            <span class="text-[12px] font-bold text-[#18181B]">Đức</span>
+            <span class="text-[9px] font-mono text-[#71717A]">Thành viên</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Switcher: Đăng Nhập / Gia Nhập Phòng -->
+      <div class="flex p-1 bg-[#E4E4E7] rounded-2xl">
+        <button id="tab-login" onclick="switchTab('login')" class="flex-1 py-2 text-center rounded-xl text-[13px] font-bold bg-white text-[#18181B] shadow-xs transition-all tap-effect" type="button">
+          Đăng Nhập
+        </button>
+        <button id="tab-join" onclick="switchTab('join')" class="flex-1 py-2 text-center rounded-xl text-[13px] font-semibold text-[#71717A] hover:text-[#18181B] transition-all tap-effect" type="button">
+          Vào Bằng Mã Phòng
+        </button>
+      </div>
+
+      <!-- Main Login Form -->
+      <form id="auth-form" onsubmit="handleFormSubmit(event)" class="space-y-3.5">
+        
+        <!-- Field 1: Email / SĐT -->
+        <div class="space-y-1">
+          <label class="font-mono text-[11px] uppercase font-bold text-[#71717A] tracking-wider" for="user-identifier">
+            Tài Khoản / Email
+          </label>
+          <div class="relative bg-white rounded-2xl border-2 border-[#18181B] px-3.5 py-2.5 flex items-center gap-2.5 transition-all focus-within:border-[#7C3AED]">
+            <span class="material-symbols-outlined text-[#71717A] text-[19px]">account_circle</span>
+            <input 
+              id="user-identifier" 
+              type="text" 
+              required 
+              class="w-full bg-transparent p-0 border-0 focus:ring-0 text-[14px] font-semibold text-[#18181B] placeholder:text-[#A1A1AA]" 
+              placeholder="hoang@duebro.app hoặc SĐT..." 
+              value="hoang@duebro.app"
+            />
+          </div>
+        </div>
+
+        <!-- Field 2: Password -->
+        <div class="space-y-1" id="password-group">
+          <div class="flex justify-between items-center">
+            <label class="font-mono text-[11px] uppercase font-bold text-[#71717A] tracking-wider" for="user-password">
+              Mật Khẩu
+            </label>
+            <a href="javascript:void(0)" onclick="alert('Bro Bot: Mật khẩu demo là 123456 nhé Bro!')" class="font-mono text-[11px] text-[#7C3AED] hover:underline">
+              Quên pass?
+            </a>
+          </div>
+          <div class="relative bg-white rounded-2xl border border-[#E4E4E7] px-3.5 py-2.5 flex items-center gap-2.5 transition-all focus-within:border-[#7C3AED]">
+            <span class="material-symbols-outlined text-[#71717A] text-[19px]">lock</span>
+            <input 
+              id="user-password" 
+              type="password" 
+              required 
+              class="w-full bg-transparent p-0 border-0 focus:ring-0 text-[14px] font-semibold text-[#18181B] placeholder:text-[#A1A1AA]" 
+              placeholder="••••••••" 
+              value="123456"
+            />
+            <button type="button" onclick="togglePasswordVisibility()" class="text-[#71717A] hover:text-[#18181B] p-0.5">
+              <span id="pwd-icon" class="material-symbols-outlined text-[18px]">visibility</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Field 3: Room Code (Shows in Join tab or optional) -->
+        <div class="space-y-1">
+          <div class="flex justify-between items-center">
+            <label class="font-mono text-[11px] uppercase font-bold text-[#71717A] tracking-wider" for="room-code">
+              Mã Phòng Trọ
+            </label>
+            <span class="font-mono text-[10px] text-[#10B981] font-bold bg-[#ECFDF5] px-2 py-0.5 rounded-full border border-[#10B981]/20">
+              Phòng Hoạt Động
+            </span>
+          </div>
+          <div class="relative bg-white rounded-2xl border border-[#E4E4E7] px-3.5 py-2.5 flex items-center gap-2.5 transition-all focus-within:border-[#7C3AED]">
+            <span class="material-symbols-outlined text-[#71717A] text-[19px]">home</span>
+            <input 
+              id="room-code" 
+              type="text" 
+              required 
+              class="w-full bg-transparent p-0 border-0 focus:ring-0 font-mono text-[14px] font-bold text-[#18181B] uppercase tracking-wider" 
+              value="#BRO-402"
+            />
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          id="btn-submit" 
+          type="submit" 
+          class="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-outfit text-[16px] font-bold py-3.5 rounded-2xl flex items-center justify-center gap-2 tactile-purple tap-effect mt-4 shadow-md"
+        >
+          <span id="submit-text">Đăng Nhập Vào Phòng</span>
+          <span class="text-lg">🚀</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Footer Note -->
+    <div class="text-center pt-3 border-t border-[#E4E4E7]">
+      <p class="text-[12px] text-[#71717A]">
+        Chưa có phòng? <a href="javascript:void(0)" onclick="alert('Bro Bot: Hãy nhờ bạn cùng phòng chia sẻ mã mời #BRO-402 nhé!')"><strong class="text-[#7C3AED] font-bold hover:underline">Tạo nhóm phòng mới</strong></a>
+      </p>
+      <p class="font-mono text-[10px] text-[#A1A1AA] mt-1">DUE BRO • "BRO, IT'S DUE."</p>
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+  let currentTab = 'login';
+  let selectedUser = 'Hoàng';
+
+  function switchTab(tab) {
+    currentTab = tab;
+    const tabLogin = document.getElementById('tab-login');
+    const tabJoin = document.getElementById('tab-join');
+    const submitText = document.getElementById('submit-text');
+    const pwdGroup = document.getElementById('password-group');
+
+    if (tab === 'login') {
+      tabLogin.className = "flex-1 py-2 text-center rounded-xl text-[13px] font-bold bg-white text-[#18181B] shadow-xs transition-all tap-effect";
+      tabJoin.className = "flex-1 py-2 text-center rounded-xl text-[13px] font-semibold text-[#71717A] hover:text-[#18181B] transition-all tap-effect";
+      submitText.innerText = "Đăng Nhập Vào Phòng";
+      pwdGroup.classList.remove('hidden');
+    } else {
+      tabJoin.className = "flex-1 py-2 text-center rounded-xl text-[13px] font-bold bg-white text-[#18181B] shadow-xs transition-all tap-effect";
+      tabLogin.className = "flex-1 py-2 text-center rounded-xl text-[13px] font-semibold text-[#71717A] hover:text-[#18181B] transition-all tap-effect";
+      submitText.innerText = "Gia Nhập Phòng 402";
+      pwdGroup.classList.add('hidden');
+    }
+  }
+
+  function togglePasswordVisibility() {
+    const pwdInput = document.getElementById('user-password');
+    const icon = document.getElementById('pwd-icon');
+    if (pwdInput.type === 'password') {
+      pwdInput.type = 'text';
+      icon.innerText = 'visibility_off';
+    } else {
+      pwdInput.type = 'password';
+      icon.innerText = 'visibility';
+    }
+  }
+
+  function quickLogin(name, role, email) {
+    selectedUser = name;
+    document.getElementById('user-identifier').value = email;
+    
+    // Save to local storage
+    const userData = {
+      name: name,
+      role: role,
+      email: email,
+      room: "Brothers Room 402",
+      roomCode: "#BRO-402",
+      loginTime: new Date().toISOString()
+    };
+    localStorage.setItem('due_bro_user', JSON.stringify(userData));
+
+    // Button animation feedback
+    const btn = document.getElementById('btn-submit');
+    btn.innerHTML = `<span>Đang kết nối với Bro...</span> <span class="animate-spin">⏳</span>`;
+    btn.disabled = true;
+
+    setTimeout(() => {
+      alert(`🎉 Chào mừng Bro ${name} (${role}) đã đăng nhập vào Phòng 402!`);
+      window.location.href = 'index.html';
+    }, 450);
+  }
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    const identifier = document.getElementById('user-identifier').value.trim();
+    const room = document.getElementById('room-code').value.trim();
+
+    // Determine name from identifier
+    let name = "Hoàng";
+    let role = "Host";
+    if (identifier.toLowerCase().includes("nam")) { name = "Nam"; role = "Member"; }
+    else if (identifier.toLowerCase().includes("linh")) { name = "Linh"; role = "Member"; }
+    else if (identifier.toLowerCase().includes("duc") || identifier.toLowerCase().includes("đức")) { name = "Đức"; role = "Member"; }
+
+    const userData = {
+      name: name,
+      role: role,
+      email: identifier,
+      room: "Brothers Room 402",
+      roomCode: room,
+      loginTime: new Date().toISOString()
+    };
+    localStorage.setItem('due_bro_user', JSON.stringify(userData));
+
+    const btn = document.getElementById('btn-submit');
+    btn.innerHTML = `<span>Đang vào phòng...</span> <span class="animate-spin">⏳</span>`;
+    btn.disabled = true;
+
+    setTimeout(() => {
+      alert(`🎉 Đăng nhập thành công! Chào mừng Bro ${name} trở lại Phòng 402.`);
+      window.location.href = 'index.html';
+    }, 400);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Due Bro - Hồ Sơ Thành Viên &amp; Chế Độ Tạm Vắng</title>
+<!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&amp;family=Outfit:wght@600;700;800&amp;family=Plus+Jakarta+Sans:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-low": "#f3f4f3",
+            "on-tertiary": "#ffffff",
+            "surface-subtle": "#F4F4F5",
+            "on-tertiary-container": "#9863ff",
+            "tertiary-container": "#25005a",
+            "on-secondary-fixed-variant": "#46464e",
+            "on-primary-container": "#858387",
+            "surface": "#FAFAF9",
+            "primary-fixed": "#e4e1e6",
+            "surface-container-lowest": "#ffffff",
+            "on-surface": "#18181B",
+            "surface-dim": "#dadad9",
+            "on-secondary": "#ffffff",
+            "background": "#FAFAF9",
+            "on-secondary-container": "#63646c",
+            "secondary": "#5d5e66",
+            "hairline-border": "#E4E4E7",
+            "on-primary": "#ffffff",
+            "on-error-container": "#93000a",
+            "mint-reward": "#10B981",
+            "inverse-surface": "#2f3130",
+            "surface-container-high": "#e8e8e7",
+            "tertiary-fixed-dim": "#d2bbff",
+            "primary-container": "#18181B",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#5a00c6",
+            "on-error": "#ffffff",
+            "surface-bright": "#f9f9f8",
+            "error": "#ba1a1a",
+            "tertiary": "#7C3AED",
+            "surface-container-highest": "#e2e2e2",
+            "outline": "#77767b",
+            "on-primary-fixed": "#1b1b1e",
+            "inverse-primary": "#c8c5ca",
+            "tertiary-fixed": "#eaddff",
+            "on-primary-fixed-variant": "#47464a",
+            "inverse-on-surface": "#f1f1f0",
+            "outline-variant": "#c8c5cb",
+            "secondary-fixed": "#e3e1ec",
+            "primary": "#18181B",
+            "on-tertiary-fixed": "#25005a",
+            "surface-variant": "#e2e2e2",
+            "surface-container": "#eeeeed",
+            "secondary-container": "#e3e1ec",
+            "on-secondary-fixed": "#1a1b22",
+            "surface-tint": "#5f5e61",
+            "primary-fixed-dim": "#c8c5ca",
+            "card-bg": "#FFFFFF",
+            "secondary-fixed-dim": "#c6c5cf",
+            "on-background": "#18181B",
+            "on-surface-variant": "#71717A",
+            "coral-alert": "#F97316"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "1.5rem",
+            "gutter-mobile": "0.75rem",
+            "margin-mobile": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2.5rem",
+            "space-sm": "0.5rem",
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "label-mono": ["JetBrains Mono", "monospace"],
+            "headline-lg-mobile": ["Outfit", "sans-serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg": ["Outfit", "sans-serif"],
+            "metric-lg": ["JetBrains Mono", "monospace"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "metric-md": ["JetBrains Mono", "monospace"],
+            "display-hero": ["Outfit", "sans-serif"],
+            "display-hero-mobile": ["Outfit", "sans-serif"],
+            "headline-sm": ["Outfit", "sans-serif"],
+            "headline-md": ["Outfit", "sans-serif"],
+            "outfit": ["Outfit", "sans-serif"],
+            "mono": ["JetBrains Mono", "monospace"]
+          },
+          "fontSize": {
+            "label-mono": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+            "headline-lg": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "metric-lg": ["28px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "metric-md": ["16px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "display-hero": ["48px", { "lineHeight": "52px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "display-hero-mobile": ["36px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .tactile-btn {
+      box-shadow: 0 2px 0 0 #18181B;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    .tactile-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 0 0 0 transparent;
+    }
+    .tactile-card {
+      transition: transform 0.1s ease;
+    }
+    .tactile-card:active {
+      transform: translateY(1px);
+    }
+    .tap-effect {
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+    .tap-effect:active {
+      transform: scale(0.97);
+    }
+    body {
+      background-color: #F4F4F5;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #18181B;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex justify-center items-start sm:py-8 sm:px-4 bg-[#F4F4F5]">
+<main class="w-full max-w-[420px] bg-[#FAFAF9] min-h-screen sm:min-h-[860px] sm:rounded-[36px] sm:shadow-2xl border-x sm:border border-[#E4E4E7] relative flex flex-col pb-28 overflow-hidden">
+<!-- 1. Top App Bar (Shared Main Tab Architecture) -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E4E4E7] px-4 py-2.5 flex justify-between items-center w-full max-w-[420px] mx-auto">
+  <!-- Left Pill: Room Identity -->
+  <div class="flex items-center gap-1.5 bg-white border border-[#E4E4E7] rounded-full px-2.5 py-1 shadow-xs">
+    <span class="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
+    <span class="font-mono text-[11px] text-[#18181B] font-semibold">Brothers Room 402</span>
+  </div>
+  <!-- Center Title -->
+  <h1 class="font-outfit text-[16px] font-bold text-[#18181B] tracking-tight">Hồ Sơ Của Tôi</h1>
+  <!-- Right Action: Settings Gear -->
+  <button aria-label="Cài đặt hệ thống" class="w-9 h-9 rounded-full bg-white border border-[#E4E4E7] flex items-center justify-center text-[#18181B] hover:bg-[#F4F4F5] active:translate-y-[2px] transition-transform shadow-xs tap-effect" type="button" onclick="alert('Đang mở cài đặt phòng 402!')">
+    <span class="material-symbols-outlined text-[19px]">settings</span>
+  </button>
+</header>
+<!-- Main Content Canvas -->
+<div class="px-margin-mobile pt-3.5 flex flex-col gap-4">
+<!-- 2. Thẻ Thông Tin Định Danh Cá Nhân (User Hero Identity Card) -->
+<section class="bg-card-bg rounded-3xl border border-hairline-border p-4 shadow-sm flex flex-col gap-3.5">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<!-- Avatar initial "H" with Mint Status Ring -->
+<div class="relative">
+<div class="w-14 h-14 rounded-full bg-primary-container flex items-center justify-center border-2 border-mint-reward shadow-sm">
+<span class="font-headline-lg-mobile text-headline-sm text-on-primary font-bold leading-none">H</span>
+</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-mint-reward border-2 border-card-bg rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-white font-bold" data-weight="fill">check</span>
+</span>
+</div>
+<!-- Name & Role -->
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold leading-tight">Hoàng</h2>
+<span class="font-label-mono text-[10px] px-2 py-0.5 rounded-full bg-[#7C3AED]/10 text-[#7C3AED] border border-[#7C3AED]/30 font-semibold">Trưởng Phòng 402</span>
+</div>
+<span class="font-label-mono text-label-mono text-on-surface-variant mt-0.5">ID: @hoang_rm402 • Tham gia 8 tháng</span>
+</div>
+</div>
+<!-- Quick status indicator tag -->
+<div class="flex items-center gap-1 bg-surface-subtle px-2 py-1 rounded-full border border-hairline-border">
+<span class="w-1.5 h-1.5 rounded-full bg-mint-reward"></span>
+<span class="font-label-mono text-[10px] font-semibold text-on-surface-variant">Sẵn sàng</span>
+</div>
+</div>
+<!-- Thẻ số dư điểm thưởng (Karma Vault) -->
+<div class="bg-surface rounded-2xl border border-hairline-border p-3 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-[#7C3AED]/10 border border-[#7C3AED]/20 flex items-center justify-center text-[#7C3AED]">
+<span class="material-symbols-outlined text-[20px]" data-weight="fill">token</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-metric-lg text-[22px] font-bold text-on-surface leading-tight">1.420</span>
+<span class="font-label-mono text-[10px] font-bold text-[#7C3AED] bg-[#7C3AED]/10 px-1.5 py-0.2 rounded-md">KARMA</span>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Hạng Kim Cương phòng 402</p>
+</div>
+</div>
+<a href="karma_shop.html" class="flex items-center gap-0.5 text-[#7C3AED] font-body-sm text-[12px] font-semibold hover:underline group tap-effect">
+<span>Đổi quà (Shop)</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+</a>
+</div>
+</section>
+<!-- 3. Lưới Chỉ Số Hoạt Động Phòng Trọ (Roommate Performance Stats Grid) -->
+<section class="grid grid-cols-3 gap-2.5">
+<!-- Cột 1: Đúng hạn -->
+<div class="bg-card-bg border border-hairline-border rounded-2xl p-3 flex flex-col justify-between">
+<div class="flex items-center justify-between text-mint-reward mb-1">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-mono text-[10px] text-mint-reward font-bold bg-[#ECFDF5] px-1 rounded">+3%</span>
+</div>
+<span class="font-metric-lg text-[22px] font-bold text-mint-reward leading-tight">94%</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant mt-0.5">Đúng hạn (On-time)</span>
+</div>
+<!-- Cột 2: Việc đã dọn -->
+<div class="bg-card-bg border border-hairline-border rounded-2xl p-3 flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface mb-1">
+<span class="material-symbols-outlined text-[18px]">cleaning_services</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant font-medium">Tháng 9</span>
+</div>
+<span class="font-metric-lg text-[22px] font-bold text-on-surface leading-tight">38</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant mt-0.5">Việc đã dọn (Chores)</span>
+</div>
+<!-- Cột 3: Streak kỷ lục -->
+<div class="bg-card-bg border border-hairline-border rounded-2xl p-3 flex flex-col justify-between">
+<div class="flex items-center justify-between text-coral-alert mb-1">
+<span class="material-symbols-outlined text-[18px]" data-weight="fill">local_fire_department</span>
+<span class="font-label-mono text-[10px] text-coral-alert font-bold bg-[#FFF7ED] px-1 rounded">TOP 1</span>
+</div>
+<span class="font-metric-lg text-[22px] font-bold text-coral-alert leading-tight">12 Ngày</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant mt-0.5">Streak kỷ lục</span>
+</div>
+</section>
+<!-- 4. Thẻ Tính Năng Chế Độ Tạm Vắng (Away Mode / Nghỉ Phép Phòng Trọ) -->
+<section class="bg-card-bg rounded-3xl border border-hairline-border p-4 shadow-sm flex flex-col gap-3 relative overflow-hidden">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-2xl bg-[#FFF7ED] border border-coral-alert/30 text-coral-alert flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">flight_takeoff</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="font-headline-sm text-[16px] font-bold text-on-surface">Chế độ Tạm Vắng</h3>
+</div>
+<span class="font-label-mono text-[10px] text-coral-alert font-bold uppercase tracking-wider bg-[#FFF7ED] px-1.5 py-0.5 rounded">Đóng băng nhiệm vụ</span>
+</div>
+</div>
+<!-- Tactile Toggle Switch (State: OFF) -->
+<button aria-checked="false" class="w-12 h-7 bg-[#E4E4E7] rounded-full p-0.5 transition-colors duration-200 focus:outline-none relative self-center" id="away-toggle" onclick="toggleAwayMode()" role="switch" type="button">
+<span class="block w-6 h-6 bg-white rounded-full shadow-sm border border-hairline-border transform transition-transform duration-200 translate-x-0" id="away-knob"></span>
+</button>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant leading-relaxed">
+          Bật khi về quê hoặc đi công tác xa. Hệ thống sẽ tự động đóng băng chỉ tiêu tuần và không gán việc nhà cho bạn.
+        </p>
+<!-- Date Range Selector Frame -->
+<div class="flex items-center justify-between bg-surface border border-hairline-border rounded-2xl p-2.5 hover:border-on-surface transition-colors cursor-pointer">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">date_range</span>
+<div class="flex flex-col">
+<span class="font-label-mono text-[10px] text-on-surface-variant">Khoảng ngày vắng dự kiến:</span>
+<span class="font-label-mono text-[12px] font-bold text-on-surface">16/09 – 22/09 (7 ngày)</span>
+</div>
+</div>
+<span class="font-label-mono text-[11px] text-[#7C3AED] font-bold bg-[#7C3AED]/10 px-2 py-1 rounded-lg">Thay đổi</span>
+</div>
+</section>
+<!-- 5. Khu Vực Chọn Gói Giọng Điệu Của Bro (Mascot Persona Selector) -->
+<section class="flex flex-col gap-2.5">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-2">
+<!-- Nhúng mascot từ placeholder chuẩn -->
+<div class="w-7 h-7 rounded-full overflow-hidden bg-surface-subtle border border-hairline-border shrink-0 flex items-center justify-center">
+<img alt="Mascot Due Bro" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1WBVvnkY__M4uLkV-x4CQcuTguJvQU_TYfYJqV6SypD5RyZr4c7h3qLyTfJ35NqTprEOGbwIczRVIbar2kCeZ10Z1hYsDZ-AouIsXz5DlvXdlASYlXRV2MseLywTyL8SgGqGnuegwgwD3uSl4TF3xi-0bsVAJbCFM_15-gsPAzLFluj16MiBDlrWtPRIHtvNfJjCppBmt5E8rgq-sRJ3Z_2v8K9bFf_bBvNyIcp0snApUH48loZwpVVd2Q"/>
+</div>
+<h4 class="font-label-mono text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">GIỌNG ĐIỆU CỦA BRO</h4>
+</div>
+<span class="font-label-mono text-[10px] text-on-surface-variant bg-surface-subtle border border-hairline-border px-2 py-0.5 rounded-full">AI Reminders</span>
+</div>
+<!-- 3 Voice Cards -->
+<div class="flex flex-col gap-2">
+<!-- Voice A: Active -->
+<div class="bg-card-bg border-2 border-[#7C3AED] rounded-2xl p-3.5 relative cursor-pointer tactile-card shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#7C3AED]"></span>
+<span class="font-headline-sm text-[15px] font-bold text-on-surface">Bro Cà Khịa</span>
+<span class="font-label-mono text-[9px] bg-[#7C3AED] text-white px-1.5 py-0.2 rounded font-bold uppercase">Mặc định</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-[#7C3AED]" data-weight="fill">radio_button_checked</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-1.5 pl-4.5">
+              “Đậm chất Gen-Z, hài hước, hơi khịa nhưng cực kỳ uy tín. Không dọn rác thì xác định ăn đòn tâm lý.”
+            </p>
+</div>
+<!-- Voice B -->
+<div class="bg-card-bg border border-hairline-border rounded-2xl p-3.5 relative cursor-pointer hover:border-on-surface-variant transition-colors tactile-card">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-zinc-300"></span>
+<span class="font-headline-sm text-[15px] font-bold text-on-surface">Bro Tổng Tài</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-zinc-400">radio_button_unchecked</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-1.5 pl-4.5">
+              “Nghiêm túc, dứt khoát, chuẩn phong thái chủ tịch phòng trọ. KPI việc nhà là mệnh lệnh.”
+            </p>
+</div>
+<!-- Voice C -->
+<div class="bg-card-bg border border-hairline-border rounded-2xl p-3.5 relative cursor-pointer hover:border-on-surface-variant transition-colors tactile-card">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-zinc-300"></span>
+<span class="font-headline-sm text-[15px] font-bold text-on-surface">Bro Anime</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-zinc-400">radio_button_unchecked</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-1.5 pl-4.5">
+              “Nhiệt huyết bùng cháy, hô vang khẩu hiệu bảo vệ hòa bình và bồn rửa bát phòng 402!”
+            </p>
+</div>
+</div>
+</section>
+<!-- 6. Quản Lý Phòng & Lối Tắt (Room Management & Quick Actions) -->
+<section class="bg-card-bg rounded-3xl border border-hairline-border p-2 shadow-sm flex flex-col divide-y divide-hairline-border">
+<!-- Mã mời phòng -->
+<div class="flex items-center justify-between p-2.5 hover:bg-surface-subtle rounded-2xl transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-xl bg-surface-subtle flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">key</span>
+</div>
+<span class="font-body-md text-[14px] font-semibold text-on-surface">Mã mời phòng</span>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="font-label-mono text-[11px] font-bold text-on-surface bg-surface border border-hairline-border px-2.5 py-1 rounded-lg flex items-center gap-1 hover:border-on-surface active:scale-95 transition-all" type="button">
+<span>#BRO-402</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Danh sách thành viên (4/4) -->
+<div class="flex items-center justify-between p-2.5 hover:bg-surface-subtle rounded-2xl transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-xl bg-surface-subtle flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">group</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-[14px] font-semibold text-on-surface">Danh sách thành viên</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">4/4 đã gia nhập</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- 4 Roommate Avatars Stack -->
+<div class="flex -space-x-1.5 overflow-hidden">
+<span class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-[#18181B] text-[10px] font-bold text-white flex items-center justify-center" title="Hoàng (Host)">H</span>
+<span class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-blue-600 text-[10px] font-bold text-white flex items-center justify-center" title="Bảo">B</span>
+<span class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-pink-600 text-[10px] font-bold text-white flex items-center justify-center" title="Linh">L</span>
+<span class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-amber-600 text-[10px] font-bold text-white flex items-center justify-center" title="Minh">M</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">chevron_right</span>
+</div>
+</div>
+<!-- Quản lý Quỹ phòng trọ (Tùy chọn) -->
+<a href="fund.html" class="flex items-center justify-between p-2.5 hover:bg-surface-subtle rounded-2xl transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-xl bg-purple-50 text-[#7C3AED] flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-[14px] font-semibold text-on-surface">Quỹ phòng trọ (Tùy chọn)</span>
+<span class="font-label-mono text-[10px] text-mint-reward">Đang hoạt động • 485.000đ</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">chevron_right</span>
+</a>
+<!-- Quy ước & Giao kèo phòng -->
+<a href="room_rules.html" class="flex items-center justify-between p-2.5 hover:bg-surface-subtle rounded-2xl transition-colors cursor-pointer tap-effect">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-xl bg-surface-subtle flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+</div>
+<span class="font-body-md text-[14px] font-semibold text-on-surface">Quy ước &amp; Giao kèo phòng</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">chevron_right</span>
+</a>
+<!-- Chuyển đổi tài khoản / Đăng nhập -->
+<a href="login.html" class="flex items-center justify-between p-2.5 hover:bg-purple-50/50 rounded-2xl transition-colors cursor-pointer tap-effect">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-xl bg-purple-50 text-[#7C3AED] flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">switch_account</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-[14px] font-semibold text-[#18181B]">Chuyển tài khoản / Đăng nhập</span>
+<span class="font-label-mono text-[10px] text-[#71717A]">Đổi sang Nam, Linh, Đức...</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-[#7C3AED]">chevron_right</span>
+</a>
+<!-- Đăng xuất tài khoản -->
+<div onclick="openLogoutModal()" class="flex items-center justify-between p-2.5 hover:bg-red-50/70 rounded-2xl transition-colors cursor-pointer tap-effect">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-[14px] font-semibold text-red-600">Đăng xuất khỏi phòng 402</span>
+<span class="font-label-mono text-[10px] text-red-400">Xóa phiên đăng nhập trên thiết bị</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-red-500">chevron_right</span>
+</div>
+</section>
+<!-- App version signature -->
+<footer class="text-center py-2 mb-2">
+<p class="font-label-mono text-[10px] text-on-surface-variant">DUE BRO v2.4.0 • BUILT FOR GEN-Z FLATMATES</p>
+</footer>
+</div>
+
+<!-- Logout Confirmation Modal -->
+<div id="logout-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+  <div class="w-full max-w-[420px] bg-white rounded-t-3xl sm:rounded-3xl p-5 space-y-4 border border-[#E4E4E7] shadow-2xl">
+    <div class="w-10 h-1 bg-[#E4E4E7] rounded-full mx-auto sm:hidden"></div>
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-12 rounded-2xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-[24px]">logout</span>
+      </div>
+      <div>
+        <h3 class="font-outfit text-[17px] font-bold text-[#18181B]">Đăng xuất tài khoản?</h3>
+        <p class="text-[12px] text-[#71717A]">Việc nhà và hạn chót phòng 402 vẫn đang chờ bạn đấy!</p>
+      </div>
+    </div>
+    
+    <div class="bg-[#F4F4F5] rounded-2xl p-3 text-[12px] text-[#18181B] flex items-center gap-2 border border-[#E4E4E7]">
+      <span class="text-base">🧢</span>
+      <p><strong class="text-[#7C3AED]">Lời nhắn từ Bro:</strong> Đăng xuất xong nhớ quay lại nhận ca rửa bát trước 22:30 nha Bro, không là ăn đòn tâm lý 💀</p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-2 pt-1">
+      <button onclick="closeLogoutModal()" type="button" class="py-3 px-4 rounded-xl border border-[#E4E4E7] font-semibold text-[13px] text-[#18181B] hover:bg-[#F4F4F5] tap-effect">
+        Ở lại phòng
+      </button>
+      <button onclick="confirmLogout()" type="button" class="py-3 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-[13px] tactile-btn tap-effect flex items-center justify-center gap-1 shadow-md">
+        <span>Đăng xuất</span>
+        <span class="material-symbols-outlined text-[16px]">logout</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+    <!-- Fixed Bottom Navigation Bar (Standard Unified 4 Destinations) -->
+    <nav class="fixed bottom-0 left-0 right-0 w-full max-w-[420px] mx-auto z-50 flex justify-around items-center px-3 py-2 bg-white/95 backdrop-blur-md border-t border-[#E4E4E7] shadow-lg">
+      <!-- 1. Chore Hub -->
+      <a href="index.html" class="flex flex-col items-center justify-center text-[#71717A] px-3 py-1.5 transition-colors hover:text-[#18181B] tap-effect">
+        <span class="material-symbols-outlined text-[22px]">checklist</span>
+        <span class="font-mono text-[10px] mt-0.5 font-medium">Chore Hub</span>
+      </a>
+
+      <!-- 2. Deadlines -->
+      <a href="deadlines.html" class="flex flex-col items-center justify-center text-[#71717A] px-3 py-1.5 transition-colors hover:text-[#18181B] tap-effect">
+        <span class="material-symbols-outlined text-[22px]">schedule</span>
+        <span class="font-mono text-[10px] mt-0.5 font-medium">Deadlines</span>
+      </a>
+
+      <!-- 3. Scoreboard -->
+      <a href="scoreboard.html" class="flex flex-col items-center justify-center text-[#71717A] px-3 py-1.5 transition-colors hover:text-[#18181B] tap-effect">
+        <span class="material-symbols-outlined text-[22px]">leaderboard</span>
+        <span class="font-mono text-[10px] mt-0.5 font-medium">Scoreboard</span>
+      </a>
+
+      <!-- 4. Profile (ACTIVE) -->
+      <a href="profile.html" class="flex flex-col items-center justify-center bg-[#18181B] text-white rounded-full px-3.5 py-1.5 transition-transform duration-100 active:translate-y-[2px] shadow-sm tap-effect">
+        <span class="material-symbols-outlined text-[20px]" data-weight="fill">person</span>
+        <span class="font-mono text-[10px] mt-0.5 font-bold">Profile</span>
+      </a>
+    </nav>
+  </main>
+<!-- Inline Script for Micro-Interactions -->
+<script>
+    function toggleAwayMode() {
+      const toggle = document.getElementById('away-toggle');
+      const knob = document.getElementById('away-knob');
+      const isChecked = toggle.getAttribute('aria-checked') === 'true';
+
+      if (!isChecked) {
+        toggle.setAttribute('aria-checked', 'true');
+        toggle.classList.remove('bg-[#E4E4E7]');
+        toggle.classList.add('bg-coral-alert');
+        knob.classList.add('translate-x-5');
+      } else {
+        toggle.setAttribute('aria-checked', 'false');
+        toggle.classList.remove('bg-coral-alert');
+        toggle.classList.add('bg-[#E4E4E7]');
+        knob.classList.remove('translate-x-5');
+      }
+    }
+
+    function openLogoutModal() {
+      document.getElementById('logout-modal').classList.remove('hidden');
+    }
+
+    function closeLogoutModal() {
+      document.getElementById('logout-modal').classList.add('hidden');
+    }
+
+    function confirmLogout() {
+      localStorage.removeItem('due_bro_user');
+      alert('👋 Bro ơi, bạn đã đăng xuất khỏi Phòng 402 thành công! Hẹn gặp lại nhé!');
+      window.location.href = 'login.html';
+    }
+
+    // Hydrate user profile from localStorage if present
+    document.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('due_bro_user');
+      if (saved) {
+        try {
+          const u = JSON.parse(saved);
+          const nameEl = document.querySelector('h2.font-headline-md');
+          if (nameEl && u.name) nameEl.innerText = u.name;
+          const avatarEl = document.querySelector('.w-14.h-14 span');
+          if (avatarEl && u.name) avatarEl.innerText = u.name.charAt(0);
+          const roleEl = document.querySelector('span.bg-\\[\\#7C3AED\\]\\/10');
+          if (roleEl && u.role) {
+            roleEl.innerText = u.role === 'Host' ? 'Trưởng Phòng 402' : 'Thành Viên Phòng 402';
+          }
+        } catch(e) {}
+      }
+    });
+  </script>
+</body></html>
