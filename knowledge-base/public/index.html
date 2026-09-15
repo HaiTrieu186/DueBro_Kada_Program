@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Due Bro — Room 402</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&amp;family=Outfit:wght@500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary": "#000000",
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#5f5e61",
+            "surface-subtle": "#F4F4F5",
+            "surface-container": "#eeeeed",
+            "surface-container-low": "#f3f4f3",
+            "on-surface-variant": "#47464b",
+            "outline": "#77767b",
+            "surface-bright": "#f9f9f8",
+            "card-bg": "#FFFFFF",
+            "tertiary-fixed-dim": "#d2bbff",
+            "inverse-primary": "#c8c5ca",
+            "on-background": "#1a1c1c",
+            "on-secondary-fixed-variant": "#46464e",
+            "error-container": "#ffdad6",
+            "secondary-fixed-dim": "#c6c5cf",
+            "on-error-container": "#93000a",
+            "on-error": "#ffffff",
+            "primary": "#000000",
+            "on-surface": "#1a1c1c",
+            "secondary-container": "#e3e1ec",
+            "primary-fixed-dim": "#c8c5ca",
+            "inverse-surface": "#2f3130",
+            "secondary-fixed": "#e3e1ec",
+            "on-tertiary-container": "#9863ff",
+            "on-primary-fixed-variant": "#47464a",
+            "mint-reward": "#10B981",
+            "on-tertiary": "#ffffff",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "outline-variant": "#c8c5cb",
+            "surface": "#f9f9f8",
+            "on-secondary-fixed": "#1a1b22",
+            "secondary": "#5d5e66",
+            "on-secondary": "#ffffff",
+            "hairline-border": "#E4E4E7",
+            "tertiary-container": "#25005a",
+            "surface-variant": "#e2e2e2",
+            "primary-container": "#1b1b1e",
+            "on-tertiary-fixed": "#25005a",
+            "primary-fixed": "#e4e1e6",
+            "on-secondary-container": "#63646c",
+            "coral-alert": "#F97316",
+            "on-primary-fixed": "#1b1b1e",
+            "surface-container-high": "#e8e8e7",
+            "inverse-on-surface": "#f1f1f0",
+            "surface-dim": "#dadad9",
+            "on-tertiary-fixed-variant": "#5a00c6",
+            "surface-container-highest": "#e2e2e2",
+            "on-primary-container": "#858387",
+            "tertiary-fixed": "#eaddff",
+            "background": "#f9f9f8"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xl": "2.5rem",
+            "margin": "1.5rem",
+            "gutter": "1rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "gutter-mobile": "0.75rem",
+            "margin-mobile": "1rem"
+          },
+          "fontFamily": {
+            "headline-lg": ["Outfit"],
+            "display-hero": ["Outfit"],
+            "headline-lg-mobile": ["Outfit"],
+            "display-hero-mobile": ["Outfit"],
+            "headline-sm": ["Outfit"],
+            "metric-md": ["JetBrains Mono"],
+            "label-mono": ["JetBrains Mono"],
+            "metric-lg": ["JetBrains Mono"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Outfit"],
+            "outfit": ["Outfit", "sans-serif"],
+            "mono": ["JetBrains Mono", "monospace"]
+          },
+          "fontSize": {
+            "headline-lg": ["32px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "display-hero": ["48px", {"lineHeight": "52px", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+            "headline-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "display-hero-mobile": ["36px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+            "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+            "metric-md": ["16px", {"lineHeight": "20px", "fontWeight": "600"}],
+            "label-mono": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500"}],
+            "metric-lg": ["28px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+            "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "500"}],
+            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+            "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F4F4F5;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #18181B;
+      -webkit-font-smoothing: antialiased;
+    }
+    .tactile-press {
+      box-shadow: 0 2px 0 0 #18181B;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    .tactile-press:active {
+      transform: translateY(2px);
+      box-shadow: 0 0 0 0 transparent;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .tap-effect {
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+    .tap-effect:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex justify-center items-start sm:py-8 sm:px-4 bg-[#F4F4F5]">
+<!-- Outer Mobile Shell (Strictly max-w-[420px] on canvas, responsive standard) -->
+<main class="w-full max-w-[420px] bg-[#FAFAF9] min-h-screen sm:min-h-[860px] sm:rounded-[36px] sm:shadow-2xl border-x sm:border border-[#E4E4E7] relative flex flex-col pb-28 overflow-hidden">
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E4E4E7] px-4 py-2.5 flex justify-between items-center w-full max-w-[420px] mx-auto">
+  <!-- Left Pill: Room Identity -->
+  <div class="flex items-center gap-1.5 bg-white border border-[#E4E4E7] rounded-full px-2.5 py-1 shadow-xs">
+    <span class="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
+    <span class="font-mono text-[11px] text-[#18181B] font-semibold">Brothers Room 402</span>
+  </div>
+  <!-- Center Title -->
+  <h1 class="font-outfit text-[16px] font-bold text-[#18181B] tracking-tight">Chore Hub</h1>
+  <!-- Right Action: Notification Bell -->
+  <button id="bell-btn" aria-label="Thông báo" class="relative w-9 h-9 rounded-full bg-white border border-[#E4E4E7] flex items-center justify-center text-[#18181B] hover:bg-[#F4F4F5] active:translate-y-[2px] transition-transform shadow-xs tap-effect cursor-pointer" type="button" onclick="openNotificationDrawer()">
+    <span class="material-symbols-outlined text-[19px]">notifications</span>
+    <span id="unread-dot" class="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#F97316] ring-2 ring-white"></span>
+  </button>
+</header>
+<!-- Main Content Stream -->
+<div class="px-margin-mobile pt-space-xs flex flex-col gap-space-md">
+<!-- Dynamic Mascot Hero Card (Bento Style Focus) -->
+<section class="bg-card-bg border border-hairline-border rounded-3xl p-4 sm:p-5 relative overflow-hidden tactile-press">
+<div class="flex items-start justify-between gap-3">
+<div class="flex-1">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-subtle border border-hairline-border mb-2">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-wider">ROOM STREAK: 6 DAYS 🔥</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold tracking-tight">
+              Bro, 2 tasks due tonight.
+            </h1>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+              Keep the streak alive. Dinner dishes &amp; trash pickup.
+            </p>
+</div>
+<!-- Mascot Bro Avatar -->
+<div class="shrink-0">
+<img alt="Mascot Bro Avatar" class="w-[72px] h-[72px] rounded-2xl object-cover bg-surface-container-low border border-hairline-border" src="https://lh3.googleusercontent.com/aida/AEtjO1WBVvnkY__M4uLkV-x4CQcuTguJvQU_TYfYJqV6SypD5RyZr4c7h3qLyTfJ35NqTprEOGbwIczRVIbar2kCeZ10Z1hYsDZ-AouIsXz5DlvXdlASYlXRV2MseLywTyL8SgGqGnuegwgwD3uSl4TF3xi-0bsVAJbCFM_15-gsPAzLFluj16MiBDlrWtPRIHtvNfJjCppBmt5E8rgq-sRJ3Z_2v8K9bFf_bBvNyIcp0snApUH48loZwpVVd2Q"/>
+</div>
+</div>
+<!-- Room Quota Progress -->
+<div class="mt-4 pt-3.5 border-t border-hairline-border">
+<div class="flex justify-between items-baseline mb-1.5">
+<span class="font-label-mono text-label-mono text-secondary uppercase font-semibold">Weekly Target</span>
+<span class="font-metric-md text-metric-md text-primary font-bold">35 / 50 PTS</span>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-subtle p-0.5 border border-hairline-border">
+<div class="h-full bg-[#7C3AED] rounded-full transition-all duration-500" style="width: 70%"></div>
+</div>
+</div>
+<!-- Bro AI Speed Lane & Notification Demo Shortcuts -->
+<div class="mt-3 pt-2.5 border-t border-hairline-border flex items-center justify-between gap-2">
+  <a href="add_chore.html" class="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-[#7C3AED] bg-[#F5F3FF] px-2.5 py-1.5 rounded-xl border border-[#DDD6FE] hover:bg-[#EDE9FE] tap-effect">
+    <span>⚡ Hú Bro AI</span>
+    <span>&rarr;</span>
+  </a>
+  <button onclick="triggerPushNotification()" class="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-[#F97316] bg-[#FFF7ED] px-2.5 py-1.5 rounded-xl border border-[#FFEDD5] hover:bg-[#FFEDD5] tap-effect cursor-pointer" type="button">
+    <span>🔔 Bắn Thông Báo Demo</span>
+  </button>
+</div>
+</section>
+<!-- Category Filter Chips (Horizontal Scroll) -->
+<section class="flex items-center gap-2 overflow-x-auto hide-scrollbar py-0.5" role="tablist">
+<button class="bg-primary-container text-on-primary rounded-full px-3.5 py-1.5 font-headline-sm text-body-sm font-semibold shrink-0 active:translate-y-[2px] transition-transform">
+          All Chores (4)
+        </button>
+<button class="bg-card-bg border border-hairline-border text-on-surface hover:bg-surface-subtle rounded-full px-3.5 py-1.5 font-body-sm text-body-sm font-medium shrink-0 active:translate-y-[2px] transition-transform">
+          Assigned to Me (2)
+        </button>
+<a href="deadlines.html" class="bg-card-bg border border-hairline-border text-on-surface hover:bg-surface-subtle rounded-full px-3.5 py-1.5 font-body-sm text-body-sm font-medium shrink-0 active:translate-y-[2px] transition-transform">
+          Shared Bills (1)
+        </a>
+</section>
+<!-- Asymmetric Priority Chore Feed -->
+<section class="flex flex-col gap-3">
+<!-- Card 1: Urgent - 2 hours left -->
+<div class="bg-card-bg rounded-2xl p-4 border border-hairline-border border-l-[4px] border-l-coral-alert tactile-press relative">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-mono text-label-mono px-2 py-0.5 rounded-full bg-[#FFF7ED] text-coral-alert border border-[#FFEDD5] font-bold">
+              URGENT • Due 21:00
+            </span>
+<span class="font-metric-md text-label-mono bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-md font-bold">
+              +5 PTS
+            </span>
+</div>
+<div class="flex items-start justify-between gap-3">
+<div class="flex-1">
+<h2 class="font-headline-sm text-headline-sm text-primary font-bold leading-snug">
+                Đổ rác &amp; thay túi mới
+              </h2>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="w-5 h-5 rounded-full bg-surface-subtle text-primary font-label-mono text-[10px] flex items-center justify-center font-bold border border-hairline-border">
+                  H
+                </span>
+<span class="font-body-sm text-body-sm text-secondary font-medium">
+                  Hoàng • <span class="text-on-surface-variant font-semibold">Bro is watching 💀</span>
+</span>
+</div>
+</div>
+<!-- Custom 24px Tactile Checkbox -->
+<button aria-label="Mark task done" class="w-6 h-6 rounded-lg border-2 border-[#18181B] bg-white flex items-center justify-center mt-1 shrink-0 active:translate-y-[2px] transition-all cursor-pointer" onclick="this.classList.toggle('bg-mint-reward'); this.classList.toggle('border-mint-reward'); const tick=this.querySelector('span'); tick.classList.toggle('opacity-0');">
+<span class="material-symbols-outlined text-white text-base opacity-0 transition-opacity font-bold">check</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Routine Evening -->
+<div class="bg-card-bg rounded-2xl p-4 border border-hairline-border tactile-press">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-mono text-label-mono px-2 py-0.5 rounded-full bg-surface-subtle text-secondary border border-hairline-border font-medium">
+              ROUTINE • Due 22:30
+            </span>
+<span class="font-metric-md text-label-mono bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-md font-bold">
+              +15 PTS
+            </span>
+</div>
+<div class="flex items-start justify-between gap-3">
+<div class="flex-1">
+<h2 class="font-headline-sm text-headline-sm text-primary font-bold leading-snug">
+                Rửa chén bát &amp; dọn bồn bếp
+              </h2>
+<div class="flex items-center gap-2 mt-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#7C3AED]/10 text-[#7C3AED] font-label-mono text-[10px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#7C3AED]"></span> Assigned to You
+                </span>
+</div>
+</div>
+<!-- Tactile Action Button -->
+<button class="bg-[#18181B] text-white px-3.5 py-1.5 rounded-xl font-headline-sm text-body-sm font-bold active:translate-y-0.5 shadow-[0_2px_0_0_#000000] active:shadow-none transition-all mt-1 shrink-0">
+              Bấm Done
+            </button>
+</div>
+</div>
+<!-- Card 3: Shared Bill Deadline Reminder -->
+<div class="border border-[#DDD6FE] bg-[#F5F3FF]/70 rounded-2xl p-4 tactile-press">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-xl bg-[#7C3AED] text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between gap-1">
+<h2 class="font-headline-sm text-body-lg font-bold text-primary leading-tight">
+                  Tiền điện phòng tháng 9 — 480.000đ
+                </h2>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+                Hạn chót: 3 ngày nữa • <span class="font-semibold text-primary">Chia 4: 120.000đ/người</span>
+</p>
+<!-- Bill Status and Avatars -->
+<div class="mt-3 flex items-center justify-between pt-2 border-t border-[#E9D5FF]">
+<span class="font-label-mono text-label-mono text-[#7C3AED] font-bold uppercase tracking-wide">
+                  2/4 Roommates Paid
+                </span>
+<div class="flex items-center -space-x-1.5">
+<span class="w-5 h-5 rounded-full bg-mint-reward text-white font-label-mono text-[9px] font-bold flex items-center justify-center ring-2 ring-white" title="Hoàng paid">✓</span>
+<span class="w-5 h-5 rounded-full bg-mint-reward text-white font-label-mono text-[9px] font-bold flex items-center justify-center ring-2 ring-white" title="Linh paid">✓</span>
+<span class="w-5 h-5 rounded-full bg-surface-variant text-secondary font-label-mono text-[9px] font-bold flex items-center justify-center ring-2 ring-white" title="Nam pending">N</span>
+<span class="w-5 h-5 rounded-full bg-surface-variant text-secondary font-label-mono text-[9px] font-bold flex items-center justify-center ring-2 ring-white" title="Đức pending">Đ</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4: Need Supplies Chore linked to Room Fund -->
+<div class="bg-card-bg rounded-2xl p-4 border border-hairline-border tactile-press">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-mono text-label-mono px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-medium">
+              NHU YẾU PHẨM • Hết đồ dùng
+            </span>
+<span class="font-metric-md text-label-mono bg-purple-50 text-[#7C3AED] border border-purple-200 px-2 py-0.5 rounded-md font-bold">
+              +10 PTS
+            </span>
+</div>
+<div class="flex items-start justify-between gap-3">
+<div class="flex-1">
+<h2 class="font-headline-sm text-headline-sm text-primary font-bold leading-snug">
+                Mua túi rác &amp; nước rửa bát mới
+              </h2>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+                Phòng đã hết túi rác cuộn to. Bro nào tiện đường ghé mua nha!
+              </p>
+<div class="flex items-center gap-2 mt-2.5">
+<a href="fund.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#7C3AED] text-white font-label-mono text-[11px] font-bold active:translate-y-0.5 shadow-sm">
+                <span>⚡ Trích quỹ mua đồ</span>
+                <span class="text-xs">&rarr;</span>
+              </a>
+<span class="text-[11px] font-label-mono text-secondary">Quỹ còn: 485.000đ</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bro Advice / Room Mood Footer Capsule -->
+<section class="bg-card-bg border border-hairline-border rounded-2xl p-3.5 flex items-center gap-3">
+<span class="text-xl">🧢</span>
+<div class="flex-1">
+<p class="font-body-sm text-body-sm text-on-surface-variant font-medium">
+<strong class="text-primary font-semibold">Tip from Bro:</strong> Whoever finishes kitchen dishes unlocks Spotify host rights for tonight’s pre-game.
+          </p>
+</div>
+</section>
+</div>
+  <!-- Floating Action Button (FAB) -->
+  <div class="fixed bottom-20 right-4 sm:right-[calc(50%-190px)] z-50">
+    <a href="add_chore.html" aria-label="Add new chore" class="w-14 h-14 rounded-full bg-[#7C3AED] text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all duration-150 border-2 border-white relative">
+      <span class="material-symbols-outlined text-[28px]">add</span>
+      <span class="absolute -top-1 -right-1 bg-[#10B981] text-white font-mono text-[9px] font-extrabold px-1.5 py-0.5 rounded-full border-2 border-white shadow-xs">AI</span>
+    </a>
+  </div>
+
+  <!-- Bottom Navigation Bar (Standard Unified 4 Destinations) -->
+  <nav class="fixed bottom-0 left-0 right-0 w-full max-w-[420px] mx-auto z-50 flex justify-around items-center px-3 py-2 bg-white/95 backdrop-blur-md border-t border-[#E4E4E7] shadow-lg">
+    <!-- 1. Chore Hub (ACTIVE) -->
+    <a href="index.html" class="flex flex-col items-center justify-center bg-[#18181B] text-white rounded-full px-3.5 py-1.5 transition-transform duration-100 active:translate-y-[2px] shadow-sm tap-effect">
+      <span class="material-symbols-outlined text-[20px]" data-weight="fill">checklist</span>
+      <span class="font-mono text-[10px] mt-0.5 font-bold">Chore Hub</span>
+    </a>
+
+    <!-- 2. Deadlines -->
+    <a href="deadlines.html" class="flex flex-col items-center justify-center text-[#71717A] px-3 py-1.5 transition-colors hover:text-[#18181B] tap-effect">
+      <span class="material-symbols-outlined text-[22px]">schedule</span>
+      <span class="font-mono text-[10px] mt-0.5 font-medium">Deadlines</span>
+    </a>
+
+    <!-- 3. Scoreboard -->
+    <a href="scoreboard.html" class="flex flex-col items-center justify-center text-[#71717A] px-3 py-1.5 transition-colors hover:text-[#18181B] tap-effect">
+      <span class="material-symbols-outlined text-[22px]">leaderboard</span>
+      <span class="font-mono text-[10px] mt-0.5 font-medium">Scoreboard</span>
+    </a>
+
+    <!-- 4. Profile -->
+    <a href="profile.html" class="flex flex-col items-center justify-center text-[#71717A] px-3 py-1.5 transition-colors hover:text-[#18181B] tap-effect">
+      <span class="material-symbols-outlined text-[22px]">person</span>
+      <span class="font-mono text-[10px] mt-0.5 font-medium">Profile</span>
+    </a>
+  </nav>
+
+  <!-- Notification Center Drawer Modal -->
+  <div id="notification-drawer" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+    <div class="w-full max-w-[420px] bg-white rounded-t-3xl sm:rounded-3xl max-h-[85vh] flex flex-col border border-[#E4E4E7] shadow-2xl overflow-hidden">
+      <!-- Drawer Top Header -->
+      <div class="p-4 border-b border-[#E4E4E7] flex items-center justify-between shrink-0 bg-white">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-purple-50 text-[#7C3AED] flex items-center justify-center">
+            <span class="material-symbols-outlined text-[18px]">notifications</span>
+          </div>
+          <div>
+            <h3 class="font-outfit text-[16px] font-bold text-[#18181B] leading-tight">Thông Báo Phòng 402</h3>
+            <span id="notif-counter" class="font-mono text-[10px] text-[#71717A]">3 thông báo mới</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="markAllAsRead()" class="text-[11px] font-mono font-bold text-[#7C3AED] hover:underline px-2 py-1">
+            Đã đọc
+          </button>
+          <button onclick="closeNotificationDrawer()" class="w-8 h-8 rounded-full bg-[#F4F4F5] flex items-center justify-center text-[#71717A] hover:text-[#18181B] tap-effect" aria-label="Đóng">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="px-4 pt-3 pb-1 flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0 bg-white">
+        <button onclick="filterNotifs('all', this)" class="notif-tab bg-[#18181B] text-white px-3 py-1 rounded-full text-[11px] font-mono font-bold active:scale-95 transition-all">
+          Tất cả (3)
+        </button>
+        <button onclick="filterNotifs('chore', this)" class="notif-tab bg-[#F4F4F5] text-[#71717A] hover:text-[#18181B] px-3 py-1 rounded-full text-[11px] font-mono font-medium active:scale-95 transition-all">
+          Việc nhà (2)
+        </button>
+        <button onclick="filterNotifs('fund', this)" class="notif-tab bg-[#F4F4F5] text-[#71717A] hover:text-[#18181B] px-3 py-1 rounded-full text-[11px] font-mono font-medium active:scale-95 transition-all">
+          Quỹ &amp; Bills (1)
+        </button>
+      </div>
+
+      <!-- Notification Stream List -->
+      <div class="p-4 space-y-3 overflow-y-auto no-scrollbar flex-1" id="notif-list">
+        <!-- Item 1: Urgent chore nudge -->
+        <div class="notif-item p-3.5 rounded-2xl border-2 border-[#FFEDD5] bg-[#FFF7ED] flex items-start gap-3 shadow-xs transition-all" data-type="chore">
+          <div class="w-9 h-9 rounded-xl bg-orange-100 text-[#EA580C] flex items-center justify-center shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-[20px]">warning</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-[10px] font-bold text-[#EA580C] uppercase">CÀ KHỊA KHẨN CẤP 💀</span>
+              <span class="font-mono text-[10px] text-[#71717A]">5 phút trước</span>
+            </div>
+            <p class="text-[13px] font-bold text-[#18181B] mt-0.5">
+              Bro Hoàng ơi! Bồn rửa bát sắp trễ hạn 15 phút!
+            </p>
+            <p class="text-[12px] text-[#71717A] mt-0.5 leading-snug">
+              Đến 22:30 là hết giờ. Làm nhanh kẻo bị đóng băng task nha Bro!
+            </p>
+            <div class="mt-2 flex items-center gap-2">
+              <button onclick="closeNotificationDrawer()" class="px-3 py-1 bg-[#18181B] text-white text-[11px] font-mono font-bold rounded-lg tap-effect">
+                Bấm Done Ngay
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2: Fund Drawdown Request -->
+        <div class="notif-item p-3.5 rounded-2xl border border-hairline-border bg-white flex items-start gap-3 shadow-xs hover:border-[#DDD6FE] transition-all" data-type="fund">
+          <div class="w-9 h-9 rounded-xl bg-purple-50 text-[#7C3AED] flex items-center justify-center shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-[10px] font-bold text-[#7C3AED] uppercase">TRÍCH QUỸ MỚI</span>
+              <span class="font-mono text-[10px] text-[#71717A]">25 phút trước</span>
+            </div>
+            <p class="text-[13px] font-bold text-[#18181B] mt-0.5">
+              Nam vừa yêu cầu trích 85.000đ mua túi rác &amp; xà phòng
+            </p>
+            <p class="text-[12px] text-[#71717A] mt-0.5 leading-snug">
+              Chế độ Phê duyệt ngầm 12h đang đếm ngược. Nếu không ai khiếu nại thì quỹ tự động duyệt chi!
+            </p>
+            <div class="mt-2">
+              <a href="fund.html" class="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-[#7C3AED] hover:underline">
+                <span>Xem chi tiết bill &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3: Routine Deadline -->
+        <div class="notif-item p-3.5 rounded-2xl border border-hairline-border bg-white flex items-start gap-3 shadow-xs hover:border-[#DDD6FE] transition-all" data-type="fund">
+          <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-[20px]">bolt</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-[10px] font-bold text-blue-600 uppercase">HẠN TIỀN ĐIỆN PHÒNG</span>
+              <span class="font-mono text-[10px] text-[#71717A]">2 giờ trước</span>
+            </div>
+            <p class="text-[13px] font-bold text-[#18181B] mt-0.5">
+              Hạn đóng tiền điện tháng 9 (120k/người) còn 2 ngày
+            </p>
+            <p class="text-[12px] text-[#71717A] mt-0.5 leading-snug">
+              Hiện đã có 2/4 bạn đã thanh toán (Hoàng, Linh).
+            </p>
+            <div class="mt-2">
+              <a href="deadlines.html" class="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-blue-600 hover:underline">
+                <span>Mở danh sách nộp tiền &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Trigger Test Push Banner Button -->
+      <div class="p-4 border-t border-[#E4E4E7] bg-[#FAFAF9] shrink-0">
+        <button onclick="triggerPushNotification(); closeNotificationDrawer();" type="button" class="w-full bg-[#F97316] hover:bg-[#EA580C] text-white font-outfit text-[14px] font-bold py-3 rounded-2xl flex items-center justify-center gap-2 tactile-btn tap-effect shadow-sm">
+          <span>🔔 Bắn Thử Push Notification (Demo)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Floating In-App Push Banner -->
+  <div id="push-banner" class="fixed top-3 left-1/2 -translate-x-1/2 w-[calc(100%-24px)] max-w-[396px] z-[9999] transition-all duration-300 ease-out transform -translate-y-36 opacity-0 pointer-events-none">
+    <div class="bg-[#18181B] text-white rounded-3xl p-3.5 shadow-2xl border border-white/20 flex items-start gap-3 backdrop-blur-xl">
+      <div class="relative shrink-0 mt-0.5">
+        <img alt="Mascot Bro" class="w-10 h-10 rounded-xl object-cover bg-white/10 border border-white/20" src="https://lh3.googleusercontent.com/aida/AEtjO1WBVvnkY__M4uLkV-x4CQcuTguJvQU_TYfYJqV6SypD5RyZr4c7h3qLyTfJ35NqTprEOGbwIczRVIbar2kCeZ10Z1hYsDZ-AouIsXz5DlvXdlASYlXRV2MseLywTyL8SgGqGnuegwgwD3uSl4TF3xi-0bsVAJbCFM_15-gsPAzLFluj16MiBDlrWtPRIHtvNfJjCppBmt5E8rgq-sRJ3Z_2v8K9bFf_bBvNyIcp0snApUH48loZwpVVd2Q"/>
+        <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#F97316] ring-2 ring-[#18181B] flex items-center justify-center text-[8px] font-bold">!</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center justify-between gap-1">
+          <span class="font-mono text-[10px] uppercase font-bold text-[#A1A1AA] tracking-wider">DUE BRO BOT • PUSH DEMO</span>
+          <span class="font-mono text-[10px] text-[#A1A1AA]">Vừa xong</span>
+        </div>
+        <h4 id="push-title" class="font-outfit text-[14px] font-bold text-white mt-0.5 leading-snug">
+          Bro Hoàng ơi, bồn rửa bát sắp bốc mùi! 💀
+        </h4>
+        <p id="push-body" class="text-[12px] text-zinc-300 mt-0.5 leading-tight">
+          Còn 15 phút nữa là tới deadline 22:30. Vào xác nhận ngay kẻo ăn đòn tâm lý!
+        </p>
+        <div class="flex items-center gap-2 mt-2.5 pt-1 border-t border-white/10">
+          <button onclick="dismissPushBanner()" class="text-[11px] font-mono text-zinc-400 hover:text-white px-2 py-1 rounded-lg">
+            Để lát nữa
+          </button>
+          <button onclick="dismissPushBanner(); alert('Đã mở task rửa bát!');" class="text-[11px] font-mono font-bold text-black bg-[#10B981] px-3 py-1 rounded-lg hover:bg-[#059669] transition-colors flex items-center gap-1">
+            <span>Bấm Done Ngay</span>
+            <span>&rarr;</span>
+          </button>
+        </div>
+      </div>
+      <button onclick="dismissPushBanner()" class="text-zinc-400 hover:text-white p-0.5" aria-label="Đóng thông báo">
+        <span class="material-symbols-outlined text-[16px]">close</span>
+      </button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function openNotificationDrawer() {
+    document.getElementById('notification-drawer').classList.remove('hidden');
+    // Hide unread dot
+    const dot = document.getElementById('unread-dot');
+    if (dot) dot.classList.add('hidden');
+  }
+
+  function closeNotificationDrawer() {
+    document.getElementById('notification-drawer').classList.add('hidden');
+  }
+
+  function markAllAsRead() {
+    document.getElementById('notif-counter').innerText = "0 thông báo chưa đọc";
+    document.querySelectorAll('.notif-item').forEach(el => {
+      el.classList.remove('border-2', 'border-[#FFEDD5]', 'bg-[#FFF7ED]');
+      el.classList.add('border-hairline-border', 'bg-white', 'opacity-70');
+    });
+    const dot = document.getElementById('unread-dot');
+    if (dot) dot.classList.add('hidden');
+    alert("✓ Đã đánh dấu đọc tất cả thông báo!");
+  }
+
+  function filterNotifs(type, btn) {
+    document.querySelectorAll('.notif-tab').forEach(b => {
+      b.className = "notif-tab bg-[#F4F4F5] text-[#71717A] hover:text-[#18181B] px-3 py-1 rounded-full text-[11px] font-mono font-medium active:scale-95 transition-all";
+    });
+    if (btn) {
+      btn.className = "notif-tab bg-[#18181B] text-white px-3 py-1 rounded-full text-[11px] font-mono font-bold active:scale-95 transition-all";
+    }
+
+    const items = document.querySelectorAll('.notif-item');
+    items.forEach(item => {
+      if (type === 'all' || item.getAttribute('data-type') === type) {
+        item.classList.remove('hidden');
+      } else {
+        item.classList.add('hidden');
+      }
+    });
+  }
+
+  // Push notification demo simulation with sound/vibration
+  const samplePushes = [
+    {
+      title: "Bro Hoàng ơi, bồn rửa bát sắp bốc mùi! 💀",
+      body: "Còn 15 phút nữa là tới deadline 22:30. Vào xác nhận ngay kẻo ăn đòn tâm lý!"
+    },
+    {
+      title: "Nam vừa tạo lệnh trích quỹ 85.000đ 🛒",
+      body: "Tiền mua túi rác & bột giặt Omo. Đang đếm ngược 12h Silent Approval!"
+    },
+    {
+      title: "CÒI BÁO ĐỘNG SOS 🚨: Ca cọ WC gấp!",
+      body: "Ai trong phòng giải cứu task này trước 21h được x1.5 PTS luôn nhé!"
+    },
+    {
+      title: "Bro, it's due! Tiền điện tháng 9 ⚡",
+      body: "Hạn chót ngày mai (120.000đ/người). Còn 2/4 bạn chưa nộp tiền!"
+    }
+  ];
+
+  let pushTimeout = null;
+
+  function triggerPushNotification() {
+    const banner = document.getElementById('push-banner');
+    const randomPush = samplePushes[Math.floor(Math.random() * samplePushes.length)];
+    
+    document.getElementById('push-title').innerText = randomPush.title;
+    document.getElementById('push-body').innerText = randomPush.body;
+
+    // Show banner with spring drop animation
+    banner.classList.remove('-translate-y-36', 'opacity-0', 'pointer-events-none');
+    banner.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+
+    // Subtle vibration feedback if supported
+    if (navigator.vibrate) {
+      navigator.vibrate([40, 60, 40]);
+    }
+
+    // Auto dismiss after 5 seconds
+    if (pushTimeout) clearTimeout(pushTimeout);
+    pushTimeout = setTimeout(() => {
+      dismissPushBanner();
+    }, 5000);
+  }
+
+  function dismissPushBanner() {
+    const banner = document.getElementById('push-banner');
+    banner.classList.add('-translate-y-36', 'opacity-0', 'pointer-events-none');
+    banner.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+  }
+
+  // Check auth on load
+  document.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('due_bro_user');
+    if (saved) {
+      try {
+        const u = JSON.parse(saved);
+        // show brief welcome toast or adjust name
+        console.log("Logged in user:", u.name);
+      } catch(e) {}
+    }
+  });
+</script>
+</body>
+</html>

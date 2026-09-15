@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Due Bro — Quỹ phòng trọ & Trích quỹ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            outfit: ['Outfit', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              purple: '#7C3AED',
+              purpleHover: '#6D28D9',
+              purpleLight: '#F5F3FF',
+              purpleBorder: '#DDD6FE',
+              charcoal: '#18181B',
+              muted: '#71717A',
+              lightMuted: '#A1A1AA',
+              bg: '#FAFAF9',
+              card: '#FFFFFF',
+              border: '#E4E4E7',
+              coral: '#F97316',
+              coralLight: '#FFF7ED',
+              coralBorder: '#FFEDD5',
+              mint: '#10B981',
+              mintLight: '#ECFDF5',
+              mintBorder: '#A7F3D0',
+            }
+          },
+          boxShadow: {
+            card: '0 2px 8px -2px rgba(24, 24, 27, 0.05), 0 1px 2px rgba(24, 24, 27, 0.04)',
+            floatBtn: '0 8px 24px -4px rgba(124, 58, 237, 0.35), 0 2px 6px -1px rgba(24, 24, 27, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F4F4F5;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #18181B;
+      -webkit-font-smoothing: antialiased;
+    }
+    .tap-effect {
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+    .tap-effect:active {
+      transform: scale(0.97);
+    }
+    /* Modal slide-up transition */
+    .sheet-enter {
+      animation: sheetUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes sheetUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .fade-enter {
+      animation: fadeIn 0.2s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex justify-center items-start sm:py-8 sm:px-4 bg-[#F4F4F5]">
+
+  <!-- Mobile Viewport Container (390px - 420px base) -->
+  <main class="w-full max-w-[420px] bg-[#FAFAF9] min-h-screen sm:min-h-[860px] sm:rounded-[36px] sm:shadow-2xl border-x sm:border border-brand-border relative flex flex-col pb-28 overflow-hidden">
+
+    <!-- Top App Bar (Sub-Screen Standard) -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E4E4E7] px-4 py-2.5 flex justify-between items-center w-full max-w-[420px] mx-auto">
+      <!-- Left: Back Button to Parent Tab (Deadlines) -->
+      <a href="deadlines.html" class="w-9 h-9 rounded-full bg-white border border-[#E4E4E7] flex items-center justify-center text-[#18181B] hover:bg-[#F4F4F5] active:translate-y-[2px] transition-transform shadow-xs tap-effect" aria-label="Quay lại">
+        <span class="material-symbols-outlined text-[19px]">arrow_back</span>
+      </a>
+
+      <!-- Center: Screen Title -->
+      <div class="text-center">
+        <div class="flex items-center justify-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+          <span class="text-[10px] font-mono font-semibold text-[#71717A]">Phòng 402</span>
+        </div>
+        <h1 class="text-[15px] font-outfit font-bold text-[#18181B] leading-tight">Tài Chính & Quỹ Phòng</h1>
+      </div>
+
+      <!-- Right: Toggle Fund State Button -->
+      <div class="flex items-center justify-end">
+        <button id="toggleFundStateBtn" onclick="toggleFundState()" class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold border flex items-center gap-1.5 transition-colors bg-brand-purpleLight text-brand-purple border-brand-purpleBorder tap-effect shadow-xs" title="Đổi trạng thái Quỹ Bật / Tắt">
+          <span id="fundStateDot" class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+          <span id="fundStateText">Quỹ: Bật</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Segmented Navigation Pill (Hóa đơn cố định ⇄ Quỹ phòng trọ) -->
+    <div class="px-4 pt-3">
+      <div class="bg-[#E4E4E7]/60 p-1 rounded-2xl grid grid-cols-2 gap-1 text-center font-outfit text-xs font-semibold">
+        <a href="deadlines.html" class="py-1.5 rounded-xl text-brand-muted hover:text-brand-charcoal transition-all">
+          💡 Hóa đơn chung (3)
+        </a>
+        <button class="py-1.5 rounded-xl bg-white text-brand-charcoal shadow-sm transition-all border border-brand-border/60 flex items-center justify-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-purple"></span>
+          <span>💰 Quỹ phòng trọ</span>
+          <span class="text-[9px] font-mono uppercase bg-brand-purpleLight text-brand-purple px-1.5 py-0.2 rounded font-bold">Tùy chọn</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Scrollable Content Area -->
+    <div class="px-4 pt-3.5 space-y-4 flex-1">
+
+      <!-- ======================================================== -->
+      <!-- VIEW 1: TRẠNG THÁI QUỸ ĐANG TẮT (OPTIONAL EMPTY / DISCOVERY STATE) -->
+      <!-- ======================================================== -->
+      <section id="fundDisabledView" class="hidden space-y-4">
+        <!-- Discovery Mascot Hero Card -->
+        <div class="bg-white rounded-3xl p-6 border border-brand-border shadow-card text-center relative overflow-hidden">
+          <div class="w-16 h-16 mx-auto mb-3 bg-brand-purpleLight rounded-2xl border border-brand-purpleBorder flex items-center justify-center text-3xl shadow-sm">
+            😎
+          </div>
+          <span class="inline-flex items-center gap-1 text-[11px] font-mono font-semibold uppercase tracking-wider text-brand-muted bg-[#F4F4F5] px-3 py-1 rounded-full mb-2">
+            Tính năng tùy chọn
+          </span>
+          <h2 class="font-outfit font-extrabold text-xl text-brand-charcoal mb-2">
+            Phòng chưa bật Quỹ chung
+          </h2>
+          <p class="text-xs text-brand-muted leading-relaxed max-w-xs mx-auto mb-5">
+            Quỹ phòng trọ là tính năng tùy chọn. Bật quỹ giúp anh em mua mắm, muối, giấy vệ sinh được tự động hoàn tiền mà không ngại đòi tiền lẻ!
+          </p>
+
+          <!-- 3 Perks of Room Fund -->
+          <div class="space-y-2.5 text-left mb-6">
+            <div class="flex items-start gap-2.5 p-3 rounded-2xl bg-[#FAFAF9] border border-brand-border/70">
+              <span class="text-base leading-none">⚡</span>
+              <div>
+                <h4 class="text-xs font-bold font-outfit text-brand-charcoal">Trích tiền mua đồ vặt siêu tốc</h4>
+                <p class="text-[11px] text-brand-muted">Mua xong tải bill lên, tự động trừ quỹ ảo và nhận hoàn tiền.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-2.5 p-3 rounded-2xl bg-[#FAFAF9] border border-brand-border/70">
+              <span class="text-base leading-none">🛡️</span>
+              <div>
+                <h4 class="text-xs font-bold font-outfit text-brand-charcoal">Phê duyệt ngầm 12h văn minh</h4>
+                <p class="text-[11px] text-brand-muted">Hết 12 giờ không ai thắc mắc -> Tự động duyệt, không sợ làm phiền nhau.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-2.5 p-3 rounded-2xl bg-[#FAFAF9] border border-brand-border/70">
+              <span class="text-base leading-none">🍲</span>
+              <div>
+                <h4 class="text-xs font-bold font-outfit text-brand-charcoal">Tích hợp Quỹ lẩu / Party cuối tuần</h4>
+                <p class="text-[11px] text-brand-muted">Tiền phạt trễ việc nhà tự động nộp vào quỹ ăn chơi của cả phòng.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activate Button -->
+          <button onclick="activateFund()" class="w-full py-3.5 bg-brand-purple hover:bg-brand-purpleHover text-white rounded-2xl font-outfit font-bold text-sm flex items-center justify-center gap-2 tap-effect shadow-floatBtn">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            <span>Kích hoạt Quỹ phòng trọ ngay</span>
+          </button>
+          <p class="text-[10px] text-brand-lightMuted mt-2 font-mono">Dành cho Trưởng phòng (Host) • Có thể tắt và tất toán bất cứ lúc nào</p>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- VIEW 2: TRẠNG THÁI QUỸ ĐANG BẬT (ACTIVE STATE) -->
+      <!-- ======================================================== -->
+      <section id="fundActiveView" class="space-y-4">
+
+        <!-- Dynamic Hero Fund Balance Card -->
+        <div class="bg-white rounded-3xl p-5 border border-brand-border shadow-card relative overflow-hidden">
+          <!-- Top Tag & Sinking Fund Status -->
+          <div class="flex justify-between items-start mb-2">
+            <div>
+              <span class="inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold uppercase tracking-wider text-brand-muted bg-[#F4F4F5] px-2.5 py-1 rounded-full">
+                <span class="w-2 h-2 rounded-full bg-brand-mint animate-pulse"></span>
+                Quỹ sinh hoạt tháng 09
+              </span>
+              <h2 class="text-xs font-semibold text-brand-muted mt-2">Số dư khả dụng hiện tại</h2>
+            </div>
+            <!-- Low Balance or Healthy Badge -->
+            <span id="fundHealthBadge" class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-brand-mintLight text-brand-mint border border-brand-mintBorder">
+              Dồi dào (+75k tuần này)
+            </span>
+          </div>
+
+          <!-- Main Amount Display -->
+          <div class="flex items-baseline justify-between mb-3">
+            <span id="fundBalanceDisplay" class="font-outfit font-extrabold text-3xl tracking-tight text-brand-charcoal">
+              485.000<span class="text-xl font-bold font-mono">đ</span>
+            </span>
+            <span class="text-[11px] font-mono text-brand-muted">
+              Định mức: 600.000đ
+            </span>
+          </div>
+
+          <!-- Fund Health Progress Bar (Target Buffer) -->
+          <div class="space-y-1 mb-4">
+            <div class="w-full bg-[#E4E4E7] h-2.5 rounded-full overflow-hidden flex">
+              <div id="fundProgressBar" class="bg-brand-mint h-full rounded-full transition-all duration-500" style="width: 80%"></div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] text-brand-muted font-mono">
+              <span>Đệm an toàn: 100.000đ</span>
+              <span class="text-brand-purple font-semibold">Đạt 80% chỉ tiêu phòng</span>
+            </div>
+          </div>
+
+          <!-- Mascot Bro Micro-Quote Widget -->
+          <div class="bg-[#FAFAF9] rounded-2xl p-3 border border-brand-border/80 flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-brand-purpleLight border border-brand-purpleBorder flex items-center justify-center text-xl shrink-0">
+              😎
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-1.5">
+                <span class="font-outfit font-bold text-xs text-brand-charcoal">Mascot Bro</span>
+                <span class="text-[9px] font-mono bg-brand-mintLight text-brand-mint px-1.5 py-0.2 rounded font-semibold">Thủ quỹ ảo</span>
+              </div>
+              <p class="text-xs text-brand-muted mt-0.5 leading-tight">
+                "Bro ơi, quỹ đang rủng rỉnh 485k! Cần mua mắm muối giấy rác cứ ứng rồi bấm trích nhé."
+              </p>
+            </div>
+          </div>
+
+          <!-- Fast CTA Buttons: Trích Quỹ & Nạp VietQR -->
+          <div class="grid grid-cols-2 gap-2">
+            <!-- Drawdown Button (Primary) -->
+            <button onclick="openDrawdownModal()" class="py-2.5 px-3 bg-brand-purple hover:bg-brand-purpleHover text-white rounded-xl font-outfit font-bold text-xs flex items-center justify-center gap-1.5 tap-effect shadow-floatBtn">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+              <span>⚡ Trích quỹ mua đồ</span>
+            </button>
+
+            <!-- Refill Button (VietQR) -->
+            <button onclick="openRefillModal()" class="py-2.5 px-3 bg-white hover:bg-[#FAFAF9] text-brand-charcoal border border-brand-border rounded-xl font-outfit font-bold text-xs flex items-center justify-center gap-1.5 tap-effect shadow-sm">
+              <svg class="w-4 h-4 text-brand-purple" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
+              </svg>
+              <span>+ Nạp quỹ (VietQR)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Section 1: Đang chờ Phê duyệt ngầm (Silent Approval 12h) -->
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-brand-coral animate-ping"></span>
+              <h3 class="font-outfit font-bold text-xs text-brand-charcoal uppercase tracking-wider">
+                Chờ duyệt ngầm (2 phiếu)
+              </h3>
+            </div>
+            <span class="text-[11px] font-mono text-brand-muted">Silent Approval 12h</span>
+          </div>
+
+          <!-- Pending Card 1: Túi rác + Nước rửa chén -->
+          <article class="bg-white rounded-2xl border border-brand-border shadow-card p-3.5 relative overflow-hidden border-l-4 border-l-brand-coral">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-brand-coralLight border border-brand-coralBorder flex items-center justify-center text-brand-coral font-outfit font-bold text-xs">
+                  H
+                </div>
+                <div>
+                  <h4 class="font-outfit font-bold text-sm text-brand-charcoal leading-snug">
+                    Túi rác sinh học + Sunlight chanh
+                  </h4>
+                  <p class="text-[10px] text-brand-muted">
+                    Ứng bởi <strong class="text-brand-charcoal font-medium">Hoàng</strong> • 15 phút trước
+                  </p>
+                </div>
+              </div>
+              <span class="font-outfit font-extrabold text-sm text-brand-coral font-mono">
+                -45.000đ
+              </span>
+            </div>
+
+            <!-- Countdown Timer Progress Bar -->
+            <div class="bg-[#FAFAF9] rounded-xl p-2.5 border border-brand-border/60 mb-2.5">
+              <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                <span class="text-brand-coral font-semibold flex items-center gap-1">
+                  <svg class="w-3 h-3 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                  </svg>
+                  Tự động duyệt sau: 07:42:15
+                </span>
+                <span class="text-brand-muted">65% còn lại</span>
+              </div>
+              <div class="w-full bg-[#E4E4E7] h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-coral h-full rounded-full" style="width: 35%"></div>
+              </div>
+            </div>
+
+            <!-- Card Footer: Bill thumbnail & Actions -->
+            <div class="flex items-center justify-between pt-1">
+              <button onclick="previewBill('Túi rác sinh học + Sunlight chanh', '45.000đ', 'Hoàng', 'Bách Hóa Xanh - 14/09/2026')" class="text-[11px] font-medium text-brand-purple flex items-center gap-1 tap-effect">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+                <span>Xem bill (1 ảnh)</span>
+              </button>
+
+              <button onclick="openDisputeModal('Túi rác sinh học + Sunlight chanh', '45.000đ', 'Hoàng')" class="text-[11px] font-medium text-brand-muted hover:text-brand-coral flex items-center gap-1 tap-effect">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                </svg>
+                <span>Bro ơi, xem lại bill</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Pending Card 2: Bóng đèn phòng khách -->
+          <article class="bg-white rounded-2xl border border-brand-border shadow-card p-3.5 relative overflow-hidden border-l-4 border-l-brand-coral">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-zinc-200 text-brand-charcoal flex items-center justify-center font-outfit font-bold text-xs">
+                  Đ
+                </div>
+                <div>
+                  <h4 class="font-outfit font-bold text-sm text-brand-charcoal leading-snug">
+                    Thay bóng đèn LED Rạng Đông 15W
+                  </h4>
+                  <p class="text-[10px] text-brand-muted">
+                    Ứng bởi <strong class="text-brand-charcoal font-medium">Đức</strong> • 1 giờ trước
+                  </p>
+                </div>
+              </div>
+              <span class="font-outfit font-extrabold text-sm text-brand-coral font-mono">
+                -68.000đ
+              </span>
+            </div>
+
+            <!-- Countdown Timer Progress Bar -->
+            <div class="bg-[#FAFAF9] rounded-xl p-2.5 border border-brand-border/60 mb-2.5">
+              <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                <span class="text-brand-coral font-semibold flex items-center gap-1">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  Tự động duyệt sau: 10:55:00
+                </span>
+                <span class="text-brand-muted">90% còn lại</span>
+              </div>
+              <div class="w-full bg-[#E4E4E7] h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-coral h-full rounded-full" style="width: 10%"></div>
+              </div>
+            </div>
+
+            <!-- Card Footer: Bill thumbnail & Actions -->
+            <div class="flex items-center justify-between pt-1">
+              <button onclick="previewBill('Bóng đèn LED Rạng Đông 15W', '68.000đ', 'Đức', 'Tiệm điện Quang Trung - 14/09/2026')" class="text-[11px] font-medium text-brand-purple flex items-center gap-1 tap-effect">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+                <span>Xem bill (1 ảnh)</span>
+              </button>
+
+              <button onclick="openDisputeModal('Bóng đèn LED Rạng Đông 15W', '68.000đ', 'Đức')" class="text-[11px] font-medium text-brand-muted hover:text-brand-coral flex items-center gap-1 tap-effect">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                </svg>
+                <span>Bro ơi, xem lại bill</span>
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <!-- Section 2: Dòng tiền minh bạch (Inflows & Outflows Ledger) -->
+        <div class="space-y-2.5 pt-1">
+          <div class="flex items-center justify-between">
+            <h3 class="font-outfit font-bold text-xs text-brand-charcoal uppercase tracking-wider">
+              Lịch sử thu chi (Tháng 9)
+            </h3>
+            <span class="text-[11px] text-brand-purple font-semibold cursor-pointer">Xuất báo cáo</span>
+          </div>
+
+          <!-- Filter Pills -->
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px] font-mono">
+            <button class="px-2.5 py-1 rounded-full bg-brand-charcoal text-white font-semibold whitespace-nowrap">Tất cả</button>
+            <button class="px-2.5 py-1 rounded-full bg-white border border-brand-border text-brand-muted hover:text-brand-charcoal whitespace-nowrap">Trích quỹ (-)</button>
+            <button class="px-2.5 py-1 rounded-full bg-white border border-brand-border text-brand-muted hover:text-brand-charcoal whitespace-nowrap">Nạp quỹ (+)</button>
+            <button class="px-2.5 py-1 rounded-full bg-brand-purpleLight border border-brand-purpleBorder text-brand-purple font-semibold whitespace-nowrap">🎉 Quỹ Party</button>
+          </div>
+
+          <!-- Transaction List -->
+          <div class="bg-white rounded-2xl border border-brand-border shadow-card divide-y divide-[#F4F4F5]">
+            
+            <!-- TX 1: Phạt việc nhà -> Nạp Quỹ Party -->
+            <div class="p-3.5 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-brand-purpleLight border border-brand-purpleBorder flex items-center justify-center text-brand-purple shrink-0 text-base">
+                  🎉
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <h5 class="font-outfit font-bold text-xs text-brand-charcoal">Phạt trễ hạn việc nhà (Bảo)</h5>
+                    <span class="text-[9px] font-mono bg-brand-purpleLight text-brand-purple px-1.5 py-0.2 rounded font-bold">Party Pool</span>
+                  </div>
+                  <p class="text-[10px] text-brand-muted mt-0.5">Trễ đổ rác > 24h • 13/09/2026</p>
+                </div>
+              </div>
+              <span class="font-mono font-bold text-xs text-brand-mint shrink-0">
+                +20.000đ
+              </span>
+            </div>
+
+            <!-- TX 2: Trích mua gia vị chung (Approved) -->
+            <div class="p-3.5 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-brand-coralLight border border-brand-coralBorder flex items-center justify-center text-brand-coral shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <h5 class="font-outfit font-bold text-xs text-brand-charcoal">Mắm Nam Ngư + Dầu ăn Simply</h5>
+                    <span class="text-[9px] font-mono bg-brand-mintLight text-brand-mint px-1.5 py-0.2 rounded font-semibold">Đã duyệt 12h</span>
+                  </div>
+                  <p class="text-[10px] text-brand-muted mt-0.5">Ứng bởi Bảo • Thủ quỹ đã hoàn tiền</p>
+                </div>
+              </div>
+              <span class="font-mono font-bold text-xs text-brand-charcoal shrink-0">
+                -75.000đ
+              </span>
+            </div>
+
+            <!-- TX 3: Nạp quỹ định kỳ đầu tháng (4 người) -->
+            <div class="p-3.5 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-brand-mintLight border border-brand-mintBorder flex items-center justify-center text-brand-mint shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <h5 class="font-outfit font-bold text-xs text-brand-charcoal">Nạp quỹ định kỳ tháng 9</h5>
+                    <span class="text-[9px] font-mono bg-[#F4F4F5] text-brand-muted px-1.5 py-0.2 rounded font-semibold">VietQR</span>
+                  </div>
+                  <p class="text-[10px] text-brand-muted mt-0.5">4 thành viên nạp 100k/người • 02/09/2026</p>
+                </div>
+              </div>
+              <span class="font-mono font-bold text-xs text-brand-mint shrink-0">
+                +400.000đ
+              </span>
+            </div>
+
+            <!-- TX 4: Trích mua cây lau nhà + thùng rác -->
+            <div class="p-3.5 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-brand-coralLight border border-brand-coralBorder flex items-center justify-center text-brand-coral shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <h5 class="font-outfit font-bold text-xs text-brand-charcoal">Bộ lau nhà Lock&Lock</h5>
+                    <span class="text-[9px] font-mono bg-brand-mintLight text-brand-mint px-1.5 py-0.2 rounded font-semibold">Đã duyệt 12h</span>
+                  </div>
+                  <p class="text-[10px] text-brand-muted mt-0.5">Ứng bởi Khang • Shopee</p>
+                </div>
+              </div>
+              <span class="font-mono font-bold text-xs text-brand-charcoal shrink-0">
+                -160.000đ
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Room Fund Settings & Settle Section (Host only) -->
+        <div class="p-3.5 rounded-2xl bg-white border border-brand-border flex items-center justify-between text-xs">
+          <div>
+            <h5 class="font-outfit font-bold text-brand-charcoal">Thủ quỹ phòng: Bro Hoàng</h5>
+            <p class="text-[11px] text-brand-muted font-mono">MBBank • 0987.654.321</p>
+          </div>
+          <button onclick="settleAndDeactivateFund()" class="text-[11px] font-mono text-brand-muted hover:text-brand-coral underline decoration-dotted tap-effect">
+            Tất toán & Tắt quỹ
+          </button>
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- MODAL 1: BOTTOM SHEET TRÍCH QUỸ MUA ĐỒ (FAST DRAWDOWN) -->
+    <!-- ======================================================== -->
+    <div id="drawdownModal" class="hidden fixed inset-0 z-50 flex items-end justify-center bg-black/50 backdrop-blur-sm fade-enter">
+      <div class="w-full max-w-[420px] bg-white rounded-t-[32px] p-5 shadow-2xl sheet-enter border-t border-brand-border space-y-4 max-h-[90vh] overflow-y-auto">
+        <!-- Header & Close -->
+        <div class="flex items-center justify-between pb-2 border-b border-brand-border">
+          <div>
+            <span class="text-[10px] font-mono uppercase font-bold text-brand-purple tracking-wider">Phiếu hoàn tiền mua đồ chung</span>
+            <h3 class="font-outfit font-bold text-lg text-brand-charcoal">⚡ Yêu cầu Trích quỹ</h3>
+          </div>
+          <button onclick="closeDrawdownModal()" class="w-8 h-8 rounded-full bg-[#F4F4F5] flex items-center justify-center text-brand-muted tap-effect">
+            ✕
+          </button>
+        </div>
+
+        <!-- Form fields -->
+        <div class="space-y-3.5">
+          <!-- Amount Input & Quick Chips -->
+          <div>
+            <label class="text-xs font-bold font-outfit text-brand-charcoal block mb-1">Số tiền đã ứng chi *</label>
+            <div class="relative">
+              <input id="drawdownAmountInput" type="number" placeholder="0" value="45000" class="w-full px-3.5 py-3 rounded-xl border border-brand-border font-outfit font-extrabold text-xl text-brand-charcoal focus:outline-none focus:border-brand-purple" />
+              <span class="absolute right-3.5 top-3.5 font-mono font-bold text-sm text-brand-muted">VNĐ</span>
+            </div>
+            <!-- Preset Quick Chips -->
+            <div class="flex items-center gap-1.5 mt-2 text-[11px] font-mono">
+              <button onclick="setDrawdownAmount(20000)" class="px-2.5 py-1 rounded-lg bg-[#F4F4F5] hover:bg-brand-purpleLight text-brand-charcoal font-semibold">20k</button>
+              <button onclick="setDrawdownAmount(45000)" class="px-2.5 py-1 rounded-lg bg-brand-purpleLight text-brand-purple font-semibold">45k</button>
+              <button onclick="setDrawdownAmount(70000)" class="px-2.5 py-1 rounded-lg bg-[#F4F4F5] hover:bg-brand-purpleLight text-brand-charcoal font-semibold">70k</button>
+              <button onclick="setDrawdownAmount(120000)" class="px-2.5 py-1 rounded-lg bg-[#F4F4F5] hover:bg-brand-purpleLight text-brand-charcoal font-semibold">120k</button>
+              <button onclick="setDrawdownAmount(250000)" class="px-2.5 py-1 rounded-lg bg-[#F4F4F5] hover:bg-brand-purpleLight text-brand-charcoal font-semibold">250k</button>
+            </div>
+          </div>
+
+          <!-- Category Selection Chips -->
+          <div>
+            <label class="text-xs font-bold font-outfit text-brand-charcoal block mb-1">Danh mục vật dụng chung</label>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <label class="flex items-center gap-2 p-2.5 rounded-xl border border-brand-purple bg-brand-purpleLight cursor-pointer">
+                <input type="radio" name="drawdownCat" checked class="text-brand-purple focus:ring-0" />
+                <span class="font-medium text-brand-charcoal text-[11px]">🧻 Nhu yếu phẩm tiêu hao</span>
+              </label>
+              <label class="flex items-center gap-2 p-2.5 rounded-xl border border-brand-border bg-[#FAFAF9] cursor-pointer">
+                <input type="radio" name="drawdownCat" class="text-brand-purple focus:ring-0" />
+                <span class="font-medium text-brand-charcoal text-[11px]">🍳 Gia vị & Đồ làm bếp</span>
+              </label>
+              <label class="flex items-center gap-2 p-2.5 rounded-xl border border-brand-border bg-[#FAFAF9] cursor-pointer">
+                <input type="radio" name="drawdownCat" class="text-brand-purple focus:ring-0" />
+                <span class="font-medium text-brand-charcoal text-[11px]">💡 Sửa chữa bóng đèn/ống nước</span>
+              </label>
+              <label class="flex items-center gap-2 p-2.5 rounded-xl border border-brand-border bg-[#FAFAF9] cursor-pointer">
+                <input type="radio" name="drawdownCat" class="text-brand-purple focus:ring-0" />
+                <span class="font-medium text-brand-charcoal text-[11px]">📦 Đồ dùng phòng khác</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Note / Description -->
+          <div>
+            <label class="text-xs font-bold font-outfit text-brand-charcoal block mb-1">Chi tiết đồ đã mua *</label>
+            <input id="drawdownItemDesc" type="text" value="Túi rác cuộn 3 màu + Nước rửa chén Sunlight" placeholder="Ví dụ: 2 bịch giấy vệ sinh + 1 chai mắm" class="w-full px-3.5 py-2.5 rounded-xl border border-brand-border text-xs focus:outline-none focus:border-brand-purple" />
+          </div>
+
+          <!-- Bill Photo Upload Simulation -->
+          <div>
+            <label class="text-xs font-bold font-outfit text-brand-charcoal block mb-1">Hóa đơn hoặc ảnh đồ mua (Bằng chứng minh bạch) *</label>
+            <div class="border-2 border-dashed border-brand-purpleBorder bg-brand-purpleLight/40 rounded-2xl p-4 text-center cursor-pointer hover:bg-brand-purpleLight/70 transition-colors">
+              <div class="flex flex-col items-center justify-center gap-1">
+                <span class="text-2xl">📸</span>
+                <span class="text-xs font-outfit font-bold text-brand-purple">Đã đính kèm bill: bachhoaxanh_1409.jpg</span>
+                <span class="text-[10px] text-brand-muted font-mono">Bấm để chụp lại hóa đơn</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Silent Approval Rule Banner -->
+          <div class="p-3 rounded-xl bg-brand-mintLight border border-brand-mintBorder flex items-start gap-2.5">
+            <span class="text-base leading-none text-brand-mint">🛡️</span>
+            <p class="text-[11px] text-brand-charcoal leading-snug">
+              <strong>Cơ chế Phê duyệt ngầm (Silent Approval 12h):</strong> Sau khi gửi, cả phòng có 12 tiếng để kiểm tra. Nếu không ai khiếu nại, tiền sẽ tự động duyệt và chuyển hoàn vào tài khoản của bạn!
+            </p>
+          </div>
+
+          <!-- Submit Button -->
+          <button onclick="submitDrawdown()" class="w-full py-3.5 bg-brand-purple hover:bg-brand-purpleHover text-white rounded-2xl font-outfit font-bold text-sm tap-effect shadow-floatBtn">
+            Gửi yêu cầu & Kích hoạt đếm ngược 12h
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- MODAL 2: VIETQR POPUP NẠP QUỸ PHÒNG TRỌ -->
+    <!-- ======================================================== -->
+    <div id="refillModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm fade-enter p-4">
+      <div class="w-full max-w-[360px] bg-white rounded-3xl p-5 shadow-2xl border border-brand-border space-y-4 text-center">
+        <div class="flex items-center justify-between pb-2 border-b border-brand-border">
+          <h3 class="font-outfit font-bold text-base text-brand-charcoal">Nạp tiền vào Quỹ phòng</h3>
+          <button onclick="closeRefillModal()" class="w-7 h-7 rounded-full bg-[#F4F4F5] flex items-center justify-center text-brand-muted text-xs tap-effect">
+            ✕
+          </button>
+        </div>
+
+        <!-- Simulated VietQR Box -->
+        <div class="bg-gradient-to-b from-brand-purpleLight to-white p-4 rounded-2xl border border-brand-purpleBorder relative">
+          <div class="w-48 h-48 mx-auto bg-white rounded-xl p-2 border border-brand-border shadow-sm flex flex-col items-center justify-center relative">
+            <!-- Simulated QR code pattern using SVG -->
+            <svg class="w-40 h-40" viewBox="0 0 100 100" fill="#18181B">
+              <rect x="5" y="5" width="25" height="25" fill="#18181B" />
+              <rect x="10" y="10" width="15" height="15" fill="white" />
+              <rect x="13" y="13" width="9" height="9" fill="#7C3AED" />
+              <rect x="70" y="5" width="25" height="25" fill="#18181B" />
+              <rect x="75" y="10" width="15" height="15" fill="white" />
+              <rect x="78" y="13" width="9" height="9" fill="#7C3AED" />
+              <rect x="5" y="70" width="25" height="25" fill="#18181B" />
+              <rect x="10" y="75" width="15" height="15" fill="white" />
+              <rect x="13" y="78" width="9" height="9" fill="#7C3AED" />
+              <!-- Random QR bits -->
+              <rect x="35" y="10" width="8" height="8" />
+              <rect x="50" y="10" width="8" height="8" />
+              <rect x="35" y="25" width="15" height="8" />
+              <rect x="55" y="25" width="8" height="15" />
+              <rect x="10" y="40" width="10" height="10" />
+              <rect x="25" y="40" width="15" height="15" />
+              <rect x="45" y="45" width="10" height="10" />
+              <rect x="65" y="40" width="15" height="8" />
+              <rect x="85" y="40" width="8" height="15" />
+              <rect x="35" y="65" width="10" height="10" />
+              <rect x="50" y="60" width="10" height="15" />
+              <rect x="70" y="65" width="20" height="8" />
+              <rect x="40" y="80" width="20" height="10" />
+              <rect x="65" y="80" width="10" height="12" />
+              <rect x="80" y="80" width="12" height="12" />
+            </svg>
+            <!-- Mascot center overlay icon -->
+            <div class="absolute w-8 h-8 rounded-full bg-brand-purple text-white flex items-center justify-center font-bold text-xs shadow-md border-2 border-white">
+              😎
+            </div>
+          </div>
+          <span class="inline-block mt-2 font-mono text-[10px] text-brand-purple font-bold tracking-widest uppercase">
+            Chuẩn VietQR • NAPAS 247
+          </span>
+        </div>
+
+        <!-- Transfer Information Details -->
+        <div class="bg-[#FAFAF9] rounded-xl p-3 border border-brand-border text-left space-y-1.5 text-xs">
+          <div class="flex justify-between">
+            <span class="text-brand-muted">Ngân hàng:</span>
+            <span class="font-bold text-brand-charcoal">MBBank</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-brand-muted">Số tài khoản:</span>
+            <span class="font-mono font-bold text-brand-charcoal">0987.654.321</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-brand-muted">Chủ tài khoản:</span>
+            <span class="font-bold text-brand-charcoal">NGUYEN VAN HOANG</span>
+          </div>
+          <div class="flex justify-between items-center pt-1 border-t border-brand-border">
+            <span class="text-brand-muted">Nội dung CK:</span>
+            <span class="font-mono font-bold text-brand-purple bg-brand-purpleLight px-1.5 py-0.5 rounded">BRO402 QUY THANG9</span>
+          </div>
+        </div>
+
+        <!-- Confirm Button -->
+        <button onclick="confirmRefillSuccess()" class="w-full py-3 bg-brand-purple hover:bg-brand-purpleHover text-white rounded-xl font-outfit font-bold text-xs tap-effect shadow-sm">
+          Tôi đã chuyển khoản thành công (+50.000đ)
+        </button>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- MODAL 3: XEM CHI TIẾT BILL (BILL PREVIEW MODAL) -->
+    <!-- ======================================================== -->
+    <div id="billPreviewModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm fade-enter p-4">
+      <div class="w-full max-w-[360px] bg-white rounded-3xl p-5 shadow-2xl border border-brand-border space-y-3.5">
+        <div class="flex items-center justify-between pb-2 border-b border-brand-border">
+          <h3 id="previewBillTitle" class="font-outfit font-bold text-sm text-brand-charcoal">Hóa đơn mua sắm</h3>
+          <button onclick="closeBillPreviewModal()" class="w-7 h-7 rounded-full bg-[#F4F4F5] flex items-center justify-center text-brand-muted text-xs tap-effect">
+            ✕
+          </button>
+        </div>
+
+        <!-- Simulated Bill Receipt Visual -->
+        <div class="bg-[#FAFAF9] rounded-2xl p-4 border border-brand-border text-center space-y-2">
+          <div class="w-12 h-12 mx-auto bg-brand-coralLight text-brand-coral rounded-xl flex items-center justify-center text-2xl">
+            🧾
+          </div>
+          <div class="font-outfit font-bold text-lg text-brand-charcoal" id="previewBillAmount">45.000đ</div>
+          <p class="text-xs text-brand-muted" id="previewBillStore">Bách Hóa Xanh - Chi nhánh Trần Hưng Đạo</p>
+          <div class="py-2 border-y border-dashed border-brand-border text-left space-y-1 text-[11px] font-mono">
+            <div class="flex justify-between">
+              <span>1x Túi rác sinh học cuộn</span>
+              <span>18.000đ</span>
+            </div>
+            <div class="flex justify-between">
+              <span>1x Sunlight Chanh 750g</span>
+              <span>27.000đ</span>
+            </div>
+            <div class="flex justify-between font-bold text-brand-charcoal pt-1 border-t border-brand-border/40">
+              <span>Tổng cộng thanh toán:</span>
+              <span>45.000đ</span>
+            </div>
+          </div>
+          <p class="text-[10px] text-brand-lightMuted font-mono">Ảnh chụp ngày 14/09/2026 • Đã xác thực không chỉnh sửa</p>
+        </div>
+
+        <button onclick="closeBillPreviewModal()" class="w-full py-2.5 bg-brand-charcoal text-white rounded-xl font-outfit font-bold text-xs tap-effect">
+          Đóng lại
+        </button>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- MODAL 4: KHIẾU NẠI HÒA NHÃ (GENTLE DISPUTE MODAL) -->
+    <!-- ======================================================== -->
+    <div id="disputeModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm fade-enter p-4">
+      <div class="w-full max-w-[360px] bg-white rounded-3xl p-5 shadow-2xl border border-brand-border space-y-3.5">
+        <div class="flex items-center justify-between pb-2 border-b border-brand-border">
+          <div>
+            <span class="text-[10px] font-mono text-brand-coral uppercase font-bold">Hòa giải trung lập</span>
+            <h3 class="font-outfit font-bold text-base text-brand-charcoal">Bro ơi, xem lại bill này</h3>
+          </div>
+          <button onclick="closeDisputeModal()" class="w-7 h-7 rounded-full bg-[#F4F4F5] flex items-center justify-center text-brand-muted text-xs tap-effect">
+            ✕
+          </button>
+        </div>
+
+        <div class="bg-brand-coralLight border border-brand-coralBorder rounded-2xl p-3 flex items-start gap-2.5 text-xs text-brand-charcoal">
+          <span class="text-xl">🤔</span>
+          <p class="leading-relaxed text-[11px]">
+            Khi bạn bấm khiếu nại, đồng hồ 12h sẽ <strong>tạm dừng</strong>. Bro sẽ gửi tin nhắn nhắc nhở riêng trong phòng thật khéo léo để cùng check lại nhé!
+          </p>
+        </div>
+
+        <!-- Reason selection -->
+        <div class="space-y-2 text-xs">
+          <label class="font-bold font-outfit text-brand-charcoal block">Lý do cần trao đổi:</label>
+          <label class="flex items-center gap-2 p-2 rounded-xl border border-brand-border hover:border-brand-coral cursor-pointer">
+            <input type="radio" name="disputeReason" checked class="text-brand-coral focus:ring-0" />
+            <span class="text-[11px]">Giá đồ mua có vẻ đắt hơn bình thường</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-xl border border-brand-border hover:border-brand-coral cursor-pointer">
+            <input type="radio" name="disputeReason" class="text-brand-coral focus:ring-0" />
+            <span class="text-[11px]">Hình như có món đồ cá nhân lẫn vào bill</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-xl border border-brand-border hover:border-brand-coral cursor-pointer">
+            <input type="radio" name="disputeReason" class="text-brand-coral focus:ring-0" />
+            <span class="text-[11px]">Số tiền nhập không khớp với hóa đơn</span>
+          </label>
+        </div>
+
+        <button onclick="submitDispute()" class="w-full py-3 bg-brand-coral hover:bg-orange-600 text-white rounded-xl font-outfit font-bold text-xs tap-effect shadow-sm">
+          Tạm dừng duyệt & Nhờ Bro hòa giải
+        </button>
+      </div>
+    </div>
+
+    <!-- Fixed Bottom Navigation Bar (Standard Unified 4 Destinations) -->
+    <nav class="fixed bottom-0 left-0 right-0 w-full max-w-[420px] mx-auto z-50 flex justify-around items-center px-3 py-2 bg-white/95 backdrop-blur-md border-t border-[#E4E4E7] shadow-lg">
+      <!-- 1. Chore Hub -->
+      <a href="index.html" class="flex flex-col items-center justify-center text-[#71717A] px-3 py-1.5 transition-colors hover:text-[#18181B] tap-effect">
+        <span class="material-symbols-outlined text-[22px]">checklist</span>
+        <span class="font-mono text-[10px] mt-0.5 font-medium">Chore Hub</span>
+      </a>
+
+      <!-- 2. Deadlines (ACTIVE VIA FUND) -->
+      <a href="deadlines.html" class="flex flex-col items-center justify-center bg-[#18181B] text-white rounded-full px-3.5 py-1.5 transition-transform duration-100 active:translate-y-[2px] shadow-sm tap-effect">
+        <span class="material-symbols-outlined text-[20px]" data-weight="fill">schedule</span>
+        <span class="font-mono text-[10px] mt-0.5 font-bold">Deadlines</span>
+      </a>
+
+      <!-- 3. Scoreboard -->
+      <a href="scoreboard.html" class="flex flex-col items-center justify-center text-[#71717A] px-3 py-1.5 transition-colors hover:text-[#18181B] tap-effect">
+        <span class="material-symbols-outlined text-[22px]">leaderboard</span>
+        <span class="font-mono text-[10px] mt-0.5 font-medium">Scoreboard</span>
+      </a>
+
+      <!-- 4. Profile -->
+      <a href="profile.html" class="flex flex-col items-center justify-center text-[#71717A] px-3 py-1.5 transition-colors hover:text-[#18181B] tap-effect">
+        <span class="material-symbols-outlined text-[22px]">person</span>
+        <span class="font-mono text-[10px] mt-0.5 font-medium">Profile</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    let isFundEnabled = true;
+    let fundBalance = 485000;
+
+    // Toggle between Active State and Disabled Empty State (Demonstrates Optionality)
+    function toggleFundState() {
+      isFundEnabled = !isFundEnabled;
+      renderFundState();
+    }
+
+    function activateFund() {
+      isFundEnabled = true;
+      renderFundState();
+      alert('⚡ Bro ơi! Tính năng Quỹ phòng trọ đã được kích hoạt thành công. Anh em có thể bắt đầu nộp quỹ và trích tiền mua đồ chung!');
+    }
+
+    function settleAndDeactivateFund() {
+      if (confirm('Bro có chắc chắn muốn Tất toán & Tắt tính năng Quỹ không?\n\nSố dư còn lại 485.000đ sẽ được chia đều: 121.250đ / người cho 4 thành viên!')) {
+        isFundEnabled = false;
+        renderFundState();
+        alert('✅ Đã hoàn tất tất toán số dư quỹ! Quỹ phòng trọ đã chuyển sang trạng thái Tắt.');
+      }
+    }
+
+    function renderFundState() {
+      const activeView = document.getElementById('fundActiveView');
+      const disabledView = document.getElementById('fundDisabledView');
+      const stateText = document.getElementById('fundStateText');
+      const stateDot = document.getElementById('fundStateDot');
+
+      if (isFundEnabled) {
+        activeView.classList.remove('hidden');
+        disabledView.classList.add('hidden');
+        stateText.textContent = 'Quỹ: Đang Bật';
+        stateDot.className = 'w-2 h-2 rounded-full bg-brand-mint';
+      } else {
+        activeView.classList.add('hidden');
+        disabledView.classList.remove('hidden');
+        stateText.textContent = 'Quỹ: Đã Tắt';
+        stateDot.className = 'w-2 h-2 rounded-full bg-brand-muted';
+      }
+    }
+
+    // Modal Control: Drawdown
+    function openDrawdownModal() {
+      document.getElementById('drawdownModal').classList.remove('hidden');
+    }
+    function closeDrawdownModal() {
+      document.getElementById('drawdownModal').classList.add('hidden');
+    }
+    function setDrawdownAmount(amt) {
+      document.getElementById('drawdownAmountInput').value = amt;
+    }
+    function submitDrawdown() {
+      const amt = parseInt(document.getElementById('drawdownAmountInput').value) || 0;
+      const desc = document.getElementById('drawdownItemDesc').value;
+      if (amt <= 0) {
+        alert('Bro ơi, nhập số tiền lớn hơn 0 nhé!');
+        return;
+      }
+      closeDrawdownModal();
+      alert(`🎉 Đã gửi yêu cầu trích quỹ ${amt.toLocaleString()}đ cho "${desc}"!\n\nĐồng hồ Silent Approval 12 giờ đã bắt đầu chạy. Nếu không ai khiếu nại, tiền sẽ tự động hoàn trả cho bạn.`);
+    }
+
+    // Modal Control: Refill (VietQR)
+    function openRefillModal() {
+      document.getElementById('refillModal').classList.remove('hidden');
+    }
+    function closeRefillModal() {
+      document.getElementById('refillModal').classList.add('hidden');
+    }
+    function confirmRefillSuccess() {
+      fundBalance += 50000;
+      document.getElementById('fundBalanceDisplay').innerHTML = `${fundBalance.toLocaleString()}<span class="text-xl font-bold font-mono">đ</span>`;
+      closeRefillModal();
+      alert('🎉 Bro tuyệt vời! Hệ thống đã ghi nhận bạn vừa nạp 50.000đ vào Quỹ phòng qua VietQR.');
+    }
+
+    // Modal Control: Bill Preview
+    function previewBill(title, amount, user, store) {
+      document.getElementById('previewBillTitle').textContent = title;
+      document.getElementById('previewBillAmount').textContent = amount;
+      document.getElementById('previewBillStore').textContent = store;
+      document.getElementById('billPreviewModal').classList.remove('hidden');
+    }
+    function closeBillPreviewModal() {
+      document.getElementById('billPreviewModal').classList.add('hidden');
+    }
+
+    // Modal Control: Dispute
+    function openDisputeModal(title, amount, user) {
+      document.getElementById('disputeModal').classList.remove('hidden');
+    }
+    function closeDisputeModal() {
+      document.getElementById('disputeModal').classList.add('hidden');
+    }
+    function submitDispute() {
+      closeDisputeModal();
+      alert('🛡️ Bro đã tạm dừng lệnh trích này! Một thông báo hòa nhã đã được gửi vào nhóm phòng để anh em cùng xem xét.');
+    }
+  </script>
+
+</body>
+</html>
