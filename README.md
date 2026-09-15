@@ -523,7 +523,7 @@ duebro/
 
 ### Phase 2 (ngoài phạm vi MVP)
 
-- Cổng thanh toán/chuyển tiền trong app (chia tiền phòng).
+- Cổng thanh toán/chuyển tiền trong app (chia tiền phòng) — dự kiến qua **Stripe Connect**.
 - OCR quét hoá đơn siêu thị để chia tỷ lệ tiền lẻ tự động.
 - Chợ đồ cũ nội bộ giữa các phòng trọ.
 - Affiliate Commerce đầy đủ với hoa hồng đơn hàng.
