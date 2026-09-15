@@ -1,0 +1,105 @@
+# ===== SECRETS  =====
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+**/service_role_key*
+**/*secret*
+
+# ===== Node / npm / yarn / pnpm =====
+node_modules/
+.pnp
+.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+.yarn/
+
+# ===== Expo / React Native (apps/mobile) =====
+.expo/
+.expo-shared/
+dist/
+web-build/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+apps/mobile/ios/
+apps/mobile/android/
+*.hbc
+*.jsbundle
+
+# EAS
+.easignore
+
+# ===== Next.js (apps/admin) =====
+apps/admin/.next/
+apps/admin/out/
+.next/
+.vercel/
+
+# ===== Build outputs chung =====
+build/
+dist/
+out/
+*.tsbuildinfo
+
+# ===== Supabase =====
+supabase/.branches
+supabase/.temp
+supabase/.env
+
+# ===== Python / ML Service (services/ml-service) =====
+services/ml-service/__pycache__/
+services/ml-service/**/__pycache__/
+services/ml-service/*.pyc
+services/ml-service/.venv/
+services/ml-service/venv/
+services/ml-service/env/
+services/ml-service/*.egg-info/
+services/ml-service/models/*.txt
+services/ml-service/models/*.pkl
+services/ml-service/.pytest_cache/
+services/ml-service/.mypy_cache/
+
+# ===== Test / coverage =====
+coverage/
+.nyc_output/
+
+# ===== Logs =====
+*.log
+logs/
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ===== IDE / Editor =====
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# ===== Antigravity CLI / agy / Agent =====
+.gemini/
+gemini.md
+.agents/local/
+GEMINI.md
+CLAUDE.md
+.cursorrules
+.cursor/
+
+# ===== Misc =====
+*.tmp
+.cache/
+
+# ===== Docs nội bộ  =====
+docs/
