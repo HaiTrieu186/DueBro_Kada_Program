@@ -1208,6 +1208,7 @@ export type Database = {
         Args: { p_new_host_id?: string; p_room_id: string }
         Returns: undefined
       }
+      process_silent_approvals: { Args: never; Returns: number }
       propose_chore_template: {
         Args: {
           p_category: string
@@ -1239,7 +1240,9 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      refresh_member_features: { Args: never; Returns: undefined }
       request_nudge: { Args: { p_task_id: string }; Returns: undefined }
+      reset_expired_away_status: { Args: never; Returns: number }
       submit_task: {
         Args: { p_photo_path?: string; p_task_id: string }
         Returns: {
