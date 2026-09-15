@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, SafeAreaView, Pressable } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
 import { useRoomStore } from '@/store/roomStore';
-import { MOCK_PROFILES, MOCK_BILL_STATUS } from '@/lib/mockData';
+import { useAuthStore } from '@/store/authStore';
+import { MOCK_PROFILES } from '@/lib/mockData';
 import { Avatar } from '@/components/ui/Avatar';
 import { formatDistanceToNow, format, isToday, addDays, isWithinInterval } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -15,7 +17,8 @@ const BILL_SPLITS: Record<string, string> = {
 };
 
 export default function DeadlinesScreen() {
-  const { tasks, room } = useRoomStore();
+  const { tasks, room, billStatus, toggleBillPayment } = useRoomStore();
+  const user = useAuthStore((s) => s.user);
   const allMembers = ['user-hoang', 'user-nam', 'user-linh', 'user-duc'];
 
   const bills = tasks.filter(t => t.source === 'life_deadline');
@@ -28,7 +31,8 @@ export default function DeadlinesScreen() {
   const laterBills = upcomingBills.filter(t => new Date(t.due_at) > in7Days);
 
   const renderBillCard = (task: typeof upcomingBills[0]) => {
-    const paid = MOCK_BILL_STATUS[task.id] ?? [];
+    const paid = billStatus[task.id] ?? [];
+    const hasMyPaid = user ? paid.includes(user.id) : false;
     const dueDate = new Date(task.due_at);
     const dueStr = formatDistanceToNow(dueDate, { addSuffix: true, locale: vi });
     const dueFormatted = format(dueDate, 'dd/MM/yyyy');
@@ -84,6 +88,31 @@ export default function DeadlinesScreen() {
             })}
           </View>
         </View>
+
+        {/* Interactive payment toggle */}
+        {user && (
+          <Pressable
+            style={[
+              styles.payBtn,
+              hasMyPaid ? styles.payBtnDone : styles.payBtnAction,
+            ]}
+            onPress={() => toggleBillPayment(task.id, user.id)}
+          >
+            <Ionicons
+              name={hasMyPaid ? 'checkmark-circle' : 'card-outline'}
+              size={17}
+              color={hasMyPaid ? Colors.mint : Colors.brand.purple}
+            />
+            <Text
+              style={[
+                styles.payBtnText,
+                hasMyPaid ? { color: Colors.mint } : { color: Colors.brand.purple },
+              ]}
+            >
+              {hasMyPaid ? 'Bạn đã xác nhận đóng (Nhấn để hủy)' : 'Tôi đã đóng tiền phần này 💸'}
+            </Text>
+          </Pressable>
+        )}
       </View>
     );
   };
@@ -173,6 +202,28 @@ const styles = StyleSheet.create({
   },
   paymentLabel: { fontSize: 11, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.4 },
   avatarStack: { flexDirection: 'row', gap: -4 },
+  payBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 10,
+    borderRadius: 12,
+    borderWidth: 1,
+    marginTop: 4,
+  },
+  payBtnAction: {
+    backgroundColor: Colors.brand.purpleLight,
+    borderColor: Colors.brand.purpleBorder,
+  },
+  payBtnDone: {
+    backgroundColor: Colors.mintLight,
+    borderColor: Colors.mint,
+  },
+  payBtnText: {
+    fontSize: 13,
+    fontWeight: '700',
+  },
   emptyState: { alignItems: 'center', paddingVertical: 40, gap: 8 },
   emptyTitle: { fontSize: 18, fontWeight: '800', color: Colors.charcoal },
   emptySub: { fontSize: 13, color: Colors.muted, textAlign: 'center' },

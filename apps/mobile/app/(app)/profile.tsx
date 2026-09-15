@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View, Text, StyleSheet, ScrollView, SafeAreaView, Switch, Alert, Pressable,
 } from 'react-native';
@@ -17,22 +17,24 @@ export default function ProfileScreen() {
   const user = useAuthStore((s) => s.user);
   const role = useAuthStore((s) => s.role);
   const signOut = useAuthStore((s) => s.signOut);
-  const { weeklyProgress, members } = useRoomStore();
+  const { weeklyProgress, members, toggleAwayMode, redeemKarma } = useRoomStore();
 
   const myMember = members.find(m => m.member_id === user?.id);
   const myProgress = weeklyProgress.find(w => w.member_id === user?.id);
   const karmaTitle = getKarmaTitle(myMember?.karma_score ?? 0);
-  const [awayMode, setAwayMode] = useState(myMember?.away_status === 'away');
+  const awayMode = myMember?.away_status === 'away';
 
   const tasksCompleted = 24; // mock
   const onTimeRate = 87;     // mock
 
   const handleAwayToggle = (value: boolean) => {
-    setAwayMode(value);
+    if (user) {
+      toggleAwayMode(user.id, value);
+    }
     Alert.alert(
       value ? '🏖️ Away Mode Bật' : '✅ Back in town!',
       value
-        ? 'Bro không bị gán việc trong thời gian vắng mặt. Nhớ set ngày về nhé!'
+        ? 'Bro không bị gán việc trong thời gian vắng mặt. Quota của bạn được đóng băng!'
         : 'Bro đã active trở lại. Sẵn sàng nhận việc!',
     );
   };
@@ -51,7 +53,15 @@ export default function ProfileScreen() {
       `Trừ ${KARMA_COST_SKIP} Karma để bỏ qua task tiếp theo?`,
       [
         { text: 'Thôi', style: 'cancel' },
-        { text: 'Đổi ngay!', onPress: () => Alert.alert('✅ Done!', 'Bro đã có 1 Thẻ Miễn. Dùng trong tuần này nhé!') },
+        {
+          text: 'Đổi ngay!',
+          onPress: () => {
+            if (user) {
+              redeemKarma(user.id, KARMA_COST_SKIP);
+              Alert.alert('✅ Done!', 'Bro đã đổi thành công 1 Thẻ Miễn! Điểm Karma đã được trừ.');
+            }
+          },
+        },
       ]
     );
   };

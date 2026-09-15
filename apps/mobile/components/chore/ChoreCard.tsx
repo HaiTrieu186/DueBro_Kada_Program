@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { Colors } from '@/constants/colors';
-import { TaskInstance, getTaskUrgency, MOCK_PROFILES, MOCK_BILL_STATUS } from '@/lib/mockData';
+import { TaskInstance, getTaskUrgency, MOCK_PROFILES } from '@/lib/mockData';
 import { Avatar } from '@/components/ui/Avatar';
 import { TactileButton } from '@/components/ui/TactileButton';
 import { useAuthStore } from '@/store/authStore';
@@ -27,6 +27,7 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({ task }) => {
   const user = useAuthStore((s) => s.user);
   const claimTask = useRoomStore((s) => s.claimTask);
   const submitTask = useRoomStore((s) => s.submitTask);
+  const billStatus = useRoomStore((s) => s.billStatus);
   const urgency = getTaskUrgency(task);
   const assignee = task.claimed_by ? MOCK_PROFILES[task.claimed_by] : null;
   const isAssignedToMe = task.claimed_by === user?.id;
@@ -40,7 +41,7 @@ export const ChoreCard: React.FC<ChoreCardProps> = ({ task }) => {
 
   // ── BILL variant ──────────────────────────────────────────────
   if (urgency === 'bill') {
-    const paid = MOCK_BILL_STATUS[task.id] ?? [];
+    const paid = billStatus[task.id] ?? [];
     const allMembers = ['user-hoang', 'user-nam', 'user-linh', 'user-duc'];
     return (
       <Pressable style={[styles.card, styles.billCard]} onPress={handlePress}>
