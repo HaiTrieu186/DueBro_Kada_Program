@@ -17,7 +17,7 @@ export default function TaskDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const user = useAuthStore((s) => s.user);
-  const { tasks, claimTask, submitTask, disputeTask, nudgeTask } = useRoomStore();
+  const { tasks, claimTask, submitTask, disputeTask, nudgeTask, approveTask, requestSwap } = useRoomStore();
   const [photoUploaded, setPhotoUploaded] = useState(false);
 
   const task = tasks.find(t => t.id === id);
@@ -74,10 +74,23 @@ export default function TaskDetailScreen() {
   };
 
   const handleSOS = () => {
-    Alert.alert('🆘 SOS Swap', 'Đăng task lên bảng Bounty để ai đó làm hộ?\nBạn không bị tính trễ hạn.', [
+    Alert.alert('🆘 SOS Swap', 'Đăng task lên bảng Bounty để ai đó làm hộ?\nNgười nhận hộ sẽ được x1.5 điểm.', [
       { text: 'Thôi', style: 'cancel' },
-      { text: 'Cứu bồ!', onPress: () => Alert.alert('📢 Đã broadcast!', 'Task được đẩy lên Bounty Board. Ai nhận làm hộ sẽ nhận 100% + bonus karma.') },
+      {
+        text: 'Cứu bồ!',
+        onPress: () => {
+          requestSwap(task.id);
+          Alert.alert('📢 Đã broadcast!', 'Task đã được đẩy lên Bounty Board với phần thưởng x1.5 điểm!');
+          router.back();
+        },
+      },
     ]);
+  };
+
+  const handleApprove = () => {
+    approveTask(task.id);
+    Alert.alert('🎉 Đã duyệt hoàn thành!', 'Cộng điểm và Karma thành công cho người thực hiện!');
+    router.back();
   };
 
   const handleClaim = () => {
@@ -210,19 +223,28 @@ export default function TaskDetailScreen() {
             />
           )}
 
-          {/* Assigned to me: Done */}
+          {/* Assigned to me: In progress */}
           {isAssignedToMe && (task.status === 'claimed' || task.status === 'assigned') && (
-            <TactileButton
-              label="✅ Bấm Done"
-              variant="primary"
-              size="lg"
-              fullWidth
-              onPress={handleDone}
-            />
+            <>
+              <TactileButton
+                label="✅ Bấm Done"
+                variant="primary"
+                size="lg"
+                fullWidth
+                onPress={handleDone}
+              />
+              <TactileButton
+                label="🆘 Bro ơi, cứu bồ!"
+                variant="ghost"
+                size="md"
+                fullWidth
+                onPress={handleSOS}
+              />
+            </>
           )}
 
-          {/* Others: nudge + dispute */}
-          {!isAssignedToMe && assignee && task.status !== 'pending_approval' && task.status !== 'completed' && (
+          {/* Others: In progress -> nudge or dispute */}
+          {!isAssignedToMe && assignee && (task.status === 'claimed' || task.status === 'assigned') && (
             <>
               <TactileButton
                 label="🔔 Bro ơi, nhắc nhẹ cái (ẩn danh)"
@@ -241,15 +263,73 @@ export default function TaskDetailScreen() {
             </>
           )}
 
-          {/* Assigned to me: SOS swap */}
-          {isAssignedToMe && (
-            <TactileButton
-              label="🆘 Bro ơi, cứu bồ!"
-              variant="ghost"
-              size="md"
-              fullWidth
-              onPress={handleSOS}
-            />
+          {/* Pending approval: Roommate can approve or dispute */}
+          {task.status === 'pending_approval' && !isAssignedToMe && (
+            <>
+              <TactileButton
+                label="🎉 Duyệt Hoàn Thành (+Điểm & Karma)"
+                variant="primary"
+                size="lg"
+                fullWidth
+                onPress={handleApprove}
+              />
+              <TactileButton
+                label="👀 Chưa sạch! (Khiếu nại ẩn danh)"
+                variant="ghost"
+                size="md"
+                fullWidth
+                onPress={handleDispute}
+              />
+            </>
+          )}
+
+          {/* Pending approval: I am assignee */}
+          {task.status === 'pending_approval' && isAssignedToMe && (
+            <View style={styles.statusBanner}>
+              <Text style={styles.statusBannerTitle}>⏳ Đang chờ duyệt</Text>
+              <Text style={styles.statusBannerSub}>
+                Bạn cùng phòng có 6h để duyệt hoặc khiếu nại. Sau 6h hệ thống sẽ tự động duyệt cộng điểm!
+              </Text>
+            </View>
+          )}
+
+          {/* Disputed state */}
+          {task.status === 'disputed' && isAssignedToMe && (
+            <>
+              <TactileButton
+                label="🔄 Đã dọn lại — Bấm Done"
+                variant="primary"
+                size="lg"
+                fullWidth
+                onPress={handleDone}
+              />
+              <TactileButton
+                label="🆘 Bro ơi, cứu bồ!"
+                variant="ghost"
+                size="md"
+                fullWidth
+                onPress={handleSOS}
+              />
+            </>
+          )}
+
+          {task.status === 'disputed' && !isAssignedToMe && (
+            <View style={[styles.statusBanner, { backgroundColor: Colors.coralLight, borderColor: Colors.coralBorder }]}>
+              <Text style={[styles.statusBannerTitle, { color: Colors.coral }]}>⚠️ Đang khiếu nại</Text>
+              <Text style={[styles.statusBannerSub, { color: Colors.coral }]}>
+                Đã gửi yêu cầu người phụ trách kiểm tra và dọn dẹp lại.
+              </Text>
+            </View>
+          )}
+
+          {/* Completed state */}
+          {task.status === 'completed' && (
+            <View style={[styles.statusBanner, { backgroundColor: Colors.mintLight, borderColor: Colors.mint }]}>
+              <Text style={[styles.statusBannerTitle, { color: Colors.mint }]}>🎉 Task đã hoàn thành!</Text>
+              <Text style={[styles.statusBannerSub, { color: Colors.charcoal }]}>
+                Điểm công sức và Karma đã được ghi nhận vào bảng xếp hạng.
+              </Text>
+            </View>
           )}
         </View>
 
@@ -330,6 +410,27 @@ const styles = StyleSheet.create({
   broMsgText: { fontSize: 14, color: Colors.charcoal, lineHeight: 22 },
 
   actions: { gap: 10 },
+  statusBanner: {
+    backgroundColor: Colors.brand.purpleLight,
+    borderWidth: 1,
+    borderColor: Colors.brand.purpleBorder,
+    borderRadius: 16,
+    padding: 16,
+    alignItems: 'center',
+    gap: 6,
+  },
+  statusBannerTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: Colors.brand.purple,
+    textAlign: 'center',
+  },
+  statusBannerSub: {
+    fontSize: 13,
+    color: Colors.muted,
+    textAlign: 'center',
+    lineHeight: 18,
+  },
   noteCard: {
     backgroundColor: Colors.surface,
     borderRadius: 14, padding: 12,

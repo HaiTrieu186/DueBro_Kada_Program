@@ -7,6 +7,7 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
 import { TactileButton } from '@/components/ui/TactileButton';
+import { useRoomStore } from '@/store/roomStore';
 
 const CATEGORIES = [
   { id: 'cleaning', label: 'Vệ sinh', emoji: '🧹', defaultPts: 20 },
@@ -51,11 +52,28 @@ export default function AddChoreScreen() {
     setRequiresPhoto(next >= 30);
   };
 
+  const addTask = useRoomStore((s) => s.addTask);
+  const room = useRoomStore((s) => s.room);
+
   const handleSubmit = () => {
     if (!title.trim()) {
       Alert.alert('Chưa nhập tên task!');
       return;
     }
+    const dueHours = recurrence === 'daily' ? 24 : recurrence === 'weekly' ? 168 : 48;
+    const dueAt = new Date(Date.now() + dueHours * 3600000).toISOString();
+
+    addTask({
+      room_id: room.id,
+      title: title.trim(),
+      category: selectedCat.label,
+      effort_points: points,
+      requires_photo: requiresPhoto,
+      source: recurrence === 'once' ? 'adhoc' : 'recurring',
+      due_at: dueAt,
+      bonus_multiplier: 1.0,
+    });
+
     Alert.alert(
       '✅ Task đã thêm!',
       `"${title}" (+${points} pts) đã được thêm vào Bounty Board. Bro sẽ nhắc cả phòng!`,
