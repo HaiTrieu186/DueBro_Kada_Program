@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     './app/**/*.{js,jsx,ts,tsx}',
+    './src/**/*.{js,jsx,ts,tsx}',
     './components/**/*.{js,jsx,ts,tsx}',
   ],
   presets: [require('nativewind/preset')],
@@ -15,9 +16,9 @@ module.exports = {
           dark: '#E64A19',
         },
         secondary: {
-          DEFAULT: '#1976D2',
-          light: '#BBDEFB',
-          dark: '#0D47A1',
+          DEFAULT: '#6366F1',
+          light: '#EEF2FF',
+          dark: '#4F46E5',
         },
         accent: {
           DEFAULT: '#FFD600',
@@ -29,6 +30,11 @@ module.exports = {
           silver: '#78909C',
           bronze: '#8D6E63',
           newbie: '#607D8B',
+        },
+        surface: {
+          DEFAULT: '#F8FAFC',
+          card: '#FFFFFF',
+          dark: '#0F172A',
         },
       },
     },

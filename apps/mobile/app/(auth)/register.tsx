@@ -6,28 +6,29 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../../src/lib/supabase';
 import { TactileButton } from '../../src/ui/TactileButton';
 
-const DEMO_ACCOUNTS = [
-  { name: 'Minh Anh (Cú đêm, IT, Trust 85)', email: 'seed+01@duebro.test', pass: 'DueBro@2026' },
-  { name: 'Tuấn Kiệt (Ngăn nắp, BK, Trust 92)', email: 'seed+02@duebro.test', pass: 'DueBro@2026' },
-  { name: 'Hải Đăng (Hà Nội, Vui vẻ, Trust 78)', email: 'seed+03@duebro.test', pass: 'DueBro@2026' },
-];
-
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const router = useRouter();
+  const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleLogin = async () => {
-    if (!email.trim() || !password) {
-      setErrorMessage('Bro ơi, vui lòng nhập đầy đủ email và mật khẩu nhé!');
+  const handleRegister = async () => {
+    if (!displayName.trim() || !email.trim() || !password) {
+      setErrorMessage('Bro ơi, vui lòng nhập đầy đủ tên, email và mật khẩu nhé!');
+      return;
+    }
+
+    if (password.length < 6) {
+      setErrorMessage('Mật khẩu tối thiểu 6 ký tự nhé bro!');
       return;
     }
 
@@ -35,23 +36,33 @@ export default function LoginScreen() {
     setErrorMessage(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
         password,
+        options: {
+          data: {
+            display_name: displayName.trim(),
+          },
+        },
       });
+
       if (error) throw error;
-      // NavigationGuard will automatically direct to (onboarding) or (tabs)
+
+      if (data.user) {
+        // Trigger handle_new_user tự tạo profile, ta cập nhật display_name
+        await supabase
+          .from('profiles')
+          .update({ display_name: displayName.trim() })
+          .eq('id', data.user.id);
+      }
+
+      Alert.alert('Chào mừng bro!', 'Đăng ký thành công, hãy hoàn tất hồ sơ lối sống nhé!');
+      router.replace('/(onboarding)/profile');
     } catch (err: any) {
-      setErrorMessage(err.message || 'Đăng nhập thất bại. Bro kiểm tra lại email/mật khẩu nhé.');
+      setErrorMessage(err.message || 'Đăng ký không thành công. Thử lại nhé bro.');
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleDemoFill = (demoEmail: string, demoPass: string) => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
-    setErrorMessage(null);
   };
 
   return (
@@ -68,23 +79,37 @@ export default function LoginScreen() {
           {/* Header */}
           <View className="items-center mb-6">
             <View className="w-16 h-16 rounded-3xl bg-[#FF5722] items-center justify-center shadow-lg shadow-orange-300 mb-3">
-              <Text className="text-3xl">🤝</Text>
+              <Text className="text-3xl">🚀</Text>
             </View>
             <Text className="text-2xl font-black text-slate-900 tracking-tight">
-              Chào Bro Trở Lại! 👋
+              Tạo Tài Khoản Mới
             </Text>
             <Text className="text-xs font-medium text-slate-500 mt-1 text-center">
-              Đăng nhập để nhận việc, tích điểm và kết nối roommate
+              Gia nhập Due Bro để tìm bạn ở ghép và chia việc minh bạch
             </Text>
           </View>
 
           {/* Form Card */}
-          <View className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm mb-5">
+          <View className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm mb-4">
             {errorMessage && (
               <View className="p-3 bg-red-50 border border-red-200 rounded-xl mb-4">
                 <Text className="text-xs text-red-600 font-medium">{errorMessage}</Text>
               </View>
             )}
+
+            {/* Display Name Input */}
+            <View className="mb-4">
+              <Text className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                Tên hiển thị / Biệt danh
+              </Text>
+              <TextInput
+                className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:border-[#FF5722] focus:bg-white"
+                placeholder="VD: Hải Triều"
+                placeholderTextColor="#94A3B8"
+                value={displayName}
+                onChangeText={setDisplayName}
+              />
+            </View>
 
             {/* Email Input */}
             <View className="mb-4">
@@ -105,7 +130,7 @@ export default function LoginScreen() {
             {/* Password Input */}
             <View className="mb-6">
               <Text className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                Mật khẩu
+                Mật khẩu (tối thiểu 6 ký tự)
               </Text>
               <TextInput
                 className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:border-[#FF5722] focus:bg-white"
@@ -119,40 +144,22 @@ export default function LoginScreen() {
 
             {/* Submit Button */}
             <TactileButton
-              title="Đăng Nhập Vào Phòng ⚡"
+              title="Tiếp Tục Điền Hồ Sơ ➡️"
               variant="primary"
               size="lg"
               isLoading={isLoading}
-              onPress={handleLogin}
+              onPress={handleRegister}
             />
 
-            {/* Switch to Register */}
+            {/* Switch to Login */}
             <View className="flex-row justify-center items-center mt-4">
-              <Text className="text-xs text-slate-500">Chưa có tài khoản?</Text>
+              <Text className="text-xs text-slate-500">Đã có tài khoản?</Text>
               <TactileButton
-                title="Đăng ký mới"
+                title="Đăng nhập"
                 variant="ghost"
                 size="sm"
-                onPress={() => router.push('/(auth)/register')}
+                onPress={() => router.push('/(auth)/login')}
               />
-            </View>
-          </View>
-
-          {/* Quick Demo Accounts for 7-minute Pitch */}
-          <View className="bg-orange-50/70 border border-orange-200/60 p-4 rounded-2xl">
-            <Text className="text-xs font-black text-[#FF5722] uppercase tracking-wider mb-2">
-              ⚡ Tài Khoản Demo Nhanh (7-Min Pitch)
-            </Text>
-            <View className="space-y-2">
-              {DEMO_ACCOUNTS.map((acc) => (
-                <TactileButton
-                  key={acc.email}
-                  title={`👤 ${acc.name}`}
-                  variant="outline"
-                  size="sm"
-                  onPress={() => handleDemoFill(acc.email, acc.pass)}
-                />
-              ))}
             </View>
           </View>
         </ScrollView>
