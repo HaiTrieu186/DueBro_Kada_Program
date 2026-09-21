@@ -1,0 +1,23 @@
+{
+  "name": "duebro-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Due Bro — The Neutral Bro for Roommate Matching & Household Chore Management",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "typecheck": "pnpm -r --parallel run typecheck",
+    "lint": "pnpm -r --parallel run lint",
+    "gen:types": "supabase gen types typescript --local > packages/shared-types/src/database.types.ts"
+  },
+  "keywords": [
+    "duebro",
+    "expo",
+    "react-native",
+    "supabase",
+    "gemini"
+  ],
+  "license": "UNLICENSED"
+}

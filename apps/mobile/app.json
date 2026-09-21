@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "Due Bro",
+    "slug": "due-bro",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "scheme": "duebro",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FF5722"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.duebro.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FF5722"
+      },
+      "package": "com.duebro.app"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-notifications"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "duebro-mvp-2026"
+      }
+    }
+  }
+}

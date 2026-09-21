@@ -101,5 +101,5 @@ CLAUDE.md
 *.tmp
 .cache/
 
-# ===== Docs nội bộ  =====
-docs/
+# ===== Docs nội bộ (Đã mở để lưu ARCHITECTURE và contracts) =====
+# docs/
