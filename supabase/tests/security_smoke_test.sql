@@ -112,10 +112,17 @@ begin
     perform _t('anon', null, $q$ select count(*) from lifestyle_profiles $q$, 'fail', 'S8b anon đọc lifestyle_profiles');
     perform _t('authenticated','aaaaaaaa-0000-0000-0000-000000000001', $q$ insert into match_suggestions(user_id,candidate_id,compatibility_score,breakdown,reasons,model_version) values ('aaaaaaaa-0000-0000-0000-000000000001','aaaaaaaa-0000-0000-0000-000000000002',1,'{}','{}','x') $q$, 'fail', 'S8c client ghi match_suggestions');
   end if;
-  if to_regclass('public.llm_usage_log') is not null then
-    perform _t('authenticated','aaaaaaaa-0000-0000-0000-000000000001', $q$ select count(*) from llm_usage_log $q$, 'fail', 'S8d client đọc llm_usage_log');
+  if to_regclass('public.messages') is not null then
+    perform _t('anon', null, $q$ select count(*) from messages $q$, 'fail', 'S9a anon đọc messages');
+    perform _t('authenticated', 'aaaaaaaa-0000-0000-0000-000000000003', $q$ select count(*) from messages $q$, 'ok', 'S9b authenticated đọc messages');
+  end if;
+  if to_regprocedure('admin_kpi_overview()') is not null then
+    -- User thường (không có claim ops) gọi admin_kpi_overview phải bị chặn bởi is_ops()
+    perform _t('authenticated', 'aaaaaaaa-0000-0000-0000-000000000001', $q$ select admin_kpi_overview() $q$, 'fail', 'S10a user thường gọi admin_kpi_overview');
+    perform _t('anon', null, $q$ select admin_kpi_overview() $q$, 'fail', 'S10b anon gọi admin_kpi_overview');
   end if;
 end $$;
 
 rollback;
 \echo 'SECURITY SMOKE TEST: ALL PASSED'
+

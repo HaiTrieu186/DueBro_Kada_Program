@@ -1,3 +1,9 @@
+export * from './enums';
+export * from './api-contracts';
+export * from './database.types';
+
+import type { TaskStatus as DBTaskStatus, MemberRole, DisputeReasonCode as DBDisputeReasonCode } from './enums';
+
 export type TaskCategory =
   | 'cleaning'
   | 'trash'
@@ -7,23 +13,16 @@ export type TaskCategory =
   | 'other';
 
 export type TaskStatus =
-  | 'open'
+  | DBTaskStatus
   | 'in_progress'
-  | 'submitted'
-  | 'completed'
-  | 'disputed'
-  | 'expired';
+  | 'submitted';
 
 export type DisputeReasonCode =
-  | 'not_clean'
+  | DBDisputeReasonCode
   | 'incomplete'
-  | 'wrong_task'
-  | 'fake_photo'
-  | 'other';
+  | 'fake_photo';
 
-export type MemberRole = 'host' | 'member';
-
-export interface RoomMember {
+export interface RoomMemberUI {
   user_id: string;
   room_id: string;
   role: MemberRole;
@@ -31,7 +30,7 @@ export interface RoomMember {
   is_away: boolean;
 }
 
-export interface TaskInstance {
+export interface TaskInstanceUI {
   id: string;
   room_id: string;
   title: string;
@@ -39,6 +38,7 @@ export interface TaskInstance {
   effort_points: number;
   status: TaskStatus;
   due_date: string;
+  due_at?: string;
   assigned_to: string | null;
   proof_photo_url: string | null;
   requires_photo: boolean;

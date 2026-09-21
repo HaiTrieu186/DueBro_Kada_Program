@@ -1,4 +1,4 @@
-# Contract: Matching Engine & Chat (Mục 6 ARCHITECTURE)
+# Contract: Matching Engine, Chat & Trust Score (Mục 6 ARCHITECTURE)
 
 Tài liệu hợp đồng giữa **App Core (Mobile)** và **AI Engine / Edge Functions**.
 
@@ -11,28 +11,38 @@ Tài liệu hợp đồng giữa **App Core (Mobile)** và **AI Engine / Edge Fu
 - **Request Body:**
   ```json
   {
-    "city": "Hồ Chí Minh",
-    "district": "Quận 10",
-    "page": 1,
     "limit": 20
   }
   ```
 - **Response Body:**
   ```json
   {
+    "model_version": "match_v1",
+    "count": 12,
     "suggestions": [
       {
         "candidate_id": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-        "display_name": "Minh Tuấn",
-        "avatar_url": "https://...",
-        "compatibility_pct": 86,
-        "matching_reasons": [
-          "Cùng thói quen ngủ sớm dậy sớm (23h - 6h30)",
-          "Mức ngân sách tương đồng (3.0M - 4.5M)"
-        ],
-        "consideration": "Tuấn thích nuôi mèo, bạn chưa có tiền sử nuôi thú cưng",
-        "trust_score": 88,
-        "is_seed_data": true
+        "compatibility_score": 0.88,
+        "breakdown": {
+          "wake": 1.0,
+          "sleep": 0.83,
+          "tidiness": 1.0,
+          "noise": 0.75,
+          "budget": 1.0,
+          "smokes": 1.0,
+          "pet": 1.0,
+          "guest_freq": 0.67,
+          "occupation": 1.0
+        },
+        "reasons": {
+          "strengths": [
+            "Cùng thói quen ngủ sớm dậy sớm (lệch ~1h)",
+            "Ngân sách trùng khớp hoàn toàn (3.0tr - 4.5tr)"
+          ],
+          "conflicts": [
+            "Tần suất dẫn bạn bè về nhà hơi khác nhau"
+          ]
+        }
       }
     ]
   }
@@ -40,46 +50,78 @@ Tài liệu hợp đồng giữa **App Core (Mobile)** và **AI Engine / Edge Fu
 
 ---
 
-## 2. RPC: `swipe` (Tương tác Thẻ Matching)
+## 2. RPC: `swipe(p_candidate_id uuid, p_action text)`
 
 - **Caller:** Authenticated user
 - **Input:**
-  - `p_target_user_id`: `uuid`
-  - `p_action`: `'like' | 'pass'`
+  - `p_candidate_id`: `uuid`
+  - `p_action`: `'liked' | 'passed'`
 - **Output:**
   ```json
   {
     "matched": true,
-    "connection_id": "c1a2b3c4-...",
-    "matched_user": {
-      "id": "9b1deb4d-...",
-      "display_name": "Minh Tuấn"
-    }
+    "connection_id": "c1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c"
   }
   ```
 - **Behavior:**
-  - Ghi bản ghi vào `lifestyle_swipes`.
-  - Nếu hai bên đều `like` nhau -> tự động sinh bản ghi trong `match_connections` với `status = 'matched'`.
-  - Trả về `matched = true` kèm `connection_id` để mobile mở ngay màn hình Chat.
+  - Ghi bản ghi vào `match_actions`.
+  - Nếu cả hai cùng `liked` (hoặc candidate là hồ sơ seed mô phỏng `is_seed_data = true` cho demo) -> tạo bản ghi `match_connections(user_a_id, user_b_id, status='chatting')`.
+  - Trả về `matched = true` kèm `connection_id`.
 
 ---
 
 ## 3. Realtime Chat: Kênh Trao Đổi Giữa Hai Người
 
 - **Bảng:** `messages`
-- **Realtime Filter:** `connection_id=eq.<connection_id>`
+- **Realtime Channel Filter:** `connection_id=eq.<connection_id>`
 - **Cấu trúc bản ghi:**
   ```ts
   interface Message {
-    id: string;
+    id: number;
     connection_id: string;
     sender_id: string;
     content: string;
     created_at: string;
   }
   ```
-- **Hành động chuyển đổi:**
-  - Sau khi chat đạt thỏa thuận, một trong hai người bấm "Cùng thuê nhé?":
-  - Gọi RPC: `propose_room(p_connection_id uuid, p_room_name text)`.
-  - Đối phương bấm chấp nhận -> gọi RPC `accept_room(p_connection_id uuid)`.
-  - Hệ thống tự động tạo phòng trong `rooms` và đưa cả 2 vào chung phòng.
+- **RLS:** Chặn người ngoài kết nối đọc và gửi tin (`is_connection_member`). Cấm sửa và xóa (`revoke update, delete`).
+
+---
+
+## 4. Chuyển Đổi Từ Match Sang Phòng Chung
+
+### `propose_room(p_connection_id uuid, p_room_name text) -> match_connections`
+- **Caller:** Thành viên trong kết nối chat
+- **Behavior:** Chuyển `match_connections.status = 'room_proposed'`, ghi nhận `proposed_by` và `proposed_room_name`.
+
+### `accept_room(p_connection_id uuid) -> rooms`
+- **Caller:** Người còn lại trong kết nối (khác `proposed_by`)
+- **Behavior:**
+  - Tạo phòng trong `rooms`.
+  - Thêm người đề xuất làm `host`, người chấp nhận làm `member`.
+  - Khởi tạo `weekly_quota_targets` 60 điểm cho cả 2 người.
+  - Cập nhật `match_connections.status = 'housed'` và gắn `room_id`.
+
+---
+
+## 5. RPC: `get_user_trust(p_user_id uuid) -> jsonb`
+
+- **Caller:** Authenticated user (có quyền xem: chính mình, cùng phòng, cùng kết nối chat, hoặc có trong gợi ý match)
+- **Output:**
+  ```json
+  {
+    "score": 87,
+    "level": "gold",
+    "resolved_count": 14,
+    "on_time_rate": 0.93,
+    "dispute_count": 1,
+    "is_provisional": false,
+    "is_simulated": false
+  }
+  ```
+- **Levels:**
+  - `resolved_count < 5`: `"new"` (provisional, badge "Mới")
+  - `score >= 85`: `"gold"` (badge Vàng)
+  - `score >= 70`: `"silver"` (badge Bạc)
+  - Còn lại: `"bronze"` (badge Đồng)
+  - Nếu `is_seed_data = true`: cờ `is_simulated = true` (badge "Hồ sơ mô phỏng").

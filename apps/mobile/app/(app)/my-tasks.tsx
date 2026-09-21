@@ -43,8 +43,9 @@ export default function MyTasksScreen() {
       const { data, error } = await supabase
         .from('task_instances')
         .select('*')
-        .eq('assigned_to', user?.id ?? '')
-        .order('due_date', { ascending: true });
+        .eq('claimed_by', user?.id ?? '')
+        .order('due_at', { ascending: true });
+
 
       if (error) throw error;
       return (data as TaskInstance[]) || [];
@@ -126,7 +127,7 @@ export default function MyTasksScreen() {
           refreshing={isRefetching}
           onRefresh={refetch}
           renderItem={({ item }) => {
-            const isSubmitted = item.status === 'submitted';
+            const isSubmitted = item.status === 'pending_approval' || (item.status as string) === 'submitted';
             const isCompleted = item.status === 'completed';
 
             return (
@@ -142,7 +143,7 @@ export default function MyTasksScreen() {
 
                 <Text className="text-xs text-slate-500 mb-3">
                   ⏰ Hạn chót:{' '}
-                  {new Date(item.due_date).toLocaleDateString('vi-VN', {
+                  {new Date(item.due_at || (item as any).due_date).toLocaleDateString('vi-VN', {
                     weekday: 'short',
                     day: 'numeric',
                     month: 'numeric',
@@ -150,6 +151,7 @@ export default function MyTasksScreen() {
                     minute: '2-digit',
                   })}
                 </Text>
+
 
                 {/* Status Indicator */}
                 <View className="mb-4">

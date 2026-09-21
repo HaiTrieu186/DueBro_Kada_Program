@@ -47,7 +47,7 @@ export default function BountyBoardScreen() {
         .from('task_instances')
         .select('*')
         .eq('status', 'open')
-        .order('due_date', { ascending: true });
+        .order('due_at', { ascending: true });
 
       if (error) throw error;
       return (data as TaskInstance[]) || [];
@@ -193,7 +193,7 @@ export default function BountyBoardScreen() {
                 {item.title}
               </Text>
               <Text className="text-xs text-slate-500 mb-4">
-                ⏰ Hạn chót: {new Date(item.due_date).toLocaleDateString('vi-VN', {
+                ⏰ Hạn chót: {new Date(item.due_at || (item as any).due_date).toLocaleDateString('vi-VN', {
                   weekday: 'short',
                   day: 'numeric',
                   month: 'numeric',
@@ -201,6 +201,7 @@ export default function BountyBoardScreen() {
                   minute: '2-digit',
                 })}
               </Text>
+
 
               <View className="flex-row items-center justify-between pt-3 border-t border-slate-100">
                 <View className="flex-row items-center">
