@@ -10,6 +10,11 @@
   "scripts": {
     "typecheck": "pnpm -r --parallel run typecheck",
     "lint": "pnpm -r --parallel run lint",
+    "mobile:start": "pnpm --filter duebro-mobile start",
+    "mobile:tunnel": "pnpm --filter duebro-mobile tunnel",
+    "mobile:web": "pnpm --filter duebro-mobile web",
+    "mobile:android": "pnpm --filter duebro-mobile android",
+    "mobile:typecheck": "pnpm --filter duebro-mobile typecheck",
     "gen:types": "supabase gen types typescript --local > packages/shared-types/src/database.types.ts"
   },
   "keywords": [

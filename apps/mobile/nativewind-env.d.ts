@@ -1,1 +1,14 @@
 /// <reference types="nativewind/types" />
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    EXPO_PUBLIC_SUPABASE_URL?: string;
+    EXPO_PUBLIC_SUPABASE_ANON_KEY?: string;
+    NODE_ENV?: 'development' | 'production' | 'test';
+    [key: string]: string | undefined;
+  }
+}
+
+declare const process: {
+  env: NodeJS.ProcessEnv;
+};

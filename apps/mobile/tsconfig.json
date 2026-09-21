@@ -2,17 +2,25 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@duebro/design-tokens": ["../../packages/design-tokens/src/index.ts"],
-      "@duebro/shared-types": ["../../packages/shared-types/src/index.ts"]
+      "@/*": [
+        "./*"
+      ],
+      "@duebro/design-tokens": [
+        "../../packages/design-tokens/src/index.ts"
+      ],
+      "@duebro/shared-types": [
+        "../../packages/shared-types/src/index.ts"
+      ]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+    "nativewind-env.d.ts"
   ]
 }
