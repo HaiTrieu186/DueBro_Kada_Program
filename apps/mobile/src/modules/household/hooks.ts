@@ -28,8 +28,10 @@ export function useHouseholdRealtime(roomId?: string | null) {
   useEffect(() => {
     if (!roomId) return;
 
+    // Unique channel identifier để tránh xung đột kênh khi component re-render / Fast Refresh
+    const channelId = `room:${roomId}:${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const channel = supabase
-      .channel(`room:${roomId}`)
+      .channel(channelId)
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'task_instances', filter: `room_id=eq.${roomId}` },

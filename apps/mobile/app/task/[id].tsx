@@ -44,8 +44,8 @@ export default function TaskDetailScreen() {
 
   if (isLoading || !task) {
     return (
-      <SafeAreaView className="flex-1 bg-slate-50 items-center justify-center">
-        <ActivityIndicator size="large" color="#FF5722" />
+      <SafeAreaView className="flex-1 bg-[#FAFAF9] items-center justify-center">
+        <ActivityIndicator size="large" color="#6C4DFF" />
         <Text className="text-xs text-slate-400 mt-2">Đang tải thông tin việc nhà...</Text>
       </SafeAreaView>
     );
@@ -144,9 +144,9 @@ export default function TaskDetailScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9]">
       {/* Curved Header inspired by ui-example Image 5 Screen 3 */}
-      <View className="bg-[#FF5722] px-5 pt-3 pb-6 rounded-b-3xl shadow-md">
+      <View className="bg-[#6C4DFF] px-5 pt-3 pb-6 rounded-b-3xl shadow-md">
         <View className="flex-row items-center justify-between mb-4">
           <Pressable
             onPress={() => router.back()}
@@ -299,7 +299,7 @@ export default function TaskDetailScreen() {
       </ScrollView>
 
       {/* Dispute Reason Selection Modal */}
-      <Modal visible={disputeModalVisible} transparent animationType="slide">
+      <Modal visible={disputeModalVisible} transparent animationType="slide" onRequestClose={() => setDisputeModalVisible(false)}>
         <View className="flex-1 bg-black/70 justify-end">
           <View className="bg-white rounded-t-3xl p-6">
             <Text className="text-lg font-black text-slate-900 mb-1">
@@ -321,13 +321,13 @@ export default function TaskDetailScreen() {
                   onPress={() => setSelectedReasonCode(reason.code as any)}
                   className={`p-3.5 rounded-2xl border ${
                     selectedReasonCode === reason.code
-                      ? 'bg-orange-50 border-[#FF5722]'
+                      ? 'bg-[#EDE9FE] border-[#6C4DFF]'
                       : 'bg-slate-50 border-slate-200'
                   }`}
                 >
                   <Text
                     className={`text-xs font-extrabold ${
-                      selectedReasonCode === reason.code ? 'text-[#FF5722]' : 'text-slate-700'
+                      selectedReasonCode === reason.code ? 'text-[#6C4DFF]' : 'text-slate-700'
                     }`}
                   >
                     {reason.label}

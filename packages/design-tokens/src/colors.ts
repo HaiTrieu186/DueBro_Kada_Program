@@ -1,61 +1,67 @@
 export const colors = {
-  // Brand colors (Gen Z vibrant & energetic)
+  // Brand colors (DueBro Gen Z Streetwear & Cool Mascot)
   primary: {
-    DEFAULT: '#FF5722', // Deep Orange
-    hover: '#F4511E',
-    light: '#FFCCBC',
-    dark: '#E64A19',
+    DEFAULT: '#6C4DFF', // Electric Brand Purple
+    hover: '#5B3CE6',
+    light: '#EDE9FE',
+    surface: '#F5F3FF',
+    dark: '#4C2CC9',
   },
   secondary: {
-    DEFAULT: '#1976D2', // Electric Blue
-    light: '#BBDEFB',
-    dark: '#0D47A1',
+    DEFAULT: '#7C3AED',
+    light: '#F5F3FF',
+    dark: '#5B21B6',
   },
   accent: {
-    DEFAULT: '#FFD600', // Energetic Yellow (Mascot Bro vibe)
-    light: '#FFF9C4',
+    DEFAULT: '#FACC15', // Karma Yellow
+    yellow: '#FACC15',  // Karma / Trophy / Star
+    red: '#FF4D4F',     // Deadline Alert / SOS
+    green: '#22C55E',   // Success / Completed
+    light: '#FEF9C3',
   },
 
   // Semantic
   success: {
-    DEFAULT: '#4CAF50',
-    light: '#E8F5E9',
-    dark: '#2E7D32',
+    DEFAULT: '#22C55E',
+    light: '#DCFCE7',
+    dark: '#16A34A',
   },
   warning: {
-    DEFAULT: '#FFA000',
-    light: '#FFF8E1',
-    dark: '#F57C00',
+    DEFAULT: '#F59E0B',
+    light: '#FEF3C7',
+    dark: '#D97706',
   },
   danger: {
-    DEFAULT: '#F44336',
-    light: '#FFEBEE',
-    dark: '#C62828',
+    DEFAULT: '#FF4D4F',
+    light: '#FEE2E2',
+    dark: '#DC2626',
   },
 
   // Trust Score Tiers (Mục 7.4 ARCH)
   trust: {
-    diamond: '#9C27B0', // > 90
-    gold: '#FFB300',    // 75 - 89
-    silver: '#78909C',  // 50 - 74
-    bronze: '#8D6E63',  // < 50
-    newbie: '#607D8B',  // Nhãn "Mới"
+    diamond: '#6C4DFF', // > 90
+    gold: '#F59E0B',    // 75 - 89
+    silver: '#71717A',  // 50 - 74
+    bronze: '#A1A1AA',  // < 50
+    newbie: '#6366F1',  // Nhãn "Mới"
   },
 
   // Surfaces & Backgrounds
   background: {
-    DEFAULT: '#F8FAFC',
+    DEFAULT: '#FAFAF9',
     card: '#FFFFFF',
-    dark: '#0F172A',
+    surface: '#F5F3FF',
+    dark: '#181818',
   },
   text: {
-    primary: '#0F172A',
-    secondary: '#475569',
-    muted: '#94A3B8',
+    primary: '#181818',
+    secondary: '#71717A',
+    muted: '#A1A1AA',
     inverse: '#FFFFFF',
   },
   border: {
-    DEFAULT: '#E2E8F0',
-    focused: '#FF5722',
+    DEFAULT: '#E4E4E7',
+    focused: '#6C4DFF',
+    purple: '#DDD6FE',
   },
 } as const;

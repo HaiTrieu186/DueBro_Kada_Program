@@ -18,8 +18,10 @@ export function useChatRealtime(connectionId?: string | null) {
   useEffect(() => {
     if (!connectionId) return;
 
+    // Unique channel identifier để tránh xung đột kênh khi component re-render / Fast Refresh
+    const channelId = `chat:${connectionId}:${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const channel = supabase
-      .channel(`chat:${connectionId}`)
+      .channel(channelId)
       .on(
         'postgres_changes',
         {

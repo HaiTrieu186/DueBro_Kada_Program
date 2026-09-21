@@ -62,7 +62,7 @@ export default function RoomMembersScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9]">
       {/* Header */}
       <View className="px-5 py-4 bg-white border-b border-slate-200/80 flex-row items-center justify-between">
         <View className="flex-row items-center">
@@ -88,7 +88,7 @@ export default function RoomMembersScreen() {
         <View className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm mb-5 flex-row items-center justify-between">
           <View className="flex-1 mr-3">
             <View className="flex-row items-center mb-1">
-              <Plane size={18} color="#6366F1" />
+              <Plane size={18} color="#6C4DFF" />
               <Text className="text-sm font-black text-slate-900 ml-1.5">
                 Chế độ Vắng nhà (Away Mode)
               </Text>
@@ -100,8 +100,8 @@ export default function RoomMembersScreen() {
           <Switch
             value={isAway}
             onValueChange={handleToggleAway}
-            trackColor={{ false: '#CBD5E1', true: '#FFCCBC' }}
-            thumbColor={isAway ? '#FF5722' : '#F1F5F9'}
+            trackColor={{ false: '#CBD5E1', true: '#DDD6FE' }}
+            thumbColor={isAway ? '#6C4DFF' : '#F1F5F9'}
           />
         </View>
 
@@ -120,7 +120,7 @@ export default function RoomMembersScreen() {
             return (
               <View className="flex-row items-center justify-between bg-white p-4 rounded-2xl mb-3 border border-slate-100 shadow-sm">
                 <View className="flex-row items-center flex-1 mr-3">
-                  <View className="w-12 h-12 rounded-2xl bg-orange-100 items-center justify-center mr-3 border border-orange-200">
+                  <View className="w-12 h-12 rounded-2xl bg-[#EDE9FE] items-center justify-center mr-3 border border-[#6C4DFF]/20">
                     <Text className="text-xl">😎</Text>
                   </View>
                   <View className="flex-1">

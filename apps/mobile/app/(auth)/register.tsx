@@ -7,11 +7,14 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../../src/lib/supabase';
 import { TactileButton } from '../../src/ui/TactileButton';
+
+const mascotHead = require('../../assets/brand/mascot-head.png');
 
 export default function RegisterScreen() {
   const router = useRouter();
@@ -66,9 +69,9 @@ export default function RegisterScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9]">
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         className="flex-1"
       >
         <ScrollView
@@ -76,16 +79,23 @@ export default function RegisterScreen() {
           className="px-6 py-6"
           keyboardShouldPersistTaps="handled"
         >
-          {/* Header */}
+          {/* Header with Mascot */}
           <View className="items-center mb-6">
-            <View className="w-16 h-16 rounded-3xl bg-[#FF5722] items-center justify-center shadow-lg shadow-orange-300 mb-3">
-              <Text className="text-3xl">🚀</Text>
+            <View className="w-20 h-20 rounded-3xl bg-[#EDE9FE] items-center justify-center mb-3 border-2 border-[#6C4DFF]/20 shadow-md">
+              <Image
+                source={mascotHead}
+                style={{ width: 64, height: 64 }}
+                resizeMode="contain"
+              />
             </View>
             <Text className="text-2xl font-black text-slate-900 tracking-tight">
-              Tạo Tài Khoản Mới
+              Gia Nhập Due Bro
             </Text>
-            <Text className="text-xs font-medium text-slate-500 mt-1 text-center">
-              Gia nhập Due Bro để tìm bạn ở ghép và chia việc minh bạch
+            <Text className="text-xs font-semibold text-[#6C4DFF] mt-1">
+              "Bro, it's due."
+            </Text>
+            <Text className="text-xs font-medium text-slate-500 mt-0.5 text-center">
+              Tìm bạn ở ghép chuẩn gu & chia việc nhà sòng phẳng
             </Text>
           </View>
 
@@ -103,7 +113,7 @@ export default function RegisterScreen() {
                 Tên hiển thị / Biệt danh
               </Text>
               <TextInput
-                className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:border-[#FF5722] focus:bg-white"
+                className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:border-[#6C4DFF] focus:bg-white"
                 placeholder="VD: Hải Triều"
                 placeholderTextColor="#94A3B8"
                 value={displayName}
@@ -117,7 +127,7 @@ export default function RegisterScreen() {
                 Email
               </Text>
               <TextInput
-                className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:border-[#FF5722] focus:bg-white"
+                className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:border-[#6C4DFF] focus:bg-white"
                 placeholder="bro@sinhvien.edu.vn"
                 placeholderTextColor="#94A3B8"
                 autoCapitalize="none"
@@ -133,7 +143,7 @@ export default function RegisterScreen() {
                 Mật khẩu (tối thiểu 6 ký tự)
               </Text>
               <TextInput
-                className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:border-[#FF5722] focus:bg-white"
+                className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:border-[#6C4DFF] focus:bg-white"
                 placeholder="••••••••"
                 placeholderTextColor="#94A3B8"
                 secureTextEntry

@@ -42,21 +42,21 @@ export const EffortBadge: React.FC<EffortBadgeProps> = ({ points, bonus = false,
   return (
     <View className="flex-row items-center">
       <View
-        className={`flex-row items-center rounded-full bg-orange-50 border border-orange-200/80 ${
+        className={`flex-row items-center rounded-full bg-[#F5F3FF] border border-[#DDD6FE] ${
           isSm ? 'px-2 py-0.5' : 'px-2.5 py-1'
         }`}
       >
-        <Text className={`font-black text-[#FF5722] ${isSm ? 'text-[11px]' : 'text-xs'}`}>
+        <Text className={`font-black text-[#6C4DFF] ${isSm ? 'text-[11px]' : 'text-xs'}`}>
           ⚡ {points}đ
         </Text>
       </View>
       {bonus && (
         <View
-          className={`ml-1.5 rounded-full bg-amber-100 border border-amber-300 ${
+          className={`ml-1.5 rounded-full bg-yellow-100 border border-yellow-300 ${
             isSm ? 'px-1.5 py-0.5' : 'px-2 py-0.5'
           }`}
         >
-          <Text className="text-[10px] font-black text-amber-800 uppercase tracking-tight">
+          <Text className="text-[10px] font-black text-amber-900 uppercase tracking-tight">
             +10% Thưởng
           </Text>
         </View>

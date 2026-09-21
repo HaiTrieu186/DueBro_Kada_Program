@@ -84,7 +84,7 @@ export const PhotoAttachmentCard: React.FC<PhotoAttachmentCardProps> = ({
       </Pressable>
 
       {/* Fullscreen Preview Modal */}
-      <Modal visible={modalVisible} transparent animationType="fade">
+      <Modal visible={modalVisible} transparent animationType="fade" onRequestClose={() => setModalVisible(false)}>
         <View className="flex-1 bg-black/95 items-center justify-center p-4">
           <Pressable
             onPress={() => setModalVisible(false)}

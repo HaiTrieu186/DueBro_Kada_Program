@@ -10,7 +10,7 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#FF5722',
+        tabBarActiveTintColor: '#6C4DFF',
         tabBarInactiveTintColor: '#94A3B8',
         tabBarStyle: {
           backgroundColor: '#FFFFFF',
@@ -24,6 +24,7 @@ export default function TabsLayout() {
           shadowOpacity: 0.05,
           shadowRadius: 8,
           elevation: 10,
+          overflow: 'visible',
         },
         tabBarLabelStyle: {
           fontSize: 10,
@@ -52,10 +53,12 @@ export default function TabsLayout() {
         name="create-tab-button"
         options={{
           title: '',
-          tabBarButton: (props) => (
-            <Pressable
-              {...props}
-              onPress={() => router.push('/task/create')}
+          tabBarButton: (props) => {
+            const { ref, ...restProps } = props as any;
+            return (
+              <Pressable
+                {...restProps}
+                onPress={() => router.push('/task/create')}
               style={{
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -69,13 +72,13 @@ export default function TabsLayout() {
                   width: 54,
                   height: 54,
                   borderRadius: 27,
-                  backgroundColor: '#FF5722',
+                  backgroundColor: '#6C4DFF',
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderWidth: 4,
                   borderColor: '#FFFFFF',
                   elevation: 8,
-                  shadowColor: '#FF5722',
+                  shadowColor: '#6C4DFF',
                   shadowOffset: { width: 0, height: 4 },
                   shadowOpacity: 0.4,
                   shadowRadius: 6,
@@ -83,8 +86,9 @@ export default function TabsLayout() {
               >
                 <Plus size={28} color="#FFFFFF" strokeWidth={3} />
               </View>
-            </Pressable>
-          ),
+              </Pressable>
+            );
+          },
         }}
         listeners={{
           tabPress: (e) => {

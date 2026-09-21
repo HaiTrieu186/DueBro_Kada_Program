@@ -50,7 +50,7 @@ export default function KarmaScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9]">
       {/* Header */}
       <View className="px-5 py-4 bg-white border-b border-slate-200/80 flex-row items-center justify-between">
         <View className="flex-row items-center">
@@ -65,7 +65,7 @@ export default function KarmaScreen() {
               Điểm Tích Lũy Vĩnh Viễn
             </Text>
             <Text className="text-xl font-black text-slate-900">
-              Ví Karma & Đổi Thưởng 💎
+              Ví Karma & Đổi Thưởng ⚡
             </Text>
           </View>
         </View>
@@ -73,12 +73,12 @@ export default function KarmaScreen() {
 
       <ScrollView className="flex-1 p-5" contentContainerStyle={{ paddingBottom: 40 }}>
         {/* Karma Card */}
-        <View className="bg-gradient-to-br bg-[#FF5722] rounded-3xl p-6 shadow-md mb-5 text-white">
+        <View className="bg-[#6C4DFF] rounded-3xl p-6 shadow-md mb-5 text-white">
           <Text className="text-xs font-bold text-white/80 uppercase tracking-widest mb-1">
             Tổng số dư khả dụng
           </Text>
-          <Text className="text-4xl font-black text-white mb-2">
-            💎 {karmaBalance} Karma
+          <Text className="text-4xl font-black text-[#FACC15] mb-2">
+            ⚡ {karmaBalance} Karma
           </Text>
           <Text className="text-xs text-white/90 leading-relaxed">
             Karma là điểm tích lũy vĩnh viễn (0.2 × Effort mỗi việc hoàn thành). Không bao giờ mất đi khi đổi tuần hay chuyển trọ.
@@ -105,8 +105,8 @@ export default function KarmaScreen() {
                 </Text>
               </View>
             </View>
-            <View className="bg-orange-50 border border-orange-200 px-2.5 py-1 rounded-full">
-              <Text className="text-xs font-black text-[#FF5722]">30 Karma</Text>
+            <View className="bg-amber-50 border border-amber-200/80 px-2.5 py-1 rounded-full">
+              <Text className="text-xs font-black text-amber-800">30 Karma</Text>
             </View>
           </View>
 
@@ -123,7 +123,7 @@ export default function KarmaScreen() {
         {/* Karma Rules Explained */}
         <View className="bg-slate-100/80 rounded-3xl p-5 border border-slate-200/80">
           <View className="flex-row items-center mb-2">
-            <Sparkles size={16} color="#FF5722" />
+            <Sparkles size={16} color="#6C4DFF" />
             <Text className="text-xs font-black text-slate-800 ml-1.5 uppercase">
               Cách Kiếm Thêm Karma
             </Text>

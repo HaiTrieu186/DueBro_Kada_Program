@@ -3,48 +3,52 @@ import { View, Text, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TactileButton } from '../../src/ui/TactileButton';
-import { BroPeekingMascot } from '../../src/ui/BroPeekingMascot';
 
 export default function WelcomeScreen() {
   const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1 bg-white justify-between px-6 py-8">
-      {/* Top Brand Area */}
-      <View className="items-center mt-6">
-        <View className="w-16 h-16 rounded-3xl bg-[#FF5722] items-center justify-center shadow-lg shadow-orange-300/50 mb-3">
-          <Text className="text-3xl">🏠</Text>
+    <SafeAreaView className="flex-1 bg-[#FAFAF9] justify-between px-6 py-6">
+      {/* Top Brand Logo Banner */}
+      <View className="items-center mt-4">
+        <Image
+          source={require('../../assets/brand/logo-banner.png')}
+          style={{ width: 240, height: 80, resizeMode: 'contain' }}
+        />
+        <View className="bg-purple-100/80 px-3 py-1 rounded-full border border-purple-200 mt-2">
+          <Text className="text-[11px] font-black text-[#6C4DFF] tracking-wider uppercase">
+            Quản Lý Phòng Trọ & Chia Việc Thông Minh
+          </Text>
         </View>
-        <Text className="text-3xl font-black text-slate-900 tracking-tight">
-          Due <Text className="text-[#FF5722]">Bro</Text>
-        </Text>
-        <Text className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">
-          Household OS & Roommate Matching
-        </Text>
       </View>
 
       {/* Mascot Hero Center */}
-      <View className="items-center my-auto py-6">
-        <BroPeekingMascot
-          mood="happy"
-          speechText="Ở ghép văn minh, không lo chia việc! Bro bao hết!"
-        />
+      <View className="items-center my-auto py-4">
+        <View
+          className="w-52 h-52 rounded-3xl bg-white items-center justify-center border-2 border-[#DDD6FE] p-3 shadow-md"
+          style={{ elevation: 4 }}
+        >
+          <Image
+            source={require('../../assets/brand/card-reminder.png')}
+            style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+          />
+        </View>
 
-        <View className="mt-8 px-4 items-center">
+        <View className="mt-6 px-4 items-center">
           <Text className="text-2xl font-black text-slate-900 text-center leading-tight">
-            Chọn đúng bạn cùng phòng.{'\n'}
-            <Text className="text-[#FF5722]">Tích lũy điểm tin cậy thật.</Text>
+            Đừng để một người{'\n'}
+            <Text className="text-[#6C4DFF]">gánh cả phòng!</Text>
           </Text>
-          <Text className="text-xs text-slate-500 text-center mt-3 leading-relaxed max-w-[280px]">
-            Hệ thống tính điểm Effort & Karma minh bạch giúp đời sống chung nhẹ nhàng, gắn kết.
+          <Text className="text-xs font-medium text-slate-500 text-center mt-2.5 leading-relaxed max-w-[290px]">
+            Hệ thống điểm Effort & Karma tự động nhắc việc thay bạn. Không còn cảnh khó xử vì nhắc deadline!
           </Text>
         </View>
       </View>
 
       {/* Action Buttons */}
-      <View className="space-y-3 mb-2">
+      <View className="space-y-3 mb-3">
         <TactileButton
-          title="Đăng Nhập"
+          title="Đăng Nhập Vào Phòng ⚡"
           variant="primary"
           size="lg"
           onPress={() => router.push('/(auth)/login')}
@@ -52,7 +56,7 @@ export default function WelcomeScreen() {
 
         <TactileButton
           title="Tạo Tài Khoản Mới"
-          variant="outline"
+          variant="secondary"
           size="md"
           onPress={() => router.push('/(auth)/register')}
         />

@@ -1,13 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Image } from 'react-native';
 
-export type BroMood = 'happy' | 'sarcastic' | 'sos' | 'idle';
+export type BroMood = 'happy' | 'sarcastic' | 'sos' | 'idle' | 'due';
 
 interface BroPeekingMascotProps {
   mood?: BroMood;
   speechText?: string;
   size?: 'sm' | 'md' | 'lg';
 }
+
+const MASCOT_IMAGES = {
+  idle: require('../../assets/brand/mascot-head.png'),
+  happy: require('../../assets/brand/mascot-happy.png'),
+  sarcastic: require('../../assets/brand/mascot-sarcastic.png'),
+  sos: require('../../assets/brand/mascot-sos.png'),
+  due: require('../../assets/brand/mascot-megaphone.png'),
+};
 
 export const BroPeekingMascot: React.FC<BroPeekingMascotProps> = ({
   mood = 'idle',
@@ -18,35 +26,48 @@ export const BroPeekingMascot: React.FC<BroPeekingMascotProps> = ({
     switch (mood) {
       case 'sarcastic':
         return {
-          avatar: '😏',
-          hat: '🧢',
+          badge: '💀',
           title: 'Bro Cà Khịa',
-          defaultSpeech: 'Deadline đang gõ cửa kìa bro ơi, tính để việc đó tự dọn à?',
-          bgColor: 'bg-amber-400',
+          defaultSpeech: 'Bro... task này tính để sang tuần luôn hả?',
+          bubbleBorder: 'border-yellow-200',
+          bubbleBg: 'bg-yellow-50/95',
+          accentColor: '#FACC15',
         };
       case 'sos':
         return {
-          avatar: '🚨',
-          hat: '⛑️',
+          badge: '🚨',
           title: 'Bro Cứu Hộ',
-          defaultSpeech: 'Có đồng đội đang phát tín hiệu SOS cầu cứu!',
-          bgColor: 'bg-rose-500',
+          defaultSpeech: 'Task bị trễ rồi! Có Bro nào cứu bồ không?',
+          bubbleBorder: 'border-red-200',
+          bubbleBg: 'bg-red-50/95',
+          accentColor: '#FF4D4F',
+        };
+      case 'due':
+        return {
+          badge: '⚡',
+          title: 'Bro Nhắc Việc',
+          defaultSpeech: 'Bro, it\'s due! Đến hạn rồi đó!',
+          bubbleBorder: 'border-purple-300',
+          bubbleBg: 'bg-purple-50/95',
+          accentColor: '#6C4DFF',
         };
       case 'happy':
         return {
-          avatar: '😎',
-          hat: '👑',
+          badge: '🔥',
           title: 'Bro Hết Nấc',
-          defaultSpeech: 'Đỉnh nóc kịch trần! Cả nhà đang cày điểm cực mượt!',
-          bgColor: 'bg-emerald-500',
+          defaultSpeech: 'Đỉnh nóc kịch trần! Cả nhà cày điểm cực mượt!',
+          bubbleBorder: 'border-green-200',
+          bubbleBg: 'bg-green-50/95',
+          accentColor: '#22C55E',
         };
       default:
         return {
-          avatar: '🤖',
-          hat: '✨',
+          badge: '🧢',
           title: 'Bro Trợ Lý',
           defaultSpeech: 'Hôm nay săn việc nhà nào đây bro?',
-          bgColor: 'bg-[#FF5722]',
+          bubbleBorder: 'border-purple-200',
+          bubbleBg: 'bg-white/95',
+          accentColor: '#6C4DFF',
         };
     }
   };
@@ -54,32 +75,38 @@ export const BroPeekingMascot: React.FC<BroPeekingMascotProps> = ({
   const meta = getMascotMeta();
   const displayText = speechText || meta.defaultSpeech;
 
+  const sizeConfig = {
+    sm: { img: 40, offset: -8 },
+    md: { img: 52, offset: -10 },
+    lg: { img: 68, offset: -14 },
+  }[size];
+
   return (
     <View className="items-center my-2">
       {/* Speech Bubble */}
       {displayText ? (
-        <View className="bg-white/95 border border-slate-200/80 rounded-2xl px-4 py-2.5 shadow-sm max-w-[90%] mb-1.5 flex-row items-center">
-          <Text className="text-xs mr-1.5">{meta.hat}</Text>
-          <Text className="text-xs font-medium text-slate-800 flex-1 leading-4">
+        <View
+          className={`border ${meta.bubbleBorder} ${meta.bubbleBg} rounded-2xl px-4 py-2.5 shadow-sm max-w-[92%] mb-1.5 flex-row items-center`}
+          style={{ shadowColor: meta.accentColor, shadowOpacity: 0.1, shadowRadius: 4, elevation: 2 }}
+        >
+          <Text className="text-sm mr-1.5">{meta.badge}</Text>
+          <Text className="text-xs font-semibold text-slate-800 flex-1 leading-4">
             {displayText}
           </Text>
         </View>
       ) : null}
 
-      {/* Peeking Mascot Body (Lấy cảm hứng từ ui-example Image 3) */}
-      <View className="flex-row items-end justify-center">
-        {/* Left hand/ear */}
-        <View className="w-3.5 h-3.5 rounded-full bg-orange-400 -mr-1.5 mb-1 z-0 shadow-sm" />
-        
-        {/* Mascot Face */}
+      {/* Mascot Peeking from bottom banner */}
+      <View className="items-center justify-center">
         <View
-          className={`w-14 h-11 rounded-t-full ${meta.bgColor} items-center justify-center border-2 border-white shadow-md z-10`}
+          className="rounded-full bg-purple-100/80 p-1 border-2 border-white shadow-sm"
+          style={{ elevation: 3 }}
         >
-          <Text className="text-2xl mt-0.5">{meta.avatar}</Text>
+          <Image
+            source={MASCOT_IMAGES[mood] || MASCOT_IMAGES.idle}
+            style={{ width: sizeConfig.img, height: sizeConfig.img, resizeMode: 'contain' }}
+          />
         </View>
-
-        {/* Right hand/ear */}
-        <View className="w-3.5 h-3.5 rounded-full bg-orange-400 -ml-1.5 mb-1 z-0 shadow-sm" />
       </View>
     </View>
   );

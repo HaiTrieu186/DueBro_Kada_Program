@@ -16,10 +16,10 @@ export const EffortHeatmap: React.FC<EffortHeatmapProps> = ({
   // Dummy activity generator for demo visual parity with ui-example Image 5 Screen 1
   const getCellIntensity = (dayIdx: number, weekIdx: number) => {
     const seed = (dayIdx * 3 + weekIdx * 5 + 7) % 10;
-    if (weekIdx >= 6 && dayIdx <= 4) return 'bg-[#FF5722]'; // Highly active recently
-    if (seed > 6) return 'bg-[#FF8A65]';
-    if (seed > 3) return 'bg-orange-200';
-    if (seed > 1) return 'bg-orange-100';
+    if (weekIdx >= 6 && dayIdx <= 4) return 'bg-[#6C4DFF]'; // Highly active recently
+    if (seed > 6) return 'bg-[#8B5CF6]';
+    if (seed > 3) return 'bg-[#C4B5FD]';
+    if (seed > 1) return 'bg-[#EDE9FE]';
     return 'bg-slate-100';
   };
 
@@ -56,10 +56,10 @@ export const EffortHeatmap: React.FC<EffortHeatmapProps> = ({
         <Text className="text-[11px] font-semibold text-slate-400">Ít việc</Text>
         <View className="flex-row items-center space-x-1.5">
           <View className="w-2.5 h-2.5 rounded-sm bg-slate-100" />
-          <View className="w-2.5 h-2.5 rounded-sm bg-orange-100" />
-          <View className="w-2.5 h-2.5 rounded-sm bg-orange-200" />
-          <View className="w-2.5 h-2.5 rounded-sm bg-[#FF8A65]" />
-          <View className="w-2.5 h-2.5 rounded-sm bg-[#FF5722]" />
+          <View className="w-2.5 h-2.5 rounded-sm bg-[#EDE9FE]" />
+          <View className="w-2.5 h-2.5 rounded-sm bg-[#C4B5FD]" />
+          <View className="w-2.5 h-2.5 rounded-sm bg-[#8B5CF6]" />
+          <View className="w-2.5 h-2.5 rounded-sm bg-[#6C4DFF]" />
         </View>
         <Text className="text-[11px] font-semibold text-slate-400">Siêu năng suất</Text>
       </View>

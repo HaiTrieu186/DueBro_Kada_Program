@@ -1,6 +1,6 @@
 import '../global.css';
 import React, { useEffect } from 'react';
-import { Stack, useRouter, useSegments, useRootNavigationState } from 'expo-router';
+import { Stack } from 'expo-router';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -11,40 +11,6 @@ import { registerForPushNotifications } from '../src/lib/push';
 
 export { ErrorBoundary } from 'expo-router';
 
-function NavigationGuard() {
-  const rootNavigationState = useRootNavigationState();
-  const router = useRouter();
-  const segments = useSegments();
-  const { session, isLoading, hasCompletedOnboarding } = useAuthStore();
-
-  useEffect(() => {
-    // Không điều hướng khi NavigationContext/RootNavigation chưa sẵn sàng
-    if (!rootNavigationState?.key) return;
-    if (isLoading) return;
-
-    const inAuthGroup = segments[0] === '(auth)';
-    const inOnboardingGroup = segments[0] === '(onboarding)';
-
-    if (!session) {
-      if (!inAuthGroup) {
-        router.replace('/(auth)/welcome');
-      }
-    } else {
-      if (!hasCompletedOnboarding) {
-        if (!inOnboardingGroup) {
-          router.replace('/(onboarding)/profile');
-        }
-      } else {
-        if (inAuthGroup || inOnboardingGroup) {
-          router.replace('/(tabs)/home');
-        }
-      }
-    }
-  }, [session, isLoading, hasCompletedOnboarding, segments, router, rootNavigationState?.key]);
-
-  return null;
-}
-
 export default function RootLayout() {
   const setSession = useAuthStore((s) => s.setSession);
   const setProfile = useAuthStore((s) => s.setProfile);
@@ -53,23 +19,27 @@ export default function RootLayout() {
   useEffect(() => {
     // 1. Initial session load
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      setSession(session);
       if (session?.user) {
-        await fetchUserProfile(session.user.id);
-        await checkOnboardingStatus(session.user.id);
+        await Promise.all([
+          fetchUserProfile(session.user.id),
+          checkOnboardingStatus(session.user.id),
+        ]);
         registerForPushNotifications(session.user.id).catch(() => {});
       }
+      setSession(session);
     });
 
     // 2. Listen to Auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
-        setSession(session);
         if (session?.user) {
-          await fetchUserProfile(session.user.id);
-          await checkOnboardingStatus(session.user.id);
+          await Promise.all([
+            fetchUserProfile(session.user.id),
+            checkOnboardingStatus(session.user.id),
+          ]);
           registerForPushNotifications(session.user.id).catch(() => {});
         }
+        setSession(session);
       }
     );
 
@@ -98,7 +68,6 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
         <StatusBar style="dark" />
-        <NavigationGuard />
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />

@@ -79,7 +79,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
               onClaim();
             }}
             disabled={isClaiming}
-            className="bg-[#FF5722] active:bg-[#F4511E] px-3 py-1.5 rounded-xl flex-row items-center shadow-sm"
+            className="bg-[#6C4DFF] active:bg-[#5B3CE6] px-3.5 py-1.5 rounded-xl flex-row items-center shadow-sm"
           >
             <Text className="text-xs font-black text-white">
               {isClaiming ? 'Đang nhận...' : 'Nhận việc ⚡'}

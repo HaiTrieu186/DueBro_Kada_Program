@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, Pressable, Alert } from 'react-native';
+import { View, Text, ScrollView, Pressable, Alert, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import {
@@ -18,6 +18,8 @@ import { useKarmaBalance } from '../../src/modules/household/hooks';
 import { TrustBadge } from '../../src/ui/TrustBadge';
 import { EffortHeatmap } from '../../src/ui/EffortHeatmap';
 import { TactileButton } from '../../src/ui/TactileButton';
+
+const mascotHead = require('../../assets/brand/mascot-head.png');
 
 export default function MeScreen() {
   const router = useRouter();
@@ -51,7 +53,7 @@ export default function MeScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9]">
       {/* Header */}
       <View className="px-6 py-4 bg-white border-b border-slate-200/80 flex-row items-center justify-between">
         <View>
@@ -76,14 +78,18 @@ export default function MeScreen() {
         {/* User Profile Card */}
         <View className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm mb-4">
           <View className="flex-row items-center">
-            <View className="w-16 h-16 rounded-2xl bg-orange-100 items-center justify-center mr-4 border-2 border-orange-200">
-              <Text className="text-3xl">😎</Text>
+            <View className="w-16 h-16 rounded-2xl bg-[#EDE9FE] items-center justify-center mr-4 border-2 border-[#6C4DFF]/20 shadow-sm">
+              <Image
+                source={mascotHead}
+                style={{ width: 50, height: 50 }}
+                resizeMode="contain"
+              />
             </View>
             <View className="flex-1">
               <Text className="text-xl font-black text-slate-900">
                 {profile?.display_name || 'Bro Người Dùng'}
               </Text>
-              <Text className="text-xs font-bold text-[#FF5722] mt-0.5">
+              <Text className="text-xs font-bold text-[#6C4DFF] mt-0.5">
                 {getBroTitle(karmaBalance)}
               </Text>
               <Text className="text-xs text-slate-400 mt-0.5">
@@ -138,26 +144,26 @@ export default function MeScreen() {
         {/* Productivity Activity Heatmap (ui-example Image 5 Screen 1) */}
         <EffortHeatmap completedCount={trust?.resolved_count ?? 12} streakDays={5} />
 
-        {/* Karma Shop Card */}
+        {/* Karma Shop Card (Brand Gold Accent) */}
         <Pressable
           onPress={() => router.push('/karma')}
-          className="bg-gradient-to-r bg-orange-50 border border-orange-200 rounded-3xl p-5 mb-4 active:bg-orange-100"
+          className="bg-amber-50 border border-amber-200 rounded-3xl p-5 mb-4 active:bg-amber-100"
         >
           <View className="flex-row items-center justify-between">
             <View className="flex-row items-center">
-              <View className="w-10 h-10 rounded-2xl bg-orange-500 items-center justify-center mr-3">
+              <View className="w-10 h-10 rounded-2xl bg-amber-500 items-center justify-center mr-3">
                 <ShoppingBag size={20} color="#FFFFFF" />
               </View>
               <View>
                 <Text className="text-sm font-black text-slate-900">
                   Ví Điểm & Karma Shop
                 </Text>
-                <Text className="text-xs font-semibold text-orange-700 mt-0.5">
+                <Text className="text-xs font-semibold text-amber-800 mt-0.5">
                   Đang có {karmaBalance} Karma • Đổi thẻ skip việc
                 </Text>
               </View>
             </View>
-            <ChevronRight size={18} color="#FF5722" />
+            <ChevronRight size={18} color="#B45309" />
           </View>
         </Pressable>
 

@@ -1,31 +1,53 @@
-import React, { useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import { useRouter, useRootNavigationState } from 'expo-router';
+import React from 'react';
+import { View, ActivityIndicator, Image, Text } from 'react-native';
+import { Redirect, useRootNavigationState } from 'expo-router';
 import { useAuthStore } from '../store/authStore';
 
+const mascotHead = require('../assets/brand/mascot-head.png');
+
 export default function IndexScreen() {
-  const router = useRouter();
   const rootNavigationState = useRootNavigationState();
   const session = useAuthStore((s) => s.session);
   const isLoading = useAuthStore((s) => s.isLoading);
   const hasCompletedOnboarding = useAuthStore((s) => s.hasCompletedOnboarding);
 
-  useEffect(() => {
-    if (!rootNavigationState?.key) return;
-    if (isLoading) return;
-
+  // Chỉ redirect khi NavigationContainer đã sẵn sàng và auth state đã load xong
+  if (rootNavigationState?.key && !isLoading) {
     if (!session) {
-      router.replace('/(auth)/welcome');
-    } else if (!hasCompletedOnboarding) {
-      router.replace('/(onboarding)/profile');
-    } else {
-      router.replace('/(tabs)/home');
+      return <Redirect href="/(auth)/welcome" />;
     }
-  }, [session, isLoading, hasCompletedOnboarding, router, rootNavigationState?.key]);
+    if (!hasCompletedOnboarding) {
+      return <Redirect href="/(onboarding)/profile" />;
+    }
+    return <Redirect href="/(tabs)/home" />;
+  }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#F8FAFC', justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator size="large" color="#FF5722" />
+    <View style={{ flex: 1, backgroundColor: '#FAFAF9', justifyContent: 'center', alignItems: 'center' }}>
+      <View
+        style={{
+          width: 80,
+          height: 80,
+          borderRadius: 28,
+          backgroundColor: '#EDE9FE',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderWidth: 2,
+          borderColor: 'rgba(108, 77, 255, 0.2)',
+          marginBottom: 16,
+          elevation: 4,
+        }}
+      >
+        <Image
+          source={mascotHead}
+          style={{ width: 60, height: 60 }}
+          resizeMode="contain"
+        />
+      </View>
+      <ActivityIndicator size="large" color="#6C4DFF" />
+      <Text style={{ fontSize: 12, fontWeight: '700', color: '#6C4DFF', marginTop: 12 }}>
+        "Bro, it's due."
+      </Text>
     </View>
   );
 }

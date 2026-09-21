@@ -6,8 +6,8 @@ import {
   Pressable,
   RefreshControl,
   Alert,
-  Clipboard,
 } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Users, Copy, Sparkles, Plus, Trophy } from 'lucide-react-native';
@@ -73,10 +73,10 @@ export default function HomeScreen() {
     }
   };
 
-  const handleCopyCode = () => {
+  const handleCopyCode = async () => {
     if (currentRoom?.invite_code) {
-      Clipboard.setString(currentRoom.invite_code);
-      Alert.alert('Đã sao chép mã!', `Mã mời phòng: ${currentRoom.invite_code}`);
+      await Clipboard.setStringAsync(currentRoom.invite_code);
+      Alert.alert('Đã sao chép mã! 📋', `Mã mời phòng: ${currentRoom.invite_code}`);
     }
   };
 
@@ -94,13 +94,19 @@ export default function HomeScreen() {
   // No room state (ARCH Mục 11.1 & 15.3)
   if (!isLoadingRooms && (!currentRoom || myRooms.length === 0)) {
     return (
-      <SafeAreaView className="flex-1 bg-slate-50 justify-between p-6">
+      <SafeAreaView className="flex-1 bg-[#FAFAF9] justify-between p-6">
         <View className="items-center mt-6">
-          <View className="w-16 h-16 rounded-3xl bg-[#FF5722] items-center justify-center shadow-lg shadow-orange-300 mb-3">
-            <Text className="text-3xl">🏠</Text>
+          <View
+            className="w-20 h-20 rounded-3xl bg-[#EDE9FE] items-center justify-center mb-3 border-2 border-purple-200"
+            style={{ elevation: 4 }}
+          >
+            <Text className="text-4xl">🏠</Text>
           </View>
           <Text className="text-2xl font-black text-slate-900">
             Chưa Tham Gia Phòng
+          </Text>
+          <Text className="text-xs font-semibold text-[#6C4DFF] mt-1">
+            "Bro, it's due."
           </Text>
           <Text className="text-xs text-slate-500 text-center mt-1 max-w-[280px]">
             Tạo phòng với bạn thân hoặc nhập mã mời để cùng quản lý việc nhà ngay.
@@ -143,9 +149,9 @@ export default function HomeScreen() {
     activeTab === 'bounty' ? isLoadingOpen : activeTab === 'mine' ? isLoadingMine : isLoadingReview;
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9]">
       {/* Header Bar */}
-      <View className="bg-white px-5 pt-3 pb-4 border-b border-slate-200/80 shadow-sm">
+      <View className="bg-white px-5 pt-3 pb-4 border-b border-slate-200" style={{ elevation: 2 }}>
         <View className="flex-row items-center justify-between">
           <View className="flex-1 mr-3">
             <Text className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
@@ -169,13 +175,13 @@ export default function HomeScreen() {
               <Copy size={12} color="#64748B" />
             </Pressable>
 
-            {/* Karma Balance Pill */}
+            {/* Karma Balance Pill (Gold Accent #FACC15) */}
             <Pressable
               onPress={() => router.push('/karma')}
-              className="flex-row items-center bg-orange-100 active:bg-orange-200 px-2.5 py-1.5 rounded-full mr-2"
+              className="flex-row items-center bg-amber-50 border border-amber-200 active:bg-amber-100 px-2.5 py-1.5 rounded-full mr-2"
             >
-              <Text className="text-[11px] font-black text-[#FF5722]">
-                💎 {karmaBalance}
+              <Text className="text-[11px] font-black text-amber-700">
+                ⚡ {karmaBalance}
               </Text>
             </Pressable>
 
@@ -195,28 +201,28 @@ export default function HomeScreen() {
         {/* Weekly Quota Bar */}
         <Pressable
           onPress={() => router.push('/scoreboard')}
-          className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3 mt-1 active:bg-slate-100/80"
+          className="bg-[#F8FAFC] border border-slate-200 rounded-2xl p-3 mt-1 active:bg-slate-100"
         >
           <View className="flex-row items-center justify-between mb-1.5">
             <View className="flex-row items-center">
-              <Trophy size={14} color="#FF5722" />
+              <Trophy size={14} color="#6C4DFF" />
               <Text className="text-xs font-bold text-slate-700 ml-1">
                 Tiến độ tuần của tôi
               </Text>
             </View>
-            <Text className="text-xs font-black text-[#FF5722]">
+            <Text className="text-xs font-black text-[#6C4DFF]">
               {achieved} / {target} Effort ({quotaPct}%)
             </Text>
           </View>
           <View className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
             <View
-              className="h-full bg-[#FF5722] rounded-full"
+              className="h-full bg-[#6C4DFF] rounded-full"
               style={{ width: `${quotaPct}%` }}
             />
           </View>
         </Pressable>
 
-        {/* Status Tab Filters (ui-example Image 5) */}
+        {/* Status Tab Filters */}
         <View className="flex-row items-center justify-between mt-3 bg-slate-100 p-1 rounded-2xl">
           {[
             { id: 'bounty', label: `Săn việc (${openTasks.length})` },
@@ -229,12 +235,13 @@ export default function HomeScreen() {
                 key={tab.id}
                 onPress={() => setActiveTab(tab.id as TabFilter)}
                 className={`flex-1 py-2 rounded-xl items-center ${
-                  isSelected ? 'bg-white shadow-sm' : 'bg-transparent'
+                  isSelected ? 'bg-[#6C4DFF]' : 'bg-transparent'
                 }`}
+                style={isSelected ? { elevation: 2 } : undefined}
               >
                 <Text
                   className={`text-xs font-black ${
-                    isSelected ? 'text-slate-900' : 'text-slate-500'
+                    isSelected ? 'text-white' : 'text-slate-600'
                   }`}
                 >
                   {tab.label}
@@ -259,7 +266,7 @@ export default function HomeScreen() {
               refetchMine();
               refetchReview();
             }}
-            tintColor="#FF5722"
+            tintColor="#6C4DFF"
           />
         }
         renderItem={({ item }) => (

@@ -10,31 +10,36 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#FF5722',
-          hover: '#F4511E',
-          light: '#FFCCBC',
-          dark: '#E64A19',
+          DEFAULT: '#6C4DFF', // Electric Brand Purple
+          hover: '#5B3CE6',
+          light: '#EDE9FE',
+          surface: '#F5F3FF',
+          dark: '#4C2CC9',
         },
         secondary: {
-          DEFAULT: '#6366F1',
-          light: '#EEF2FF',
-          dark: '#4F46E5',
+          DEFAULT: '#7C3AED',
+          light: '#F5F3FF',
+          dark: '#5B21B6',
         },
         accent: {
-          DEFAULT: '#FFD600',
-          light: '#FFF9C4',
+          DEFAULT: '#FACC15', // Karma Yellow
+          yellow: '#FACC15',
+          red: '#FF4D4F',     // Deadline Alert / SOS
+          green: '#22C55E',   // Success
+          light: '#FEF9C3',
         },
         trust: {
-          diamond: '#9C27B0',
-          gold: '#FFB300',
-          silver: '#78909C',
-          bronze: '#8D6E63',
-          newbie: '#607D8B',
+          diamond: '#6C4DFF', // > 90
+          gold: '#F59E0B',    // 75 - 89
+          silver: '#71717A',  // 50 - 74
+          bronze: '#A1A1AA',  // < 50
+          newbie: '#6366F1',  // Nhãn "Mới"
         },
         surface: {
-          DEFAULT: '#F8FAFC',
+          DEFAULT: '#FAFAF9',
           card: '#FFFFFF',
-          dark: '#0F172A',
+          purple: '#F5F3FF',
+          dark: '#181818',
         },
       },
     },

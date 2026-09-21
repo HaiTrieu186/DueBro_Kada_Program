@@ -6,10 +6,12 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../../src/lib/supabase';
+import { useAuthStore } from '../../store/authStore';
 import { TactileButton } from '../../src/ui/TactileButton';
 
 const DEMO_ACCOUNTS = [
@@ -35,12 +37,21 @@ export default function LoginScreen() {
     setErrorMessage(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password,
       });
       if (error) throw error;
-      // NavigationGuard will automatically direct to (onboarding) or (tabs)
+
+      if (data?.user) {
+        // Kiểm tra xem bro đã hoàn thành hồ sơ lifestyle chưa để điều hướng chính xác
+        const hasCompleted = await useAuthStore.getState().checkOnboardingStatus(data.user.id);
+        if (hasCompleted) {
+          router.replace('/(tabs)/home');
+        } else {
+          router.replace('/(onboarding)/profile');
+        }
+      }
     } catch (err: any) {
       setErrorMessage(err.message || 'Đăng nhập thất bại. Bro kiểm tra lại email/mật khẩu nhé.');
     } finally {
@@ -55,9 +66,9 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9]">
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         className="flex-1"
       >
         <ScrollView
@@ -67,8 +78,11 @@ export default function LoginScreen() {
         >
           {/* Header */}
           <View className="items-center mb-6">
-            <View className="w-16 h-16 rounded-3xl bg-[#FF5722] items-center justify-center shadow-lg shadow-orange-300 mb-3">
-              <Text className="text-3xl">🤝</Text>
+            <View className="w-20 h-20 rounded-3xl bg-[#F5F3FF] items-center justify-center border-2 border-[#DDD6FE] shadow-sm mb-3 p-1">
+              <Image
+                source={require('../../assets/brand/mascot-head.png')}
+                style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+              />
             </View>
             <Text className="text-2xl font-black text-slate-900 tracking-tight">
               Chào Bro Trở Lại! 👋
@@ -92,7 +106,7 @@ export default function LoginScreen() {
                 Email
               </Text>
               <TextInput
-                className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:border-[#FF5722] focus:bg-white"
+                className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:border-[#6C4DFF] focus:bg-white"
                 placeholder="bro@sinhvien.edu.vn"
                 placeholderTextColor="#94A3B8"
                 autoCapitalize="none"
@@ -108,7 +122,7 @@ export default function LoginScreen() {
                 Mật khẩu
               </Text>
               <TextInput
-                className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:border-[#FF5722] focus:bg-white"
+                className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:border-[#6C4DFF] focus:bg-white"
                 placeholder="••••••••"
                 placeholderTextColor="#94A3B8"
                 secureTextEntry
@@ -139,8 +153,8 @@ export default function LoginScreen() {
           </View>
 
           {/* Quick Demo Accounts for 7-minute Pitch */}
-          <View className="bg-orange-50/70 border border-orange-200/60 p-4 rounded-2xl">
-            <Text className="text-xs font-black text-[#FF5722] uppercase tracking-wider mb-2">
+          <View className="bg-[#F5F3FF] border border-[#DDD6FE] p-4 rounded-2xl">
+            <Text className="text-xs font-black text-[#6C4DFF] uppercase tracking-wider mb-2">
               ⚡ Tài Khoản Demo Nhanh (7-Min Pitch)
             </Text>
             <View className="space-y-2">
@@ -148,7 +162,7 @@ export default function LoginScreen() {
                 <TactileButton
                   key={acc.email}
                   title={`👤 ${acc.name}`}
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
                   onPress={() => handleDemoFill(acc.email, acc.pass)}
                 />

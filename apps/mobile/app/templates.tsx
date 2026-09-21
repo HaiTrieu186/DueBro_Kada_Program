@@ -113,7 +113,7 @@ export default function TemplatesScreen() {
               onPress={() => toggleSelect(item.title)}
               className={`p-4 rounded-2xl mb-3 border ${
                 isSelected
-                  ? 'bg-orange-50/60 border-[#FF5722]'
+                  ? 'bg-[#EDE9FE]/50 border-[#6C4DFF]'
                   : 'bg-white border-slate-200'
               } flex-row items-center justify-between shadow-sm`}
             >
@@ -125,7 +125,7 @@ export default function TemplatesScreen() {
                   <CategoryBadge category={item.category} size="sm" />
                   <EffortBadge points={item.effortPoints} size="sm" />
                   {item.requiresPhoto && (
-                    <Text className="text-[10px] font-bold text-violet-700 bg-violet-100 px-2 py-0.5 rounded-full">
+                    <Text className="text-[10px] font-bold text-[#6C4DFF] bg-[#EDE9FE] px-2 py-0.5 rounded-full">
                       📸 Cần ảnh
                     </Text>
                   )}
@@ -135,7 +135,7 @@ export default function TemplatesScreen() {
               <View
                 className={`w-7 h-7 rounded-full items-center justify-center border ${
                   isSelected
-                    ? 'bg-[#FF5722] border-[#FF5722]'
+                    ? 'bg-[#6C4DFF] border-[#6C4DFF]'
                     : 'bg-transparent border-slate-300'
                 }`}
               >

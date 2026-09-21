@@ -91,7 +91,7 @@ export default function CreateTaskScreen() {
             Tên công việc
           </Text>
           <TextInput
-            className="w-full h-13 px-4 rounded-2xl border border-slate-200 bg-slate-50 font-bold text-slate-900 focus:border-[#FF5722] focus:bg-white text-base"
+            className="w-full h-13 px-4 rounded-2xl border border-slate-200 bg-slate-50 font-bold text-slate-900 focus:border-[#6C4DFF] focus:bg-white text-base"
             placeholder="VD: Cọ nhà vệ sinh tầng 2"
             placeholderTextColor="#94A3B8"
             value={title}
@@ -111,14 +111,14 @@ export default function CreateTaskScreen() {
                 onPress={() => setCategory(c.id)}
                 className={`flex-row items-center px-3.5 py-2.5 rounded-2xl border ${
                   category === c.id
-                    ? 'bg-orange-50 border-[#FF5722]'
+                    ? 'bg-[#EDE9FE] border-[#6C4DFF]'
                     : 'bg-slate-50 border-slate-200'
                 }`}
               >
                 <Text className="text-sm mr-1.5">{c.icon}</Text>
                 <Text
                   className={`text-xs font-bold ${
-                    category === c.id ? 'text-[#FF5722]' : 'text-slate-700'
+                    category === c.id ? 'text-[#6C4DFF]' : 'text-slate-700'
                   }`}
                 >
                   {c.label}
@@ -134,7 +134,7 @@ export default function CreateTaskScreen() {
             <Text className="text-xs font-bold text-slate-700 uppercase tracking-wider">
               Điểm Effort (Độ vất vả)
             </Text>
-            <Text className="text-sm font-black text-[#FF5722]">{effortPoints} điểm</Text>
+            <Text className="text-sm font-black text-[#6C4DFF]">{effortPoints} điểm</Text>
           </View>
 
           <View className="flex-row justify-between mb-2">
@@ -144,7 +144,7 @@ export default function CreateTaskScreen() {
                 onPress={() => setEffortPoints(pts)}
                 className={`w-12 h-12 rounded-2xl items-center justify-center border ${
                   effortPoints === pts
-                    ? 'bg-[#FF5722] border-[#FF5722]'
+                    ? 'bg-[#6C4DFF] border-[#6C4DFF]'
                     : 'bg-slate-50 border-slate-200'
                 }`}
               >
@@ -161,9 +161,9 @@ export default function CreateTaskScreen() {
 
           {/* Photo requirement indicator */}
           {effortPoints >= 30 ? (
-            <View className="flex-row items-center bg-violet-50 border border-violet-200 p-2.5 rounded-xl">
-              <Camera size={14} color="#6366F1" />
-              <Text className="text-xs font-bold text-indigo-700 ml-1.5">
+            <View className="flex-row items-center bg-[#EDE9FE] border border-[#6C4DFF]/30 p-2.5 rounded-xl">
+              <Camera size={14} color="#6C4DFF" />
+              <Text className="text-xs font-bold text-[#6C4DFF] ml-1.5">
                 Việc ≥ 30 điểm tự động bắt buộc nộp ảnh minh chứng
               </Text>
             </View>
@@ -187,15 +187,15 @@ export default function CreateTaskScreen() {
                 onPress={() => setDueHoursOffset(opt.hours)}
                 className={`flex-row items-center justify-between p-3.5 rounded-2xl border ${
                   dueHoursOffset === opt.hours
-                    ? 'bg-orange-50 border-[#FF5722]'
+                    ? 'bg-[#EDE9FE] border-[#6C4DFF]'
                     : 'bg-slate-50 border-slate-200'
                 }`}
               >
                 <View className="flex-row items-center">
-                  <Clock size={16} color={dueHoursOffset === opt.hours ? '#FF5722' : '#64748B'} />
+                  <Clock size={16} color={dueHoursOffset === opt.hours ? '#6C4DFF' : '#64748B'} />
                   <Text
                     className={`text-xs font-bold ml-2 ${
-                      dueHoursOffset === opt.hours ? 'text-[#FF5722]' : 'text-slate-700'
+                      dueHoursOffset === opt.hours ? 'text-[#6C4DFF]' : 'text-slate-700'
                     }`}
                   >
                     {opt.label}

@@ -27,7 +27,15 @@ export const TrustBadge: React.FC<TrustBadgeProps> = ({
         icon: '🌱',
       };
     }
-    if (score >= 85 || level === 'gold') {
+    if (score >= 90) {
+      return {
+        bg: 'bg-purple-50 border-purple-300',
+        text: 'text-[#6C4DFF]',
+        title: 'Bro Kim Cương',
+        icon: '💎',
+      };
+    }
+    if (score >= 80 || level === 'gold') {
       return {
         bg: 'bg-amber-50 border-amber-300',
         text: 'text-amber-800',

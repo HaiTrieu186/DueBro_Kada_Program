@@ -14,14 +14,14 @@ export default function CandidateDetailScreen() {
 
   if (isLoading) {
     return (
-      <SafeAreaView className="flex-1 bg-slate-50 items-center justify-center">
-        <ActivityIndicator size="large" color="#FF5722" />
+      <SafeAreaView className="flex-1 bg-[#FAFAF9] items-center justify-center">
+        <ActivityIndicator size="large" color="#6C4DFF" />
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50 justify-between">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9] justify-between">
       {/* Header */}
       <View className="px-5 py-4 bg-white border-b border-slate-200/80 flex-row items-center justify-between">
         <View className="flex-row items-center">
@@ -40,7 +40,7 @@ export default function CandidateDetailScreen() {
       <ScrollView className="flex-1 p-5" contentContainerStyle={{ paddingBottom: 40 }}>
         {/* Profile Card */}
         <View className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm items-center mb-4">
-          <View className="w-20 h-20 rounded-3xl bg-orange-100 items-center justify-center mb-3 border-2 border-orange-200">
+          <View className="w-20 h-20 rounded-3xl bg-[#EDE9FE] items-center justify-center mb-3 border-2 border-[#6C4DFF]/20">
             <Text className="text-4xl">😎</Text>
           </View>
           <Text className="text-2xl font-black text-slate-900">Ứng Viên Roommate</Text>

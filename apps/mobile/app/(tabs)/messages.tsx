@@ -13,7 +13,7 @@ export default function MessagesScreen() {
   const { data: connections = [], isLoading, refetch, isRefetching } = useConnections(user?.id);
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9]">
       {/* Header */}
       <View className="px-6 py-4 bg-white border-b border-slate-200/80">
         <Text className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
@@ -30,7 +30,7 @@ export default function MessagesScreen() {
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ padding: 16, flexGrow: 1 }}
         refreshControl={
-          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor="#FF5722" />
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor="#6C4DFF" />
         }
         renderItem={({ item }) => {
           const isProposed = item.status === 'room_proposed';
@@ -42,7 +42,7 @@ export default function MessagesScreen() {
               className="flex-row items-center bg-white p-4 rounded-2xl mb-3 border border-slate-100 shadow-sm active:bg-slate-50"
             >
               {/* Avatar */}
-              <View className="w-13 h-13 rounded-2xl bg-orange-100 items-center justify-center mr-3.5 border border-orange-200" style={{ width: 50, height: 50 }}>
+              <View className="rounded-2xl bg-[#EDE9FE] items-center justify-center mr-3.5 border border-[#6C4DFF]/20" style={{ width: 50, height: 50 }}>
                 <Text className="text-2xl">😎</Text>
               </View>
 

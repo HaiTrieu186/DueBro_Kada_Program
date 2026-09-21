@@ -70,31 +70,31 @@ export const TactileButton: React.FC<TactileButtonProps> = ({
 
   const variantStyles: Record<ButtonVariant, { bg: string; text: string }> = {
     primary: {
-      bg: 'bg-[#FF5722] active:bg-[#F4511E]',
+      bg: 'bg-[#6C4DFF] active:bg-[#5B3CE6] border-b-4 border-[#4C2CC9]',
       text: 'text-white',
     },
     secondary: {
-      bg: 'bg-[#6366F1] active:bg-[#4F46E5]',
-      text: 'text-white',
+      bg: 'bg-[#F5F3FF] active:bg-[#EDE9FE] border-2 border-[#DDD6FE]',
+      text: 'text-[#6C4DFF]',
     },
     accent: {
-      bg: 'bg-[#FFD600] active:bg-[#FFC400]',
+      bg: 'bg-[#FACC15] active:bg-[#EAB308] border-b-4 border-[#CA8A04]',
       text: 'text-slate-900',
     },
     outline: {
-      bg: 'bg-transparent border-2 border-slate-200 active:bg-slate-100',
+      bg: 'bg-white border-2 border-slate-200 active:bg-slate-50',
       text: 'text-slate-800',
     },
     ghost: {
-      bg: 'bg-transparent active:bg-slate-100',
-      text: 'text-slate-700',
+      bg: 'bg-transparent active:bg-purple-50',
+      text: 'text-[#6C4DFF]',
     },
     danger: {
-      bg: 'bg-[#EF4444] active:bg-[#DC2626]',
+      bg: 'bg-[#FF4D4F] active:bg-[#DC2626] border-b-4 border-[#B91C1C]',
       text: 'text-white',
     },
     success: {
-      bg: 'bg-[#10B981] active:bg-[#059669]',
+      bg: 'bg-[#22C55E] active:bg-[#16A34A] border-b-4 border-[#15803D]',
       text: 'text-white',
     },
   };

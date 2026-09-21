@@ -17,6 +17,8 @@ import { TrustBadge } from '../../src/ui/TrustBadge';
 import { TactileButton } from '../../src/ui/TactileButton';
 import { EmptyState } from '../../src/ui/EmptyState';
 
+const mascotHappy = require('../../assets/brand/mascot-happy.png');
+
 export default function DiscoverScreen() {
   const router = useRouter();
   const user = useAuthStore((s) => s.user);
@@ -58,7 +60,7 @@ export default function DiscoverScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9]">
       {/* Header */}
       <View className="px-6 py-4 bg-white border-b border-slate-200/80">
         <View className="flex-row items-center justify-between">
@@ -70,9 +72,9 @@ export default function DiscoverScreen() {
               Roommate Radar ✨
             </Text>
           </View>
-          <View className="px-3 py-1 rounded-full bg-violet-50 border border-violet-200">
-            <Text className="text-xs font-black text-indigo-700">
-              {candidates.length - currentIndex} gợi ý
+          <View className="px-3 py-1 rounded-full bg-[#EDE9FE] border border-[#6C4DFF]/30">
+            <Text className="text-xs font-black text-[#6C4DFF]">
+              {Math.max(0, candidates.length - currentIndex)} gợi ý
             </Text>
           </View>
         </View>
@@ -81,7 +83,7 @@ export default function DiscoverScreen() {
       {/* Main Content: Card or Empty */}
       {isLoading ? (
         <View className="flex-1 items-center justify-center">
-          <ActivityIndicator size="large" color="#FF5722" />
+          <ActivityIndicator size="large" color="#6C4DFF" />
           <Text className="text-xs font-semibold text-slate-400 mt-3">
             Đang quét thuật toán tương thích...
           </Text>
@@ -95,7 +97,7 @@ export default function DiscoverScreen() {
             {/* Candidate Header */}
             <View className="flex-row items-center justify-between mb-4">
               <View className="flex-row items-center">
-                <View className="w-14 h-14 rounded-2xl bg-orange-100 items-center justify-center mr-3 border border-orange-200">
+                <View className="w-14 h-14 rounded-2xl bg-[#EDE9FE] items-center justify-center mr-3 border border-[#6C4DFF]/20">
                   <Text className="text-2xl">😎</Text>
                 </View>
                 <View>
@@ -246,18 +248,22 @@ export default function DiscoverScreen() {
       )}
 
       {/* Match Celebration Modal */}
-      <Modal visible={!!matchModalData?.matched} transparent animationType="slide">
+      <Modal visible={!!matchModalData?.matched} transparent animationType="slide" onRequestClose={() => setMatchModalData(null)}>
         <View className="flex-1 bg-black/80 items-center justify-center p-6">
           <View className="bg-white rounded-3xl p-6 items-center w-full max-w-sm shadow-2xl">
-            <View className="w-20 h-20 rounded-full bg-orange-100 items-center justify-center mb-4">
-              <Text className="text-4xl">🎉</Text>
+            <View className="w-24 h-24 rounded-3xl bg-[#EDE9FE] items-center justify-center mb-4 border-2 border-[#6C4DFF]/20">
+              <Image
+                source={mascotHappy}
+                style={{ width: 72, height: 72 }}
+                resizeMode="contain"
+              />
             </View>
 
             <Text className="text-2xl font-black text-slate-900 text-center mb-1">
               Match Rồi Bro Ơi!
             </Text>
             <Text className="text-sm text-slate-600 text-center mb-6">
-              Bạn và <Text className="font-extrabold text-[#FF5722]">{matchModalData?.candidateName}</Text> đều đã thích nhau. Hãy trò chuyện và lên kế hoạch cùng thuê phòng nhé!
+              Bạn và <Text className="font-extrabold text-[#6C4DFF]">{matchModalData?.candidateName}</Text> đều đã thích nhau. Hãy trò chuyện và lên kế hoạch cùng thuê phòng nhé!
             </Text>
 
             <View className="w-full space-y-3">

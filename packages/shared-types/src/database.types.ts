@@ -639,6 +639,29 @@ export interface Database {
         Args: { p_candidate_id: string; p_action: string };
         Returns: Json;
       };
+      save_lifestyle_profile: {
+        Args: {
+          p_intent?: string;
+          p_city?: string;
+          p_district?: string | null;
+          p_gender?: string | null;
+          p_gender_pref?: string;
+          p_occupation_type?: string;
+          p_wake_up_time?: string;
+          p_sleep_time?: string;
+          p_budget_min?: number;
+          p_budget_max?: number;
+          p_tidiness_level?: number;
+          p_noise_tolerance?: number;
+          p_smokes?: boolean;
+          p_has_pet?: boolean;
+          p_guest_frequency?: string;
+          p_guest_curfew?: string | null;
+          p_bio?: string | null;
+          p_display_name?: string | null;
+        };
+        Returns: Database['public']['Tables']['lifestyle_profiles']['Row'];
+      };
       propose_room: {
         Args: { p_connection_id: string; p_room_name: string };
         Returns: Database['public']['Tables']['match_connections']['Row'];

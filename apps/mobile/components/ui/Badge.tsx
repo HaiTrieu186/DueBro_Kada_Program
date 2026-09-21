@@ -81,8 +81,8 @@ interface EffortBadgeProps {
 
 export const EffortBadge: React.FC<EffortBadgeProps> = ({ points, bonus = false }) => {
   return (
-    <View className={`flex-row items-center px-2 py-1 rounded-lg ${bonus ? 'bg-amber-100' : 'bg-orange-100'}`}>
-      <Text className={`text-xs font-extrabold ${bonus ? 'text-amber-800' : 'text-[#FF5722]'}`}>
+    <View className={`flex-row items-center px-2 py-1 rounded-lg ${bonus ? 'bg-amber-100' : 'bg-[#EDE9FE]'}`}>
+      <Text className={`text-xs font-extrabold ${bonus ? 'text-amber-800' : 'text-[#6C4DFF]'}`}>
         ⚡ +{points} EP {bonus ? '🔥 (+10%)' : ''}
       </Text>
     </View>

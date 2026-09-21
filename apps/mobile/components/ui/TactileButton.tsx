@@ -72,7 +72,7 @@ export const TactileButton: React.FC<TactileButtonProps> = ({
 
   const variantStyles: Record<ButtonVariant, { bg: string; text: string; border?: string }> = {
     primary: {
-      bg: 'bg-[#FF5722] active:bg-[#F4511E]',
+      bg: 'bg-[#6C4DFF] active:bg-[#5B3CE6]',
       text: 'text-white',
     },
     secondary: {

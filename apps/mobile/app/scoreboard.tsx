@@ -22,7 +22,7 @@ export default function ScoreboardScreen() {
   const sortedBoard = [...weekBoard].sort((a, b) => b.achieved_points - a.achieved_points);
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9]">
       {/* Header */}
       <View className="px-5 py-4 bg-white border-b border-slate-200/80 flex-row items-center justify-between">
         <View className="flex-row items-center">
@@ -48,7 +48,7 @@ export default function ScoreboardScreen() {
         keyExtractor={(item) => item.member_id}
         contentContainerStyle={{ padding: 16 }}
         refreshControl={
-          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor="#FF5722" />
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor="#6C4DFF" />
         }
         renderItem={({ item, index }) => {
           const profile = memberProfileMap.get(item.member_id);
@@ -63,7 +63,7 @@ export default function ScoreboardScreen() {
             <View
               className={`p-4 rounded-2xl mb-3 border ${
                 isMe
-                  ? 'bg-orange-50/70 border-orange-300'
+                  ? 'bg-[#EDE9FE]/50 border-[#6C4DFF]/40'
                   : 'bg-white border-slate-100'
               } shadow-sm`}
             >
@@ -81,7 +81,7 @@ export default function ScoreboardScreen() {
                 </View>
 
                 <View className="items-end">
-                  <Text className="text-base font-black text-[#FF5722]">
+                  <Text className="text-base font-black text-[#6C4DFF]">
                     {item.achieved_points}đ
                   </Text>
                   <Text className="text-[10px] font-bold text-slate-400">
@@ -94,7 +94,7 @@ export default function ScoreboardScreen() {
               <View className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
                 <View
                   className={`h-full rounded-full ${
-                    pct >= 100 ? 'bg-emerald-500' : 'bg-[#FF5722]'
+                    pct >= 100 ? 'bg-emerald-500' : 'bg-[#6C4DFF]'
                   }`}
                   style={{ width: `${pct}%` }}
                 />

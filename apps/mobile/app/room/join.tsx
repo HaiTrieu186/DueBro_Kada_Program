@@ -62,7 +62,7 @@ export default function JoinRoomScreen() {
         <View className="mb-4">
           <Text className="text-xs font-bold text-slate-700 uppercase mb-2">Mã mời (6 ký tự)</Text>
           <TextInput
-            className="w-full h-14 px-4 rounded-2xl border-2 border-slate-200 bg-slate-50 font-black text-2xl text-center text-slate-900 tracking-widest uppercase focus:border-[#FF5722] focus:bg-white"
+            className="w-full h-14 px-4 rounded-2xl border-2 border-slate-200 bg-slate-50 font-black text-2xl text-center text-slate-900 tracking-widest uppercase focus:border-[#6C4DFF] focus:bg-white"
             placeholder="ABC123"
             placeholderTextColor="#CBD5E1"
             maxLength={6}

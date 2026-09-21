@@ -46,7 +46,7 @@ export default function NotificationsScreen() {
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{ padding: 16 }}
         refreshControl={
-          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor="#FF5722" />
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor="#6C4DFF" />
         }
         renderItem={({ item }) => (
           <Pressable
@@ -57,12 +57,12 @@ export default function NotificationsScreen() {
             }}
             className="bg-white p-4 rounded-2xl mb-3 border border-slate-100 shadow-sm flex-row items-start active:bg-slate-50"
           >
-            <View className="w-10 h-10 rounded-2xl bg-orange-100 items-center justify-center mr-3.5 mt-0.5">
+            <View className="w-10 h-10 rounded-2xl bg-[#EDE9FE] items-center justify-center mr-3.5 mt-0.5">
               <Text className="text-lg">{getNotificationIcon(item.kind, item.level)}</Text>
             </View>
             <View className="flex-1">
               <View className="flex-row items-center justify-between mb-1">
-                <Text className="text-xs font-bold text-[#FF5722] uppercase tracking-wider">
+                <Text className="text-xs font-bold text-[#6C4DFF] uppercase tracking-wider">
                   {item.is_llm ? '✨ Lời nhắc từ Bro' : 'Hệ thống'}
                 </Text>
                 <Text className="text-[10px] text-slate-400">

@@ -92,7 +92,7 @@ export default function ChatScreen() {
   const isProposedByMe = connection?.proposed_by === user?.id;
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9]">
       {/* Chat Header */}
       <View className="px-4 py-3 bg-white border-b border-slate-200/80 flex-row items-center justify-between">
         <View className="flex-row items-center flex-1 mr-2">
@@ -102,7 +102,7 @@ export default function ChatScreen() {
           >
             <ChevronLeft size={20} color="#334155" />
           </Pressable>
-          <View className="w-10 h-10 rounded-full bg-orange-100 items-center justify-center mr-2.5 border border-orange-200">
+          <View className="w-10 h-10 rounded-full bg-[#EDE9FE] items-center justify-center mr-2.5 border border-[#6C4DFF]/20">
             <Text className="text-lg">😎</Text>
           </View>
           <View className="flex-1">
@@ -181,7 +181,7 @@ export default function ChatScreen() {
                 <View
                   className={`p-3.5 rounded-2xl ${
                     isMe
-                      ? 'bg-[#FF5722] rounded-br-none shadow-sm'
+                      ? 'bg-[#6C4DFF] rounded-br-none shadow-sm'
                       : 'bg-white border border-slate-200 rounded-bl-none shadow-sm'
                   }`}
                 >
@@ -200,8 +200,8 @@ export default function ChatScreen() {
           }}
           ListEmptyComponent={
             <View className="items-center justify-center p-8 my-auto">
-              <View className="w-16 h-16 rounded-full bg-violet-100 items-center justify-center mb-3">
-                <Sparkles size={28} color="#6366F1" />
+              <View className="w-16 h-16 rounded-full bg-[#EDE9FE] items-center justify-center mb-3">
+                <Sparkles size={28} color="#6C4DFF" />
               </View>
               <Text className="text-base font-black text-slate-900 text-center">
                 Bắt đầu trò chuyện thôi!
@@ -216,7 +216,7 @@ export default function ChatScreen() {
         {/* Input Bar */}
         <View className="bg-white p-3 border-t border-slate-200 flex-row items-center space-x-2">
           <TextInput
-            className="flex-1 h-11 px-4 rounded-full bg-slate-100 font-medium text-slate-900"
+            className="flex-1 h-11 px-4 rounded-full bg-slate-100 font-medium text-slate-900 focus:border-[#6C4DFF] focus:bg-white"
             placeholder="Nhắn tin cho bạn cùng phòng..."
             placeholderTextColor="#94A3B8"
             value={inputContent}
@@ -227,7 +227,7 @@ export default function ChatScreen() {
             onPress={handleSend}
             disabled={!inputContent.trim() || sendMessageMutation.isPending}
             className={`w-11 h-11 rounded-full items-center justify-center ${
-              inputContent.trim() ? 'bg-[#FF5722] active:bg-[#F4511E]' : 'bg-slate-200'
+              inputContent.trim() ? 'bg-[#6C4DFF] active:bg-[#5B3CE6]' : 'bg-slate-200'
             }`}
           >
             <Send size={18} color="#FFFFFF" />
@@ -236,7 +236,7 @@ export default function ChatScreen() {
       </KeyboardAvoidingView>
 
       {/* Propose Room Modal */}
-      <Modal visible={proposeModalVisible} transparent animationType="slide">
+      <Modal visible={proposeModalVisible} transparent animationType="slide" onRequestClose={() => setProposeModalVisible(false)}>
         <View className="flex-1 bg-black/70 justify-end">
           <View className="bg-white rounded-t-3xl p-6">
             <Text className="text-lg font-black text-slate-900 mb-1">
@@ -249,7 +249,7 @@ export default function ChatScreen() {
             <View className="mb-6">
               <Text className="text-xs font-bold text-slate-700 uppercase mb-1.5">Tên phòng</Text>
               <TextInput
-                className="w-full h-12 px-4 rounded-2xl border border-slate-200 bg-slate-50 font-bold text-slate-900"
+                className="w-full h-12 px-4 rounded-2xl border border-slate-200 bg-slate-50 font-bold text-slate-900 focus:border-[#6C4DFF] focus:bg-white"
                 placeholder="VD: Phòng 402 Hub"
                 value={proposedRoomName}
                 onChangeText={setProposedRoomName}

@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { TactileButton } from './TactileButton';
 
-export type MascotMood = 'happy' | 'sarcastic' | 'sos' | 'sleeping';
+export type MascotMood = 'happy' | 'sarcastic' | 'sos' | 'sleeping' | 'cleaning' | 'reminder';
 
 interface EmptyStateProps {
   mood?: MascotMood;
@@ -12,26 +12,39 @@ interface EmptyStateProps {
   onAction?: () => void;
 }
 
-const mascotEmoji: Record<MascotMood, { emoji: string; badgeColor: string; broTitle: string }> = {
+const MASCOT_IMAGES = {
+  happy: require('../../assets/brand/mascot-like.png'),
+  sarcastic: require('../../assets/brand/mascot-sarcastic.png'),
+  sos: require('../../assets/brand/mascot-sos.png'),
+  sleeping: require('../../assets/brand/mascot-sleeping.png'),
+  cleaning: require('../../assets/brand/card-cleaning.png'),
+  reminder: require('../../assets/brand/card-reminder.png'),
+};
+
+const mascotMeta: Record<MascotMood, { badgeColor: string; broTitle: string }> = {
   happy: {
-    emoji: '😎👍',
-    badgeColor: 'bg-emerald-100 border-emerald-300 text-emerald-800',
-    broTitle: 'Bro Vui Vẻ',
+    badgeColor: 'bg-green-50 border-green-200 text-green-700',
+    broTitle: 'Bro Chill',
   },
   sarcastic: {
-    emoji: '😏🧹',
-    badgeColor: 'bg-amber-100 border-amber-300 text-amber-800',
+    badgeColor: 'bg-yellow-50 border-yellow-200 text-amber-800',
     broTitle: 'Bro Cà Khịa',
   },
   sos: {
-    emoji: '🆘🚨',
-    badgeColor: 'bg-rose-100 border-rose-300 text-rose-800',
+    badgeColor: 'bg-red-50 border-red-200 text-red-700',
     broTitle: 'Bro Cứu Hộ',
   },
   sleeping: {
-    emoji: '😴💤',
-    badgeColor: 'bg-indigo-100 border-indigo-300 text-indigo-800',
+    badgeColor: 'bg-purple-50 border-purple-200 text-[#6C4DFF]',
     broTitle: 'Bro Đang Ngủ',
+  },
+  cleaning: {
+    badgeColor: 'bg-purple-50 border-purple-200 text-[#6C4DFF]',
+    broTitle: 'Bro Dọn Dẹp',
+  },
+  reminder: {
+    badgeColor: 'bg-purple-50 border-purple-200 text-[#6C4DFF]',
+    broTitle: 'Bro Nhắc Việc',
   },
 };
 
@@ -42,19 +55,26 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   actionTitle,
   onAction,
 }) => {
-  const currentMascot = mascotEmoji[mood] || mascotEmoji.happy;
+  const currentMeta = mascotMeta[mood] || mascotMeta.happy;
+  const imageSource = MASCOT_IMAGES[mood] || MASCOT_IMAGES.happy;
 
   return (
     <View className="items-center justify-center p-6 my-auto">
       {/* Mascot Graphic Avatar */}
-      <View className="w-20 h-20 rounded-full bg-orange-100 items-center justify-center border-4 border-[#FF5722]/20 mb-3.5 shadow-sm">
-        <Text className="text-3xl">{currentMascot.emoji}</Text>
+      <View
+        className="w-24 h-24 rounded-3xl bg-[#F5F3FF] items-center justify-center border-2 border-[#DDD6FE] mb-3.5 shadow-sm p-2"
+        style={{ elevation: 2 }}
+      >
+        <Image
+          source={imageSource}
+          style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+        />
       </View>
 
       {/* Mascot Badge Tag */}
-      <View className={`px-3 py-0.5 rounded-full border mb-2.5 ${currentMascot.badgeColor}`}>
+      <View className={`px-3 py-0.5 rounded-full border mb-2.5 ${currentMeta.badgeColor}`}>
         <Text className="text-[11px] font-bold uppercase tracking-wider">
-          {currentMascot.broTitle}
+          {currentMeta.broTitle}
         </Text>
       </View>
 

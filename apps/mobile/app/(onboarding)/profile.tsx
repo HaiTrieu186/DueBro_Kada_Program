@@ -91,8 +91,18 @@ export default function OnboardingProfileScreen() {
       });
       setHasCompletedOnboarding(true);
 
-      Alert.alert('Chào mừng bro!', 'Hồ sơ đã sẵn sàng. Khám phá roommate và việc nhà ngay thôi!');
-      router.replace('/(tabs)/home');
+      Alert.alert(
+        'Chào mừng bro! 🎉',
+        'Hồ sơ đã sẵn sàng. Khám phá roommate và việc nhà ngay thôi!',
+        [
+          {
+            text: 'Bắt đầu ngay 🚀',
+            onPress: () => {
+              router.replace('/(tabs)/home');
+            },
+          },
+        ]
+      );
     } catch (err: any) {
       Alert.alert('Lỗi lưu hồ sơ', err.message || 'Không thể lưu hồ sơ.');
     } finally {
@@ -101,11 +111,11 @@ export default function OnboardingProfileScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView className="flex-1 bg-[#FAFAF9]">
       <ScrollView className="flex-1 px-6 py-4" contentContainerStyle={{ paddingBottom: 40 }}>
         {/* Progress header */}
         <View className="flex-row items-center justify-between mb-2">
-          <Text className="text-xs font-black text-[#FF5722] tracking-widest uppercase">
+          <Text className="text-xs font-black text-[#6C4DFF] tracking-widest uppercase">
             BƯỚC {step} / 4
           </Text>
           <Text className="text-xs font-bold text-slate-400">
@@ -116,7 +126,7 @@ export default function OnboardingProfileScreen() {
         {/* Step progress bar */}
         <View className="h-1.5 w-full bg-slate-200 rounded-full mb-6 overflow-hidden">
           <View
-            className="h-full bg-[#FF5722] rounded-full"
+            className="h-full bg-[#6C4DFF] rounded-full"
             style={{ width: `${(step / 4) * 100}%` }}
           />
         </View>
@@ -135,7 +145,7 @@ export default function OnboardingProfileScreen() {
               <View>
                 <Text className="text-xs font-bold text-slate-700 uppercase mb-1">Tên hiển thị</Text>
                 <TextInput
-                  className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900"
+                  className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900 focus:border-[#6C4DFF] focus:bg-white"
                   placeholder="VD: Minh Đức"
                   value={displayName}
                   onChangeText={setDisplayName}
@@ -156,13 +166,13 @@ export default function OnboardingProfileScreen() {
                       onPress={() => setOccupation(item.val as OccupationType)}
                       className={`px-3.5 py-2 rounded-xl border ${
                         occupation === item.val
-                          ? 'bg-orange-50 border-[#FF5722]'
+                          ? 'bg-[#EDE9FE] border-[#6C4DFF]'
                           : 'bg-slate-50 border-slate-200'
                       }`}
                     >
                       <Text
                         className={`text-xs font-bold ${
-                          occupation === item.val ? 'text-[#FF5722]' : 'text-slate-600'
+                          occupation === item.val ? 'text-[#6C4DFF]' : 'text-slate-600'
                         }`}
                       >
                         {item.label}
@@ -176,13 +186,13 @@ export default function OnboardingProfileScreen() {
                 <Text className="text-xs font-bold text-slate-700 uppercase mb-1">Thành phố & Quận</Text>
                 <View className="flex-row space-x-2">
                   <TextInput
-                    className="flex-1 h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900"
+                    className="flex-1 h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900 focus:border-[#6C4DFF] focus:bg-white"
                     placeholder="Thành phố"
                     value={city}
                     onChangeText={setCity}
                   />
                   <TextInput
-                    className="flex-1 h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900"
+                    className="flex-1 h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900 focus:border-[#6C4DFF] focus:bg-white"
                     placeholder="Quận / Huyện"
                     value={district}
                     onChangeText={setDistrict}
@@ -202,13 +212,13 @@ export default function OnboardingProfileScreen() {
                       onPress={() => setIntent(item.val as MatchIntent)}
                       className={`flex-1 p-3 rounded-xl border ${
                         intent === item.val
-                          ? 'bg-orange-50 border-[#FF5722]'
+                          ? 'bg-[#EDE9FE] border-[#6C4DFF]'
                           : 'bg-slate-50 border-slate-200'
                       }`}
                     >
                       <Text
                         className={`text-xs font-bold text-center ${
-                          intent === item.val ? 'text-[#FF5722]' : 'text-slate-600'
+                          intent === item.val ? 'text-[#6C4DFF]' : 'text-slate-600'
                         }`}
                       >
                         {item.label}
@@ -237,7 +247,7 @@ export default function OnboardingProfileScreen() {
                   Giờ thức dậy (HH:MM)
                 </Text>
                 <TextInput
-                  className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900"
+                  className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900 focus:border-[#6C4DFF] focus:bg-white"
                   placeholder="07:00"
                   value={wakeUpTime}
                   onChangeText={setWakeUpTime}
@@ -249,7 +259,7 @@ export default function OnboardingProfileScreen() {
                   Giờ đi ngủ (HH:MM)
                 </Text>
                 <TextInput
-                  className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900"
+                  className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900 focus:border-[#6C4DFF] focus:bg-white"
                   placeholder="23:30"
                   value={sleepTime}
                   onChangeText={setSleepTime}
@@ -275,7 +285,7 @@ export default function OnboardingProfileScreen() {
                   <Text className="text-xs font-bold text-slate-700 uppercase">
                     Độ gọn gàng (1: Thoải mái → 5: Rất sạch)
                   </Text>
-                  <Text className="text-sm font-black text-[#FF5722]">{tidinessLevel}/5</Text>
+                  <Text className="text-sm font-black text-[#6C4DFF]">{tidinessLevel}/5</Text>
                 </View>
                 <View className="flex-row justify-between">
                   {[1, 2, 3, 4, 5].map((lvl) => (
@@ -284,7 +294,7 @@ export default function OnboardingProfileScreen() {
                       onPress={() => setTidinessLevel(lvl)}
                       className={`w-12 h-12 rounded-2xl items-center justify-center border ${
                         tidinessLevel === lvl
-                          ? 'bg-[#FF5722] border-[#FF5722]'
+                          ? 'bg-[#6C4DFF] border-[#6C4DFF]'
                           : 'bg-slate-50 border-slate-200'
                       }`}
                     >
@@ -308,8 +318,8 @@ export default function OnboardingProfileScreen() {
                 <Switch
                   value={smokes}
                   onValueChange={setSmokes}
-                  trackColor={{ false: '#CBD5E1', true: '#FFCCBC' }}
-                  thumbColor={smokes ? '#FF5722' : '#F1F5F9'}
+                  trackColor={{ false: '#CBD5E1', true: '#DDD6FE' }}
+                  thumbColor={smokes ? '#6C4DFF' : '#F1F5F9'}
                 />
               </View>
 
@@ -321,8 +331,8 @@ export default function OnboardingProfileScreen() {
                 <Switch
                   value={hasPet}
                   onValueChange={setHasPet}
-                  trackColor={{ false: '#CBD5E1', true: '#FFCCBC' }}
-                  thumbColor={hasPet ? '#FF5722' : '#F1F5F9'}
+                  trackColor={{ false: '#CBD5E1', true: '#DDD6FE' }}
+                  thumbColor={hasPet ? '#6C4DFF' : '#F1F5F9'}
                 />
               </View>
             </View>
@@ -346,14 +356,14 @@ export default function OnboardingProfileScreen() {
                 </Text>
                 <View className="flex-row space-x-2">
                   <TextInput
-                    className="flex-1 h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900"
+                    className="flex-1 h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900 focus:border-[#6C4DFF] focus:bg-white"
                     placeholder="Min (1500000)"
                     keyboardType="numeric"
                     value={budgetMin}
                     onChangeText={setBudgetMin}
                   />
                   <TextInput
-                    className="flex-1 h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900"
+                    className="flex-1 h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900 focus:border-[#6C4DFF] focus:bg-white"
                     placeholder="Max (3500000)"
                     keyboardType="numeric"
                     value={budgetMax}
@@ -367,7 +377,7 @@ export default function OnboardingProfileScreen() {
                   Lời giới thiệu bản thân (Bio ≤ 300 chữ)
                 </Text>
                 <TextInput
-                  className="w-full h-24 p-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900"
+                  className="w-full h-24 p-4 rounded-xl border border-slate-200 bg-slate-50 font-medium text-slate-900 focus:border-[#6C4DFF] focus:bg-white"
                   multiline
                   textAlignVertical="top"
                   placeholder="Chia sẻ một chút về tính cách, thói quen của bro..."

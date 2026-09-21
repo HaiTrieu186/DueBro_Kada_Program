@@ -47,8 +47,8 @@ export default function CreateRoomScreen() {
           </Pressable>
         </View>
 
-        <View className="w-16 h-16 rounded-3xl bg-orange-100 items-center justify-center mb-4">
-          <Home size={32} color="#FF5722" />
+        <View className="w-16 h-16 rounded-3xl bg-[#EDE9FE] border-2 border-[#6C4DFF]/20 items-center justify-center mb-4">
+          <Home size={32} color="#6C4DFF" />
         </View>
 
         <Text className="text-2xl font-black text-slate-900 mb-2">
@@ -61,7 +61,7 @@ export default function CreateRoomScreen() {
         <View className="mb-4">
           <Text className="text-xs font-bold text-slate-700 uppercase mb-2">Tên phòng</Text>
           <TextInput
-            className="w-full h-13 px-4 rounded-2xl border border-slate-200 bg-slate-50 font-bold text-slate-900 text-base"
+            className="w-full h-13 px-4 rounded-2xl border border-slate-200 bg-slate-50 font-bold text-slate-900 text-base focus:border-[#6C4DFF] focus:bg-white"
             placeholder="VD: Phòng 402 Homies"
             value={roomName}
             onChangeText={setRoomName}
