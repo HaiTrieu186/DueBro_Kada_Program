@@ -66,19 +66,34 @@ export default function TaskDetailScreen() {
     }
   };
 
-  const handlePickAndSubmitPhoto = async () => {
+  const processImageSubmission = async (source: 'camera' | 'library') => {
     try {
-      const permission = await ImagePicker.requestCameraPermissionsAsync();
-      if (!permission.granted) {
-        Alert.alert('Quyền truy cập', 'Cần cấp quyền máy ảnh để chụp ảnh minh chứng.');
-        return;
-      }
+      let result: ImagePicker.ImagePickerResult;
 
-      const result = await ImagePicker.launchCameraAsync({
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 0.8,
-      });
+      if (source === 'camera') {
+        const permission = await ImagePicker.requestCameraPermissionsAsync();
+        if (!permission.granted) {
+          Alert.alert('Quyền truy cập', 'Cần cấp quyền máy ảnh để chụp ảnh minh chứng.');
+          return;
+        }
+
+        result = await ImagePicker.launchCameraAsync({
+          allowsEditing: false, // Lấy toàn bộ bức ảnh, không ép crop
+          quality: 0.8,
+        });
+      } else {
+        const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (!permission.granted) {
+          Alert.alert('Quyền truy cập', 'Cần cấp quyền thư viện để chọn ảnh minh chứng.');
+          return;
+        }
+
+        result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: false, // Lấy toàn bộ bức ảnh
+          quality: 0.8,
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        });
+      }
 
       if (!result.canceled && result.assets[0]?.uri) {
         setIsSubmittingPhoto(true);
@@ -91,10 +106,28 @@ export default function TaskDetailScreen() {
         refetch();
       }
     } catch (err: any) {
-      Alert.alert('Lỗi nộp việc', err.message);
+      Alert.alert('Lỗi nộp việc', err.message || 'Không thể tải ảnh lên.');
     } finally {
       setIsSubmittingPhoto(false);
     }
+  };
+
+  const handlePickAndSubmitPhoto = () => {
+    Alert.alert(
+      'Nộp ảnh minh chứng 📸',
+      'Bro muốn chụp ảnh trực tiếp hay chọn ảnh có sẵn từ máy?',
+      [
+        { text: 'Hủy', style: 'cancel' },
+        {
+          text: 'Chọn từ thư viện 🖼️',
+          onPress: () => processImageSubmission('library'),
+        },
+        {
+          text: 'Chụp ảnh mới 📷',
+          onPress: () => processImageSubmission('camera'),
+        },
+      ]
+    );
   };
 
   const handleNudge = async () => {

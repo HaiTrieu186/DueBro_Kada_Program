@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
+import { decode } from 'base64-arraybuffer';
 import { supabase } from '../../lib/supabase';
 import { householdApi } from './api';
 import type { TaskCategory } from '@duebro/shared-types';
@@ -175,25 +176,37 @@ export function useHouseholdMutations(roomId?: string | null) {
       let photoPath: string | null = null;
 
       if (params.imageUri) {
-        // Nén ảnh <= 1MB (ARCH Mục 15.3)
+        // Nén ảnh <= 1MB và trích xuất Base64 (ARCH Mục 15.3)
         const manipResult = await ImageManipulator.manipulateAsync(
           params.imageUri,
           [{ resize: { width: 1280 } }],
-          { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+          { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG, base64: true }
         );
+
+        if (!manipResult.base64) {
+          throw new Error('Không thể xử lý dữ liệu ảnh minh chứng.');
+        }
 
         const fileName = `${Date.now()}_${Math.random().toString(36).slice(2, 7)}.jpg`;
         // Đường dẫn bắt buộc bắt đầu bằng roomId (Storage RLS policy Mục 4.7)
         photoPath = `${params.roomId}/${params.taskId}/${fileName}`;
 
-        const response = await fetch(manipResult.uri);
-        const blob = await response.blob();
+        // Chuyển đổi Base64 sang binary ArrayBuffer chuẩn (khắc phục lỗi MIME type text/plain trên React Native)
+        const arrayBuffer = decode(manipResult.base64);
 
         const { error: uploadError } = await supabase.storage
           .from('task-photos')
-          .upload(photoPath, blob, { contentType: 'image/jpeg' });
+          .upload(photoPath, arrayBuffer, {
+            contentType: 'image/jpeg',
+            upsert: true,
+          });
 
-        if (uploadError) throw uploadError;
+        if (uploadError) {
+          if (uploadError.message?.toLowerCase().includes('bucket not found')) {
+            throw new Error('Chưa tìm thấy bucket "task-photos" trên Supabase Storage. Vui lòng chạy lệnh SQL tạo bucket trong Supabase Dashboard.');
+          }
+          throw uploadError;
+        }
       }
 
       return householdApi.submitTask(params.taskId, photoPath);

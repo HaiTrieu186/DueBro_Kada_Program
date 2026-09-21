@@ -13,6 +13,13 @@ export class AppError extends Error {
  * Tự động bóc tách thông báo lỗi tiếng Việt từ PostgreSQL RAISE EXCEPTION thành AppError.
  */
 export async function callRpc<T>(fn: string, args?: Record<string, unknown>): Promise<T> {
+  if (args) {
+    for (const [key, val] of Object.entries(args)) {
+      if (val === undefined) {
+        throw new AppError(`Tham số "${key}" bị thiếu hoặc không xác định (undefined).`);
+      }
+    }
+  }
   const { data, error } = await (supabase.rpc as any)(fn, args ?? {});
   if (error) {
     // Chuẩn hóa message: bỏ prefix ERROR: và đoạn CONTEXT...

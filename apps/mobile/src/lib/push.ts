@@ -26,13 +26,16 @@ if (!isExpoGoAndroid && Platform.OS !== 'web') {
   }
 }
 
+let hasLoggedPushNotice = false;
+
 /**
  * Register push notification token with Supabase profiles (ARCH Mục 15.5)
  */
 export async function registerForPushNotifications(userId: string): Promise<string | null> {
   if (Platform.OS === 'web' || isExpoGoAndroid || !Notifications) {
-    if (isExpoGoAndroid) {
-      console.log('Skipping push notification registration in Expo Go on Android (SDK 53+ requires Development Build).');
+    if (isExpoGoAndroid && !hasLoggedPushNotice) {
+      hasLoggedPushNotice = true;
+      console.log('ℹ️ Push notifications: Đang chạy trên Expo Go Android (tính năng push cần Development Build để nhận thông báo nền, các chức năng khác hoạt động 100% bình thường).');
     }
     return null;
   }

@@ -1,5 +1,5 @@
 import { supabase } from '../../lib/supabase';
-import { callRpc } from '../../lib/rpc';
+import { callRpc, AppError } from '../../lib/rpc';
 import { vnWeekStart } from '../../lib/time';
 import type { TaskInstance, TaskCategory } from '@duebro/shared-types';
 
@@ -99,19 +99,29 @@ export const householdApi = {
 
     if (tError) throw tError;
 
-    // Photos
+    // Photos (Lấy ảnh mới nhất theo created_at desc)
     const { data: photos } = await supabase
       .from('task_photos')
       .select('*')
-      .eq('task_id', taskId);
+      .eq('task_id', taskId)
+      .order('created_at', { ascending: false });
 
     // Get signed URL for photo if exists
     let photoSignedUrl: string | null = null;
     if (photos && photos.length > 0) {
-      const { data: signedData } = await supabase.storage
+      const latestPhoto = photos[0];
+      const { data: signedData, error: sError } = await supabase.storage
         .from('task-photos')
-        .createSignedUrl(photos[0].storage_path, 3600);
-      photoSignedUrl = signedData?.signedUrl ?? null;
+        .createSignedUrl(latestPhoto.storage_path, 86400); // 24 giờ
+      
+      if (!sError && signedData?.signedUrl) {
+        photoSignedUrl = signedData.signedUrl;
+      } else {
+        const { data: publicData } = supabase.storage
+          .from('task-photos')
+          .getPublicUrl(latestPhoto.storage_path);
+        photoSignedUrl = publicData?.publicUrl ?? null;
+      }
     }
 
     // Public disputes (ẩn danh - ARCH Mục 15.3)
@@ -211,7 +221,6 @@ export const householdApi = {
       p_category: params.category,
       p_effort_points: params.effortPoints,
       p_due_at: params.dueAt,
-      p_requires_photo: params.requiresPhoto ?? (params.effortPoints >= 30),
     });
   },
 
@@ -251,13 +260,11 @@ export const householdApi = {
   }) => {
     return callRpc<any>('propose_chore_template', {
       p_room_id: params.roomId,
-      p_title: params.title,
-      p_description: params.description || null,
+      p_name: params.title,
       p_category: params.category,
-      p_effort_points: params.effortPoints,
-      p_frequency: params.frequency || 'weekly',
-      p_assigned_to: params.assignedTo || null,
-      p_due_time: params.dueTime || '20:00',
+      p_default_effort_points: params.effortPoints,
+      p_estimated_minutes: 20,
+      p_recurrence_rule: params.frequency || 'FREQ=WEEKLY',
       p_requires_photo: params.requiresPhoto ?? (params.effortPoints >= 30),
     });
   },
@@ -287,6 +294,7 @@ export const householdApi = {
   },
 
   setAwayMode: async (roomId: string, fromDate: string, toDate: string) => {
+    if (!roomId) throw new AppError('Chưa chọn phòng hoặc mã phòng không hợp lệ.');
     return callRpc<any>('set_away_mode', {
       p_room_id: roomId,
       p_from: fromDate,
@@ -295,6 +303,7 @@ export const householdApi = {
   },
 
   clearAwayMode: async (roomId: string) => {
+    if (!roomId) throw new AppError('Chưa chọn phòng hoặc mã phòng không hợp lệ.');
     return callRpc<any>('clear_away_mode', { p_room_id: roomId });
   },
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -48,6 +48,12 @@ export default function HomeScreen() {
     invite_code: myRooms[0].room.invite_code,
     role: myRooms[0].role,
   } : null);
+
+  useEffect(() => {
+    if (!activeRoom && currentRoom) {
+      setActiveRoom(currentRoom);
+    }
+  }, [activeRoom, currentRoom, setActiveRoom]);
 
   const roomId = currentRoom?.id;
 
@@ -187,7 +193,7 @@ export default function HomeScreen() {
 
             {/* Room Members Link */}
             <Pressable
-              onPress={() => router.push('/room/members')}
+              onPress={() => router.push({ pathname: '/room/members', params: { roomId } } as any)}
               className="w-8 h-8 rounded-full bg-slate-100 items-center justify-center"
             >
               <Users size={16} color="#475569" />

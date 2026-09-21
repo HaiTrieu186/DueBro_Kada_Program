@@ -141,3 +141,57 @@ grant update (user_id, intent, city, district, gender, gender_pref, occupation_t
               budget_min, budget_max, tidiness_level, noise_tolerance, smokes, has_pet, guest_frequency,
               guest_curfew, bio, updated_at)
   on lifestyle_profiles to authenticated;
+
+-- 3. Bổ sung task_instances vào Realtime publication (ARCH Mục 4.7 & R8)
+do $$
+begin
+  alter publication supabase_realtime add table task_instances;
+exception
+  when duplicate_object then null;
+  when undefined_object then null;
+end $$;
+
+-- 4. Khởi tạo Storage buckets và policies (ARCH Mục 4.7 & Mục 12)
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values
+  ('task-photos', 'task-photos', false, 1048576, null),
+  ('avatars', 'avatars', true, 1048576, null)
+on conflict (id) do update set
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = null;
+
+do $$
+begin
+  -- task-photos policies
+  if not exists (select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname = 'task_photos_read') then
+    create policy "task_photos_read" on storage.objects for select to authenticated
+      using (
+        bucket_id = 'task-photos'
+        and (storage.foldername(name))[1] ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        and is_room_member(((storage.foldername(name))[1])::uuid)
+      );
+  end if;
+
+  if not exists (select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname = 'task_photos_insert') then
+    create policy "task_photos_insert" on storage.objects for insert to authenticated
+      with check (
+        bucket_id = 'task-photos'
+        and (storage.foldername(name))[1] ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        and is_room_member(((storage.foldername(name))[1])::uuid)
+      );
+  end if;
+
+  -- avatars policies
+  if not exists (select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname = 'avatars_read') then
+    create policy "avatars_read" on storage.objects for select to public
+      using (bucket_id = 'avatars');
+  end if;
+
+  if not exists (select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname = 'avatars_write_own') then
+    create policy "avatars_write_own" on storage.objects for insert to authenticated
+      with check (bucket_id = 'avatars' and (storage.foldername(name))[1] = auth.uid()::text);
+  end if;
+exception
+  when undefined_table then null;
+  when insufficient_privilege then null;
+end $$;
