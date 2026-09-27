@@ -8,13 +8,15 @@
     "packages/*"
   ],
   "scripts": {
-    "typecheck": "pnpm -r --parallel run typecheck",
-    "lint": "pnpm -r --parallel run lint",
-    "mobile:start": "pnpm --filter duebro-mobile start",
-    "mobile:tunnel": "pnpm --filter duebro-mobile tunnel",
-    "mobile:web": "pnpm --filter duebro-mobile web",
-    "mobile:android": "pnpm --filter duebro-mobile android",
-    "mobile:typecheck": "pnpm --filter duebro-mobile typecheck",
+    "typecheck": "npm run --workspaces --if-present typecheck",
+    "lint": "npm run --workspaces --if-present lint",
+    "admin:dev": "npm --workspace=@duebro/admin run dev",
+    "admin:build": "npm --workspace=@duebro/admin run build",
+    "mobile:start": "npm --workspace=duebro-mobile run start",
+    "mobile:tunnel": "npm --workspace=duebro-mobile run tunnel",
+    "mobile:web": "npm --workspace=duebro-mobile run web",
+    "mobile:android": "npm --workspace=duebro-mobile run android",
+    "mobile:typecheck": "npm --workspace=duebro-mobile run typecheck",
     "gen:types": "supabase gen types typescript --local > packages/shared-types/src/database.types.ts"
   },
   "keywords": [

@@ -46,7 +46,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   return (
     <View className="items-center justify-center p-6 my-auto">
       {/* Mascot Graphic Avatar */}
-      <View className="w-24 h-24 rounded-full bg-orange-100 items-center justify-center border-4 border-[#FF5722]/20 mb-4 shadow-sm">
+      <View className="w-24 h-24 rounded-full bg-[#EDE9FE] items-center justify-center border-4 border-[#6C4DFF]/20 mb-4 shadow-sm">
         <Text className="text-4xl">{currentMascot.emoji}</Text>
       </View>
 

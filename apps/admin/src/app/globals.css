@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Text:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Typography */
+  --font-sans: 'Google Sans', 'Google Sans Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Color Tokens */
+  --color-primary-text: #14142B;
+  --color-secondary-text: #8A8AA3;
+  --color-muted-text: #B4B4C7;
+  
+  --color-brand-purple: #5B4BDB;
+  --color-purple-light: #8B7CE8;
+  --color-lavender-tint: #EEEDFB;
+  --color-lavender-bg: #EDEEF8;
+  
+  --color-teal: #4FD1C5;
+  --color-teal-badge-bg: #A7F0E0;
+  --color-teal-badge-text: #0F766E;
+  --color-teal-light: #B8ECEA;
+  
+  --color-orange: #F59E42;
+  --color-peach-bg: #FFD9A8;
+  --color-peach-text: #B45309;
+  
+  --color-red: #E5484D;
+  --color-pink-bg: #FFD6D9;
+  
+  --color-success: #34D399;
+  
+  --color-window-bg: #FFFFFF;
+  --color-content-bg: #F8F8FD;
+  --color-sidebar-bg: #FBFBFE;
+  --color-border-subtle: #EEEEF5;
+  --color-border-card: rgba(20, 20, 60, 0.05);
+  
+  /* Shadows */
+  --shadow-window: 0 30px 80px rgba(60, 40, 140, 0.25), 0 8px 24px rgba(60, 40, 140, 0.12);
+  --shadow-card: 0 1px 2px rgba(20, 20, 60, 0.04), 0 8px 30px rgba(110, 90, 220, 0.07);
+  --shadow-btn-ai: 0 6px 20px rgba(91, 75, 219, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 3px rgba(139, 124, 232, 0.15);
+  --shadow-btn-white: 0 2px 10px rgba(20, 20, 60, 0.06);
+}
+
+body {
+  color: var(--color-primary-text);
+  background: var(--color-content-bg);
+  font-family: var(--font-sans);
+}
+
+/* Prodify Card */
+.prodify-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid rgba(20, 20, 60, 0.06);
+  box-shadow: 0 1px 2px rgba(20, 20, 60, 0.04), 0 8px 30px rgba(110, 90, 220, 0.07);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.prodify-card:hover {
+  box-shadow: 0 2px 4px rgba(20, 20, 60, 0.05), 0 12px 36px rgba(110, 90, 220, 0.11);
+}
+
+/* Header Pill Buttons */
+.btn-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 42px !important;
+  padding: 0 18px !important;
+  border-radius: 999px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  gap: 8px !important;
+  text-decoration: none !important;
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease, background 150ms ease !important;
+  white-space: nowrap !important;
+  user-select: none !important;
+  line-height: 1 !important;
+}
+
+/* Prodify AI Button */
+.btn-ask-ai {
+  background: linear-gradient(135deg, #5B4BDB 0%, #7C6CF0 100%) !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  border: none !important;
+  box-shadow: 0 6px 20px rgba(91, 75, 219, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 3px rgba(139, 124, 232, 0.15) !important;
+}
+.btn-ask-ai:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 8px 24px rgba(91, 75, 219, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 0 5px rgba(139, 124, 232, 0.25) !important;
+}
+
+/* Dual-Border Outline Pill Button */
+.btn-outline-gradient {
+  background: #FFFFFF !important;
+  color: #14142B !important;
+  border: 1.5px solid #E4E4EE !important;
+  box-shadow: 0 2px 8px rgba(20, 20, 60, 0.04) !important;
+}
+.btn-outline-gradient:hover {
+  border-color: #5B4BDB !important;
+  color: #5B4BDB !important;
+  background: #F8F8FE !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 14px rgba(91, 75, 219, 0.15) !important;
+}
+
+/* Prodify Badges */
+.badge-in-progress {
+  background-color: #EDEEF8;
+  color: #5B4BDB;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: 6px;
+}
+
+.badge-todo {
+  background-color: #FFD6D9;
+  color: #E5484D;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: 6px;
+}
+
+.badge-upcoming {
+  background-color: #FFD9A8;
+  color: #B45309;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: 6px;
+}
+
+.badge-completed {
+  background-color: #A7F0E0;
+  color: #0F766E;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: 6px;
+}
+
+.badge-high {
+  background-color: #FFD6D9;
+  color: #E5484D;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.badge-low {
+  background-color: #A7F0E0;
+  color: #0F766E;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.badge-medium {
+  background-color: #FFD9A8;
+  color: #B45309;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}

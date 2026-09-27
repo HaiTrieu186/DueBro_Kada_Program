@@ -50,6 +50,42 @@ Tài liệu hợp đồng giữa **App Core (Mobile)** và **AI Engine / Edge Fu
 
 ---
 
+## 1.1 RPC: `save_lifestyle_profile` (Lưu Hồ Sơ Lối Sống & Onboarding)
+
+- **Caller:** Authenticated user (`auth.uid()`)
+- **Security:** `SECURITY DEFINER set search_path = public, pg_temp`
+- **Input:**
+  ```json
+  {
+    "p_intent": "seeking_roommate",
+    "p_city": "TP. Hồ Chí Minh",
+    "p_district": "Quận 1",
+    "p_gender": "male",
+    "p_gender_pref": "any",
+    "p_occupation_type": "student",
+    "p_wake_up_time": "07:00",
+    "p_sleep_time": "23:00",
+    "p_budget_min": 1500000,
+    "p_budget_max": 3500000,
+    "p_tidiness_level": 4,
+    "p_noise_tolerance": 3,
+    "p_smokes": false,
+    "p_has_pet": false,
+    "p_guest_frequency": "sometimes",
+    "p_guest_curfew": "22:00",
+    "p_bio": "Sinh viên năng động, sạch sẽ.",
+    "p_display_name": "Minh Đức"
+  }
+  ```
+- **Output:** `lifestyle_profiles` row
+- **Behavior:**
+  - Cập nhật `profiles.display_name` trong cùng 1 transaction (nếu có `p_display_name`).
+  - Upsert `lifestyle_profiles` theo `v_me = auth.uid()`.
+  - Validate toàn bộ ràng buộc nghiệp vụ (ngân sách, thang điểm 1-5, bio <= 300 ký tự...).
+  - Ngăn chặn client tự gán cờ `is_seed_data` hoặc `seed_trust_score`.
+
+---
+
 ## 2. RPC: `swipe(p_candidate_id uuid, p_action text)`
 
 - **Caller:** Authenticated user

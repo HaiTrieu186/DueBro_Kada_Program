@@ -111,6 +111,10 @@ begin
     perform _t('authenticated','aaaaaaaa-0000-0000-0000-000000000001', $q$ update lifestyle_profiles set is_seed_data=true where user_id='aaaaaaaa-0000-0000-0000-000000000001' $q$, 'fail', 'S8a tự set is_seed_data');
     perform _t('anon', null, $q$ select count(*) from lifestyle_profiles $q$, 'fail', 'S8b anon đọc lifestyle_profiles');
     perform _t('authenticated','aaaaaaaa-0000-0000-0000-000000000001', $q$ insert into match_suggestions(user_id,candidate_id,compatibility_score,breakdown,reasons,model_version) values ('aaaaaaaa-0000-0000-0000-000000000001','aaaaaaaa-0000-0000-0000-000000000002',1,'{}','{}','x') $q$, 'fail', 'S8c client ghi match_suggestions');
+    if to_regproc('save_lifestyle_profile') is not null then
+      perform _t('authenticated','aaaaaaaa-0000-0000-0000-000000000002', $q$ select * from save_lifestyle_profile(p_display_name => 'User B') $q$, 'ok', 'S8d save_lifestyle_profile authenticated');
+      perform _t('anon', null, $q$ select * from save_lifestyle_profile(p_display_name => 'Anon') $q$, 'fail', 'S8e save_lifestyle_profile anon');
+    end if;
   end if;
   if to_regclass('public.messages') is not null then
     perform _t('anon', null, $q$ select count(*) from messages $q$, 'fail', 'S9a anon đọc messages');

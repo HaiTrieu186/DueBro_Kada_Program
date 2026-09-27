@@ -2,7 +2,7 @@
 -- Architecture Section 6.5: 18 Hồ sơ Seed Data Đa Dạng Cho Demo Matching & Household
 -- Phân bố: 16 hồ sơ tại TP.HCM (Quận 10, Quận 1, Bình Thạnh, Thủ Đức) + 2 hồ sơ tại Hà Nội (chứng minh lọc city)
 
--- 1. Thêm 18 tài khoản vào auth.users (nếu chưa có)
+-- 1. Thêm 18 tài khoản vào auth.users (nếu chưa có) và đồng bộ auth.identities
 do $$
 declare
   i int;
@@ -16,15 +16,45 @@ begin
     if not exists (select 1 from auth.users where id = uid) then
       insert into auth.users (
         id, instance_id, aud, role, email, encrypted_password, email_confirmed_at,
-        raw_app_meta_data, raw_user_meta_data, created_at, updated_at
+        raw_app_meta_data, raw_user_meta_data, created_at, updated_at,
+        confirmation_token, recovery_token, email_change_token_new, email_change,
+        email_change_token_current, phone_change, phone_change_token, reauthentication_token
       ) values (
         uid, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
         u_email, crypt('DueBro@2026', gen_salt('bf')), now(),
         '{"provider":"email","providers":["email"]}'::jsonb,
         jsonb_build_object('display_name', 'Seed User ' || i),
-        now(), now()
+        now(), now(),
+        '', '', '', '', '', '', '', ''
       );
+    else
+      -- Fix toàn bộ các cột token nếu đang là NULL để GoTrue Auth không bị lỗi 'Database error querying schema'
+      update auth.users
+      set
+        confirmation_token = coalesce(confirmation_token, ''),
+        recovery_token = coalesce(recovery_token, ''),
+        email_change_token_new = coalesce(email_change_token_new, ''),
+        email_change = coalesce(email_change, ''),
+        email_change_token_current = coalesce(email_change_token_current, ''),
+        phone_change = coalesce(phone_change, ''),
+        phone_change_token = coalesce(phone_change_token, ''),
+        reauthentication_token = coalesce(reauthentication_token, '')
+      where id = uid;
     end if;
+
+    -- Bổ sung bản ghi auth.identities cần thiết cho cơ chế đăng nhập email/mật khẩu của Supabase GoTrue
+    insert into auth.identities (
+      id, user_id, provider_id, identity_data, provider, last_sign_in_at, created_at, updated_at
+    ) values (
+      gen_random_uuid(),
+      uid,
+      uid::text,
+      format('{"sub":"%s","email":"%s"}', uid::text, u_email)::jsonb,
+      'email',
+      now(),
+      now(),
+      now()
+    ) on conflict do nothing;
   end loop;
 end $$;
 
