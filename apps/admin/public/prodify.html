@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prodify - Project Management Dashboard</title>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       1. CSS Reset & Variables
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      /* Typography */
+      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      
+      /* Color Tokens */
+      --color-primary-text: #14142B;
+      --color-secondary-text: #8A8AA3;
+      --color-muted-text: #B4B4C7;
+      
+      --color-brand-purple: #5B4BDB;
+      --color-purple-light: #8B7CE8;
+      --color-lavender-tint: #EEEDFB;
+      --color-lavender-bg: #EDEEF8;
+      
+      --color-teal: #4FD1C5;
+      --color-teal-badge-bg: #A7F0E0;
+      --color-teal-badge-text: #0F766E;
+      --color-teal-light: #B8ECEA;
+      
+      --color-orange: #F59E42;
+      --color-peach-bg: #FFD9A8;
+      --color-peach-text: #B45309;
+      
+      --color-red: #E5484D;
+      --color-pink-bg: #FFD6D9;
+      
+      --color-success: #34D399;
+      
+      --color-window-bg: #FFFFFF;
+      --color-content-bg: #F8F8FD;
+      --color-sidebar-bg: #FBFBFE;
+      --color-border-subtle: #EEEEF5;
+      --color-border-card: rgba(20, 20, 60, 0.05);
+      
+      /* Shadows */
+      --shadow-window: 0 30px 80px rgba(60, 40, 140, 0.25), 0 8px 24px rgba(60, 40, 140, 0.12);
+      --shadow-card: 0 1px 2px rgba(20, 20, 60, 0.04), 0 8px 30px rgba(110, 90, 220, 0.07);
+      --shadow-btn-ai: 0 6px 20px rgba(91, 75, 219, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 4px rgba(139, 124, 232, 0.15);
+      --shadow-btn-white: 0 4px 14px rgba(94, 234, 212, 0.22);
+      --shadow-fab: 0 10px 30px rgba(91, 75, 219, 0.50), 0 0 0 6px rgba(139, 124, 232, 0.18);
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #C9BDFB 0%, #A594F0 50%, #8B7CE8 100%);
+      font-family: var(--font-family);
+      color: var(--color-primary-text);
+      padding: 40px 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Subtle background noise texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.35) 1px, transparent 1px),
+        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.35) 1px, transparent 1px),
+        radial-gradient(circle at 50% 15%, rgba(255, 255, 255, 0.25) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 10% 85%, rgba(255, 255, 255, 0.25) 1px, transparent 1px),
+        radial-gradient(circle at 90% 20%, rgba(255, 255, 255, 0.3) 1.5px, transparent 1.5px);
+      background-size: 160px 160px, 190px 190px, 240px 240px, 140px 140px, 210px 210px;
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    /* ==========================================================================
+       2. Safari Browser Window
+       ========================================================================== */
+    .safari-window {
+      width: 1440px;
+      max-width: 100%;
+      height: 900px;
+      background: var(--color-window-bg);
+      border-radius: 24px;
+      box-shadow: var(--shadow-window);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Safari Titlebar */
+    .safari-titlebar {
+      height: 52px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--color-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      flex-shrink: 0;
+      user-select: none;
+      z-index: 10;
+    }
+
+    .titlebar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .traffic-lights {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-right: 4px;
+    }
+
+    .traffic-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .traffic-dot.close { background-color: #FF5F57; }
+    .traffic-dot.minimize { background-color: #FEBC2E; }
+    .traffic-dot.maximize { background-color: #28C840; }
+
+    .nav-btn {
+      color: var(--color-secondary-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      border-radius: 6px;
+      transition: background 150ms ease, color 150ms ease;
+    }
+    .nav-btn:hover {
+      background: #F0F0F4;
+      color: var(--color-primary-text);
+    }
+    .nav-btn.disabled {
+      color: #D1D1DF;
+      cursor: default;
+    }
+    .nav-btn.disabled:hover {
+      background: none;
+      color: #D1D1DF;
+    }
+
+    .titlebar-nav-chevrons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 2px;
+    }
+
+    /* Centered URL Bar Pill */
+    .titlebar-center {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .url-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #EFEFF2;
+      border-radius: 10px;
+      height: 32px;
+      width: 480px;
+      padding: 0 12px;
+      font-size: 13px;
+      color: #6B6B80;
+      gap: 8px;
+    }
+
+    .url-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .url-text {
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .titlebar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Window Body: Sidebar + Main Content */
+    .window-body {
+      display: flex;
+      flex: 1;
+      height: calc(100% - 52px);
+      overflow: hidden;
+    }
+
+    /* ==========================================================================
+       3. Sidebar (236px)
+       ========================================================================== */
+    .sidebar {
+      width: 236px;
+      flex-shrink: 0;
+      background: var(--color-sidebar-bg);
+      border-right: 1px solid var(--color-border-subtle);
+      display: flex;
+      flex-direction: column;
+      padding: 16px 14px 18px 14px;
+      overflow-y: auto;
+    }
+
+    /* User Card */
+    .user-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(20, 20, 60, 0.05);
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: border-color 150ms ease;
+    }
+    .user-card:hover {
+      border-color: #DDDDEB;
+    }
+
+    .user-avatar-wrapper {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .user-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .user-online-dot {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      width: 9px;
+      height: 9px;
+      background-color: #22C55E;
+      border: 2px solid #FFFFFF;
+      border-radius: 50%;
+    }
+
+    .user-meta {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-name {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--color-primary-text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-status {
+      font-size: 11.5px;
+      color: var(--color-secondary-text);
+    }
+
+    .user-chevron {
+      color: var(--color-secondary-text);
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    /* Nav List */
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 40px;
+      border-radius: 10px;
+      padding: 0 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #55556E;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 150ms ease, color 150ms ease;
+      user-select: none;
+    }
+
+    .nav-item:hover {
+      background: #F3F3FA;
+      color: var(--color-primary-text);
+    }
+
+    .nav-item.active {
+      background: var(--color-lavender-bg);
+      font-weight: 600;
+      color: var(--color-primary-text);
+    }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: currentColor;
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background-color: #ECECF2;
+      margin: 16px 0 14px 0;
+    }
+
+    /* My Projects Section */
+    .sidebar-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-section-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-secondary-text);
+    }
+
+    .sidebar-add-pill {
+      background: #E9E8FB;
+      color: var(--color-brand-purple);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      transition: background 150ms ease;
+    }
+    .sidebar-add-pill:hover {
+      background: #DDD9F8;
+    }
+
+    .project-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .project-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 36px;
+      padding: 0 10px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #44445A;
+      cursor: pointer;
+      transition: background 150ms ease, color 150ms ease;
+    }
+    .project-item:hover {
+      background: #F3F3FA;
+      color: var(--color-primary-text);
+    }
+
+    .project-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .dot-purple { background-color: #7C3AED; }
+    .dot-navy { background-color: #2E1FA8; }
+    .dot-teal { background-color: #4FC3C0; }
+
+    .sidebar-spacer {
+      flex: 1;
+      min-height: 16px;
+    }
+
+    /* Settings */
+    .settings-nav {
+      margin-bottom: 14px;
+    }
+
+    /* Promo Card */
+    .promo-card {
+      border-radius: 20px;
+      padding: 16px 14px;
+      background: linear-gradient(160deg, #6F5CE0 0%, #A99BF0 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 10px 24px rgba(91, 75, 219, 0.30);
+      color: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+    }
+
+    .promo-logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13.5px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .promo-desc {
+      font-size: 12px;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 400;
+    }
+
+    .promo-btn {
+      height: 34px;
+      background: #FFFFFF;
+      color: var(--color-brand-purple);
+      border-radius: 999px;
+      border: none;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .promo-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+    }
+
+    /* ==========================================================================
+       4. Main Content Area
+       ========================================================================== */
+    .main-content {
+      flex: 1;
+      background-color: var(--color-content-bg);
+      background-image: 
+        linear-gradient(to right, rgba(90, 80, 200, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(90, 80, 200, 0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      padding: 24px 34px 32px 34px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Custom thin scrollbar */
+    .main-content::-webkit-scrollbar,
+    .sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .main-content::-webkit-scrollbar-track,
+    .sidebar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .main-content::-webkit-scrollbar-thumb,
+    .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(180, 180, 200, 0.4);
+      border-radius: 999px;
+    }
+    .main-content::-webkit-scrollbar-thumb:hover,
+    .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(150, 150, 180, 0.6);
+    }
+
+    /* Header Section */
+    .header-area {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 22px;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-date {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-secondary-text);
+      margin-bottom: 4px;
+    }
+
+    .header-h1 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-primary-text);
+    }
+
+    .header-subtitle {
+      font-size: 32px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      background: linear-gradient(90deg, #4FD9C0 0%, #6B5CE7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 2px;
+    }
+
+    /* Header Pill Buttons */
+    .btn-pill {
+      height: 40px;
+      padding: 0 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .btn-ask-ai {
+      background: linear-gradient(135deg, #5B4BDB 0%, #7C6CF0 100%);
+      color: #FFFFFF;
+      font-weight: 600;
+      border: none;
+      box-shadow: var(--shadow-btn-ai);
+    }
+    .btn-ask-ai:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(91, 75, 219, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 4px rgba(139, 124, 232, 0.25);
+    }
+
+    .btn-outline-gradient {
+      background: linear-gradient(#FFFFFF, #FFFFFF) padding-box, linear-gradient(135deg, #5EEAD4 0%, #C4B5FD 100%) border-box;
+      border: 1.5px solid transparent;
+      color: var(--color-primary-text);
+      box-shadow: var(--shadow-btn-white);
+    }
+    .btn-outline-gradient:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(94, 234, 212, 0.35);
+    }
+
+    /* ==========================================================================
+       5. Dashboard Grid & Card System
+       ========================================================================== */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.18fr 1fr;
+      gap: 24px;
+    }
+
+    .col-left, .col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 22px 24px;
+      border: 1px solid var(--color-border-card);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-drag-handle {
+      display: flex;
+      align-items: center;
+      cursor: grab;
+      margin-right: -2px;
+    }
+
+    .card-title-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6F6F8E;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-primary-text);
+      letter-spacing: -0.01em;
+    }
+
+    .card-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--color-secondary-text);
+    }
+
+    .card-action-icon {
+      cursor: pointer;
+      color: #9B9BB4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 150ms ease;
+    }
+    .card-action-icon:hover {
+      color: var(--color-primary-text);
+    }
+
+    .card-action-dropdown {
+      font-size: 13px;
+      color: var(--color-secondary-text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
+    }
+    .card-action-dropdown:hover {
+      color: var(--color-primary-text);
+    }
+
+    /* ==========================================================================
+       6. My Tasks Card
+       ========================================================================== */
+    .task-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 12px;
+    }
+
+    .task-group-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .group-chevron {
+      color: var(--color-secondary-text);
+      display: flex;
+      align-items: center;
+      transition: transform 200ms ease;
+    }
+    .group-chevron.collapsed {
+      transform: rotate(-90deg);
+    }
+
+    .badge-in-progress {
+      background: var(--color-teal-badge-bg);
+      color: var(--color-teal-badge-text);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 3px 9px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .badge-todo {
+      background: #EDEDF0;
+      color: #6B6B80;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 3px 9px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .badge-upcoming {
+      background: var(--color-peach-bg);
+      color: var(--color-peach-text);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 3px 9px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .group-count {
+      font-size: 13px;
+      color: var(--color-secondary-text);
+      font-weight: 400;
+    }
+
+    .tasks-table-header {
+      display: flex;
+      align-items: center;
+      padding: 0 4px 8px 30px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #9B9BB4;
+      border-bottom: 1px solid #F0F0F6;
+    }
+
+    .th-name { flex: 1; }
+    .th-priority { width: 85px; text-align: center; }
+    .th-due { width: 85px; text-align: right; }
+
+    .task-rows-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .task-row {
+      display: flex;
+      align-items: center;
+      height: 48px;
+      border-bottom: 1px solid #F0F0F6;
+      padding: 0 4px;
+      transition: background 150ms ease;
+    }
+    .task-row:hover {
+      background: #FAFAFD;
+    }
+
+    .task-row-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .row-expand-chevron {
+      color: #B4B4C7;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .custom-checkbox {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      background-color: var(--color-teal-light);
+      border: 1px solid #7AD8D2;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 150ms ease;
+      flex-shrink: 0;
+    }
+    .custom-checkbox.checked {
+      background-color: var(--color-success);
+      border-color: var(--color-success);
+    }
+    .custom-checkbox.checked::after {
+      content: '';
+      width: 4px;
+      height: 7px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      margin-bottom: 2px;
+    }
+
+    .task-name {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--color-primary-text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .priority-badge {
+      width: 85px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .badge-high {
+      background: var(--color-pink-bg);
+      color: var(--color-red);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 6px;
+    }
+
+    .badge-low {
+      background: #EDEDF0;
+      color: #6B6B80;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 2px 10px;
+      border-radius: 6px;
+    }
+
+    .task-due {
+      width: 85px;
+      text-align: right;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-secondary-text);
+    }
+    .task-due.today {
+      color: var(--color-red);
+      font-weight: 600;
+    }
+
+    .btn-add-task {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #6B6B80;
+      font-size: 13px;
+      font-weight: 500;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin: 12px 0 16px 28px;
+      transition: color 150ms ease;
+    }
+    .btn-add-task:hover {
+      color: var(--color-brand-purple);
+    }
+
+    /* Collapsible Group Rows */
+    .collapsed-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .collapsed-group-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+      padding: 4px 0;
+    }
+
+    /* ==========================================================================
+       7. My Goals Card
+       ========================================================================== */
+    .goals-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .goal-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .goal-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .goal-title {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--color-primary-text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .goal-subtitle {
+      font-size: 12px;
+      color: var(--color-secondary-text);
+    }
+
+    .goal-progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .progress-bar-track {
+      width: 76px;
+      height: 5px;
+      background-color: #ECECF2;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 300ms ease;
+    }
+    .fill-teal {
+      background-color: var(--color-teal);
+      box-shadow: 0 0 8px rgba(79, 209, 197, 0.45);
+    }
+    .fill-orange {
+      background-color: var(--color-orange);
+      box-shadow: 0 0 8px rgba(245, 158, 66, 0.45);
+    }
+
+    .goal-percentage {
+      width: 34px;
+      text-align: right;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-primary-text);
+    }
+
+    /* ==========================================================================
+       8. Projects Card
+       ========================================================================== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .project-card-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 6px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 150ms ease;
+    }
+    .project-card-item:hover {
+      background: #FAFAFD;
+    }
+
+    .project-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-box-create {
+      border: 1.5px dashed #C9C9DC;
+      color: #8A8AA3;
+      background: #FFFFFF;
+    }
+
+    .icon-box-tinted {
+      background: #F0EFFB;
+      box-shadow: inset 0 1px 2px rgba(91, 75, 219, 0.06);
+    }
+
+    .project-card-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .project-card-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-primary-text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .project-card-meta {
+      font-size: 12px;
+      color: var(--color-secondary-text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ==========================================================================
+       9. Calendar Card
+       ========================================================================== */
+    .calendar-week-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 14px;
+      user-select: none;
+    }
+
+    .calendar-nav-arrow {
+      color: var(--color-secondary-text);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 150ms ease;
+    }
+    .calendar-nav-arrow:hover {
+      color: var(--color-primary-text);
+    }
+
+    .day-pill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 52px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 150ms ease;
+    }
+    .day-pill:hover:not(.selected) {
+      background: #F4F4F9;
+    }
+
+    .day-pill .day-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-secondary-text);
+      margin-bottom: 2px;
+    }
+
+    .day-pill .day-num {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-primary-text);
+    }
+
+    .day-pill.selected {
+      background: var(--color-brand-purple);
+      box-shadow: 0 6px 16px rgba(91, 75, 219, 0.40);
+    }
+    .day-pill.selected .day-label {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .day-pill.selected .day-num {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    /* Event Card */
+    .calendar-event-card {
+      background: var(--color-lavender-tint);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .event-top-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .event-title {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--color-primary-text);
+    }
+
+    .event-time {
+      font-size: 12px;
+      color: var(--color-secondary-text);
+      margin-top: 2px;
+    }
+
+    .event-dots {
+      color: #8A8AA3;
+      cursor: pointer;
+    }
+
+    .event-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+    }
+
+    .meet-chip {
+      background: #FFFFFF;
+      border-radius: 999px;
+      padding: 5px 12px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-primary-text);
+      box-shadow: 0 2px 8px rgba(20, 20, 60, 0.08);
+      cursor: pointer;
+    }
+
+    .avatar-stack {
+      display: flex;
+      align-items: center;
+    }
+
+    .stack-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #FFFFFF;
+      object-fit: cover;
+      margin-left: -7px;
+    }
+    .stack-avatar:first-child {
+      margin-left: 0;
+    }
+
+    .stack-overflow {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #FFFFFF;
+      background: var(--color-brand-purple);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: -7px;
+    }
+
+    /* ==========================================================================
+       10. Reminders Card
+       ========================================================================== */
+    .reminders-group-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-secondary-text);
+      margin-bottom: 8px;
+    }
+
+    .reminders-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .reminder-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px solid #F0F0F6;
+    }
+    .reminder-item:last-child {
+      border-bottom: none;
+    }
+
+    .reminder-text {
+      font-size: 13.5px;
+      color: var(--color-primary-text);
+      font-weight: 500;
+      line-height: 1.4;
+      flex: 1;
+      transition: opacity 150ms ease, text-decoration 150ms ease;
+    }
+    .reminder-item.completed .reminder-text {
+      text-decoration: line-through;
+      color: var(--color-secondary-text);
+      opacity: 0.7;
+    }
+
+    .reminder-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .reminder-icon-btn {
+      color: #9B9BB4;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+      transition: color 150ms ease;
+    }
+    .reminder-icon-btn:hover {
+      color: var(--color-primary-text);
+    }
+    .reminder-icon-btn.trash:hover {
+      color: var(--color-red);
+    }
+
+    .reminder-check-btn {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--color-success);
+      border: none;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(52, 211, 153, 0.4);
+      transition: transform 150ms ease, background-color 150ms ease;
+    }
+    .reminder-check-btn:hover {
+      transform: scale(1.08);
+    }
+    .reminder-item.completed .reminder-check-btn {
+      background: #A7F3D0;
+    }
+
+    /* ==========================================================================
+       11. Floating Action Button (FAB)
+       ========================================================================== */
+    .fab-btn {
+      position: absolute;
+      right: 28px;
+      bottom: 28px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #5B4BDB 0%, #8B7CE8 100%);
+      box-shadow: var(--shadow-fab);
+      border: none;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+    .fab-btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 14px 36px rgba(91, 75, 219, 0.60), 0 0 0 7px rgba(139, 124, 232, 0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- macOS Safari Window Container -->
+  <div class="safari-window">
+    
+    <!-- 1. Safari Titlebar -->
+    <header class="safari-titlebar">
+      <div class="titlebar-left">
+        <!-- macOS Window Controls -->
+        <div class="traffic-lights">
+          <div class="traffic-dot close"></div>
+          <div class="traffic-dot minimize"></div>
+          <div class="traffic-dot maximize"></div>
+        </div>
+
+        <!-- Sidebar Toggle -->
+        <button class="nav-btn" title="Toggle Sidebar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+            <line x1="9" y1="3" x2="9" y2="21"></line>
+          </svg>
+        </button>
+
+        <!-- Back / Forward Chevrons -->
+        <div class="titlebar-nav-chevrons">
+          <button class="nav-btn disabled" title="Back">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="nav-btn disabled" title="Forward">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Center URL Pill -->
+      <div class="titlebar-center">
+        <!-- Shield Icon -->
+        <button class="nav-btn" title="Privacy Report">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </button>
+
+        <div class="url-pill">
+          <div class="url-left">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span class="url-text">app.prodify.com/5623800/home</span>
+          </div>
+          <!-- Reload Icon -->
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer;">
+            <path d="M23 4v6h-6"></path>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Right Controls -->
+      <div class="titlebar-right">
+        <!-- Share -->
+        <button class="nav-btn" title="Share">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+            <polyline points="16 6 12 2 8 6"></polyline>
+            <line x1="12" y1="2" x2="12" y2="15"></line>
+          </svg>
+        </button>
+        <!-- New Tab / Plus -->
+        <button class="nav-btn" title="New Tab">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+        <!-- Tab Overview -->
+        <button class="nav-btn" title="Show All Tabs">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="7" width="13" height="13" rx="2"></rect>
+            <path d="M8 3h10a2 2 0 0 1 2 2v10"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- 2. Window Content Body -->
+    <div class="window-body">
+
+      <!-- 2.1 Sidebar -->
+      <aside class="sidebar">
+        <!-- User Profile Card -->
+        <div class="user-card">
+          <div class="user-avatar-wrapper">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&auto=format&fit=crop&q=80" alt="Courtney Henry" class="user-avatar">
+            <div class="user-online-dot"></div>
+          </div>
+          <div class="user-meta">
+            <span class="user-name">Courtney Henry</span>
+            <span class="user-status">Online</span>
+          </div>
+          <svg class="user-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+
+        <!-- Main Navigation Items -->
+        <ul class="nav-list">
+          <li>
+            <a class="nav-item active" href="#">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </span>
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item" href="#">
+              <span class="nav-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 1L14.5 9.5L23 12L14.5 14.5L12 23L9.5 14.5L1 12L9.5 9.5L12 1Z"></path>
+                </svg>
+              </span>
+              <span>Prodify AI</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item" href="#">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="2" width="6" height="4" rx="1"></rect>
+                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                  <path d="M9 14l2 2 4-4"></path>
+                </svg>
+              </span>
+              <span>My tasks</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item" href="#">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
+                  <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                </svg>
+              </span>
+              <span>Inbox</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item" href="#">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </span>
+              <span>Calendar</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item" href="#">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              </span>
+              <span>Reports &amp; Analytics</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Divider -->
+        <div class="sidebar-divider"></div>
+
+        <!-- My Projects -->
+        <div class="sidebar-section-header">
+          <span class="sidebar-section-title">My Projects</span>
+          <button class="sidebar-add-pill">+ Add</button>
+        </div>
+
+        <ul class="project-list">
+          <li class="project-item">
+            <span class="project-dot dot-purple"></span>
+            <span>Product launch</span>
+          </li>
+          <li class="project-item">
+            <span class="project-dot dot-navy"></span>
+            <span>Team brainstorm</span>
+          </li>
+          <li class="project-item">
+            <span class="project-dot dot-teal"></span>
+            <span>Branding launch</span>
+          </li>
+        </ul>
+
+        <!-- Spacer -->
+        <div class="sidebar-spacer"></div>
+
+        <!-- Settings Nav -->
+        <div class="settings-nav">
+          <a class="nav-item" href="#">
+            <span class="nav-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+            </span>
+            <span>Settings</span>
+          </a>
+        </div>
+
+        <!-- Promo Banner Card -->
+        <div class="promo-card">
+          <div class="promo-logo">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF">
+              <path d="M12 1L14.5 9.5L23 12L14.5 14.5L12 23L9.5 14.5L1 12L9.5 9.5L12 1Z"></path>
+            </svg>
+            <span>prodify</span>
+          </div>
+          <p class="promo-desc">
+            New members will gain access to public Spaces, Docs and Dashboards
+          </p>
+          <button class="promo-btn">+ Invite people</button>
+        </div>
+      </aside>
+
+      <!-- 2.2 Main Dashboard Area -->
+      <main class="main-content">
+        
+        <!-- Header Banner -->
+        <section class="header-area">
+          <div class="header-titles">
+            <span class="header-date">Mon, July 7</span>
+            <h1 class="header-h1">Hello, Courtney</h1>
+            <h2 class="header-subtitle">How can I help you today?</h2>
+          </div>
+
+          <div class="header-actions">
+            <!-- Ask AI Button -->
+            <button class="btn-pill btn-ask-ai">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF">
+                <path d="M12 1L14.5 9.5L23 12L14.5 14.5L12 23L9.5 14.5L1 12L9.5 9.5L12 1Z"></path>
+              </svg>
+              <span>Ask AI</span>
+            </button>
+            <!-- White pill buttons with dual gradient borders -->
+            <button class="btn-pill btn-outline-gradient">Get tasks updates</button>
+            <button class="btn-pill btn-outline-gradient">Create workspace</button>
+            <button class="btn-pill btn-outline-gradient">Connect apps</button>
+          </div>
+        </section>
+
+        <!-- Main Dashboard 2-Column Grid -->
+        <div class="dashboard-grid">
+
+          <!-- Left Column (Tasks + Goals) -->
+          <div class="col-left">
+
+            <!-- Card 1: My Tasks -->
+            <section class="card tasks-card">
+              <!-- Card Header -->
+              <div class="card-header">
+                <div class="card-title-group">
+                  <div class="card-drag-handle" title="Drag to reorder">
+                    <svg width="10" height="16" viewBox="0 0 8 14" fill="#B4B4C7">
+                      <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                      <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                      <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                    </svg>
+                  </div>
+                  <span class="card-title-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="9" y="2" width="6" height="4" rx="1"></rect>
+                      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                      <path d="M9 14l2 2 4-4"></path>
+                    </svg>
+                  </span>
+                  <h3 class="card-title">My Tasks</h3>
+                </div>
+
+                <div class="card-header-actions">
+                  <span class="card-action-icon" title="Add task">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </span>
+                  <span class="card-action-icon" title="Expand">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <polyline points="9 21 3 21 3 15"></polyline>
+                      <line x1="21" y1="3" x2="14" y2="10"></line>
+                      <line x1="3" y1="21" x2="10" y2="14"></line>
+                    </svg>
+                  </span>
+                  <span class="card-action-icon" title="More options">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+
+              <!-- IN PROGRESS Group -->
+              <div class="task-group">
+                <div class="task-group-header" onclick="toggleTaskGroup(this, 'in-progress-container')">
+                  <span class="group-chevron">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </span>
+                  <span class="badge-in-progress">IN PROGRESS</span>
+                  <span class="group-count">• 2 tasks</span>
+                </div>
+
+                <!-- Table Header -->
+                <div class="tasks-table-header">
+                  <span class="th-name">Name</span>
+                  <span class="th-priority">Priority</span>
+                  <span class="th-due">Due date</span>
+                </div>
+
+                <!-- Task Rows -->
+                <div id="in-progress-container" class="task-rows-container">
+                  <!-- Task 1 -->
+                  <div class="task-row">
+                    <div class="task-row-left">
+                      <span class="row-expand-chevron">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                      </span>
+                      <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+                      <span class="task-name">One-on-One Meeting</span>
+                    </div>
+                    <div class="priority-badge">
+                      <span class="badge-high">High</span>
+                    </div>
+                    <div class="task-due today">Today</div>
+                  </div>
+
+                  <!-- Task 2 -->
+                  <div class="task-row">
+                    <div class="task-row-left">
+                      <span class="row-expand-chevron">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                      </span>
+                      <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+                      <span class="task-name">Send a summary email to stakeholders</span>
+                    </div>
+                    <div class="priority-badge">
+                      <span class="badge-low">Low</span>
+                    </div>
+                    <div class="task-due">3 days left</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- + Add Task Button -->
+              <button class="btn-add-task">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>Add task</span>
+              </button>
+
+              <!-- Collapsed Groups: TO DO & UPCOMING -->
+              <div class="collapsed-groups">
+                <div class="collapsed-group-row">
+                  <span class="group-chevron collapsed">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </span>
+                  <span class="badge-todo">TO DO</span>
+                  <span class="group-count">• 1 task</span>
+                </div>
+
+                <div class="collapsed-group-row">
+                  <span class="group-chevron collapsed">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </span>
+                  <span class="badge-upcoming">UPCOMING</span>
+                  <span class="group-count">• 1 tasks</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- Card 2: My Goals -->
+            <section class="card goals-card">
+              <!-- Card Header -->
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-title-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <circle cx="12" cy="12" r="6"></circle>
+                      <circle cx="12" cy="12" r="2"></circle>
+                    </svg>
+                  </span>
+                  <h3 class="card-title">My Goals</h3>
+                </div>
+              </div>
+
+              <!-- Goals List -->
+              <div class="goals-list">
+                <!-- Goal 1 -->
+                <div class="goal-row">
+                  <div class="goal-info">
+                    <span class="goal-title">Check Emails and Messages</span>
+                    <span class="goal-subtitle">Product launch • My Projects</span>
+                  </div>
+                  <div class="goal-progress-wrap">
+                    <div class="progress-bar-track">
+                      <div class="progress-bar-fill fill-teal" style="width: 73%;"></div>
+                    </div>
+                    <span class="goal-percentage">73%</span>
+                  </div>
+                </div>
+
+                <!-- Goal 2 -->
+                <div class="goal-row">
+                  <div class="goal-info">
+                    <span class="goal-title">Prepare a brief status update to the client</span>
+                    <span class="goal-subtitle">Product launch • My Projects</span>
+                  </div>
+                  <div class="goal-progress-wrap">
+                    <div class="progress-bar-track">
+                      <div class="progress-bar-fill fill-orange" style="width: 11%;"></div>
+                    </div>
+                    <span class="goal-percentage">11%</span>
+                  </div>
+                </div>
+
+                <!-- Goal 3 -->
+                <div class="goal-row">
+                  <div class="goal-info">
+                    <span class="goal-title">Update project documentation</span>
+                    <span class="goal-subtitle">Team brainstorm • My Projects</span>
+                  </div>
+                  <div class="goal-progress-wrap">
+                    <div class="progress-bar-track">
+                      <div class="progress-bar-fill fill-teal" style="width: 63%;"></div>
+                    </div>
+                    <span class="goal-percentage">63%</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- Right Column (Projects + Calendar + Reminders) -->
+          <div class="col-right">
+
+            <!-- Card 3: Projects -->
+            <section class="card projects-card">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-title-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="7" width="20" height="14" rx="2"></rect>
+                      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                  </span>
+                  <h3 class="card-title">Projects</h3>
+                </div>
+
+                <div class="card-action-dropdown">
+                  <span>Recents</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- 2x2 Projects Grid -->
+              <div class="projects-grid">
+                <!-- Create New Project -->
+                <div class="project-card-item">
+                  <div class="project-icon-box icon-box-create">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </div>
+                  <div class="project-card-details">
+                    <span class="project-card-name">Create new project</span>
+                  </div>
+                </div>
+
+                <!-- Product Launch -->
+                <div class="project-card-item">
+                  <div class="project-icon-box icon-box-tinted">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#7C3AED">
+                      <path d="M12 12c0-4.4 3.6-8 8-8v8h-8zM12 12c4.4 0 8 3.6 8 8h-8v-8zM12 12c0 4.4-3.6 8-8 8v-8h8zM12 12c-4.4 0-8-3.6-8-8h8v8z"/>
+                    </svg>
+                  </div>
+                  <div class="project-card-details">
+                    <span class="project-card-name">Product launch</span>
+                    <span class="project-card-meta">6 tasks • 12 teammates</span>
+                  </div>
+                </div>
+
+                <!-- Team Brainstorm -->
+                <div class="project-card-item">
+                  <div class="project-icon-box icon-box-tinted">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#2E1FA8">
+                      <path d="M12 0C12 6.627 6.627 12 0 12c6.627 0 12 5.373 12 12 0-6.627 5.373-12 12-12-6.627 0-12-5.373-12-12z"/>
+                    </svg>
+                  </div>
+                  <div class="project-card-details">
+                    <span class="project-card-name">Team brainstorm</span>
+                    <span class="project-card-meta">2 tasks • 32 teammates</span>
+                  </div>
+                </div>
+
+                <!-- Branding Launch -->
+                <div class="project-card-item">
+                  <div class="project-icon-box icon-box-tinted">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#4FC3C0">
+                      <path d="M12 0C12 6.627 6.627 12 0 12c6.627 0 12 5.373 12 12 0-6.627 5.373-12 12-12-6.627 0-12-5.373-12-12z"/>
+                    </svg>
+                  </div>
+                  <div class="project-card-details">
+                    <span class="project-card-name">Branding launch</span>
+                    <span class="project-card-meta">4 tasks • 9 teammates</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Card 4: Calendar -->
+            <section class="card calendar-card">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-title-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                  </span>
+                  <h3 class="card-title">Calendar</h3>
+                </div>
+
+                <div class="card-action-dropdown">
+                  <span>July</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Week Day Strip -->
+              <div class="calendar-week-strip">
+                <button class="calendar-nav-arrow" title="Previous week">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
+
+                <div class="day-pill" onclick="selectDay(this)">
+                  <span class="day-label">Fri</span>
+                  <span class="day-num">04</span>
+                </div>
+                <div class="day-pill" onclick="selectDay(this)">
+                  <span class="day-label">Sat</span>
+                  <span class="day-num">05</span>
+                </div>
+                <div class="day-pill" onclick="selectDay(this)">
+                  <span class="day-label">Sun</span>
+                  <span class="day-num">06</span>
+                </div>
+                <!-- Selected Day: Mon 07 -->
+                <div class="day-pill selected" onclick="selectDay(this)">
+                  <span class="day-label">Mon</span>
+                  <span class="day-num">07</span>
+                </div>
+                <div class="day-pill" onclick="selectDay(this)">
+                  <span class="day-label">Tue</span>
+                  <span class="day-num">08</span>
+                </div>
+                <div class="day-pill" onclick="selectDay(this)">
+                  <span class="day-label">Wed</span>
+                  <span class="day-num">09</span>
+                </div>
+                <div class="day-pill" onclick="selectDay(this)">
+                  <span class="day-label">Thu</span>
+                  <span class="day-num">10</span>
+                </div>
+
+                <button class="calendar-nav-arrow" title="Next week">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Event Card -->
+              <div class="calendar-event-card">
+                <div class="event-top-row">
+                  <div>
+                    <h4 class="event-title">Meeting with VP</h4>
+                    <p class="event-time">Today • 10:00 - 11:00 am</p>
+                  </div>
+                  <div class="event-dots">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/>
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="event-bottom-row">
+                  <!-- Google Meet Chip -->
+                  <div class="meet-chip">
+                    <!-- Google Meet 4-color Camera SVG -->
+                    <svg width="16" height="16" viewBox="0 0 24 24">
+                      <path fill="#00832d" d="M0 16.5l3.5-3.5 3.5 3.5L3.5 20z"/>
+                      <path fill="#0066da" d="M0 7.5L7 14.5V7a3 3 0 0 0-3-3H0z"/>
+                      <path fill="#e94235" d="M0 16.5V20a3 3 0 0 0 3 3h4v-6.5z"/>
+                      <path fill="#2684fc" d="M7 14.5l3.5-3.5L7 7.5z"/>
+                      <path fill="#00ac47" d="M17 7.5l-3.5 3.5 3.5 3.5 4.5 3.5V6z"/>
+                      <path fill="#ffba00" d="M14 17.5v-7L7 14.5z"/>
+                    </svg>
+                    <span>Google Meet</span>
+                  </div>
+
+                  <!-- Overlapping Avatar Stack -->
+                  <div class="avatar-stack">
+                    <img class="stack-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=80" alt="Attendee 1">
+                    <img class="stack-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80" alt="Attendee 2">
+                    <img class="stack-avatar" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&auto=format&fit=crop&q=80" alt="Attendee 3">
+                    <img class="stack-avatar" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80&auto=format&fit=crop&q=80" alt="Attendee 4">
+                    <div class="stack-overflow">+2</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Card 5: Reminders -->
+            <section class="card reminders-card">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-title-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="13" r="8"></circle>
+                      <path d="M12 9v4l2 2"></path>
+                      <path d="M5 3L2 6"></path>
+                      <path d="M19 3l3 3"></path>
+                    </svg>
+                  </span>
+                  <h3 class="card-title">Reminders</h3>
+                </div>
+              </div>
+
+              <!-- Sub-group label -->
+              <div class="reminders-group-title">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="18 15 12 9 6 15"></polyline>
+                </svg>
+                <span>Today • 2</span>
+              </div>
+
+              <!-- Reminders List -->
+              <div class="reminders-list">
+                <!-- Reminder 1 -->
+                <div class="reminder-item">
+                  <span class="reminder-text">Assess any new risks identified in the morning meeting.</span>
+                  <div class="reminder-actions">
+                    <button class="reminder-icon-btn" title="Set alarm">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                      </svg>
+                    </button>
+                    <button class="reminder-icon-btn trash" title="Delete" onclick="deleteReminder(this)">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      </svg>
+                    </button>
+                    <button class="reminder-check-btn" title="Complete" onclick="toggleReminder(this)">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Reminder 2 -->
+                <div class="reminder-item">
+                  <span class="reminder-text">Outline key points for tomorrow's stand-up meeting.</span>
+                  <div class="reminder-actions">
+                    <button class="reminder-icon-btn" title="Set alarm">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                      </svg>
+                    </button>
+                    <button class="reminder-icon-btn trash" title="Delete" onclick="deleteReminder(this)">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      </svg>
+                    </button>
+                    <button class="reminder-check-btn" title="Complete" onclick="toggleReminder(this)">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+        </div>
+
+        <!-- 11. Floating Action Button (FAB) -->
+        <button class="fab-btn" title="Quick AI Assist">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF">
+            <path d="M12 1L14.5 9.5L23 12L14.5 14.5L12 23L9.5 14.5L1 12L9.5 9.5L12 1Z"></path>
+          </svg>
+        </button>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Minimal Vanilla JS for Interactions -->
+  <script>
+    // Toggle Task Checkbox
+    function toggleCheckbox(el) {
+      el.classList.toggle('checked');
+    }
+
+    // Toggle Task Group Collapsible
+    function toggleTaskGroup(headerEl, containerId) {
+      const container = document.getElementById(containerId);
+      const chevron = headerEl.querySelector('.group-chevron');
+      if (container.style.display === 'none') {
+        container.style.display = 'flex';
+        chevron.classList.remove('collapsed');
+      } else {
+        container.style.display = 'none';
+        chevron.classList.add('collapsed');
+      }
+    }
+
+    // Calendar Day Selection
+    function selectDay(element) {
+      document.querySelectorAll('.day-pill').forEach(pill => pill.classList.remove('selected'));
+      element.classList.add('selected');
+    }
+
+    // Toggle Reminder Completed
+    function toggleReminder(button) {
+      const item = button.closest('.reminder-item');
+      item.classList.toggle('completed');
+    }
+
+    // Delete Reminder Item
+    function deleteReminder(button) {
+      const item = button.closest('.reminder-item');
+      item.style.transition = 'opacity 200ms ease, transform 200ms ease';
+      item.style.opacity = '0';
+      item.style.transform = 'translateX(10px)';
+      setTimeout(() => item.remove(), 200);
+    }
+  </script>
+</body>
+</html>

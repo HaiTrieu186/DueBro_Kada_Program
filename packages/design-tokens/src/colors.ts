@@ -64,4 +64,32 @@ export const colors = {
     focused: '#6C4DFF',
     purple: '#DDD6FE',
   },
+
+  // Admin & Status Tokens (Preserved for Admin Dashboard & Prodify Style)
+  status: {
+    urgent: '#FF1744',
+    open: '#2979FF',
+    in_progress: '#FF9100',
+    review: '#AA00FF',
+    completed: '#00E676',
+    disputed: '#D50000',
+  },
+  dark: {
+    DEFAULT: '#1E1E2E',
+    surface: '#2A2A3E',
+    border: '#3E3E5E',
+  },
+  light: {
+    DEFAULT: '#FFFFFF',
+    surface: '#F5F5FA',
+    border: '#E0E0E8',
+  },
+  prodify: {
+    canvas: '#0c0c0e',
+    surface1: '#131316',
+    surface2: '#18181d',
+    surface3: '#202027',
+    accent: '#7C3AED',
+    glow: '#9061F9',
+  },
 } as const;

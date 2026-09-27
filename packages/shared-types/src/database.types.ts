@@ -727,5 +727,11 @@ export interface Database {
         Returns: Json;
       };
     };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
   };
 }
