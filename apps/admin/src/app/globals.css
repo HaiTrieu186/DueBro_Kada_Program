@@ -64,32 +64,51 @@ body {
   box-shadow: 0 2px 4px rgba(20, 20, 60, 0.05), 0 12px 36px rgba(110, 90, 220, 0.11);
 }
 
+/* Header Pill Buttons */
+.btn-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 42px !important;
+  padding: 0 18px !important;
+  border-radius: 999px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  gap: 8px !important;
+  text-decoration: none !important;
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease, background 150ms ease !important;
+  white-space: nowrap !important;
+  user-select: none !important;
+  line-height: 1 !important;
+}
+
 /* Prodify AI Button */
 .btn-ask-ai {
-  background: linear-gradient(135deg, #6C5CE7 0%, #5B4BDB 50%, #4834D4 100%);
-  color: #FFFFFF;
-  box-shadow: var(--shadow-btn-ai);
-  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(135deg, #5B4BDB 0%, #7C6CF0 100%) !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  border: none !important;
+  box-shadow: 0 6px 20px rgba(91, 75, 219, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 3px rgba(139, 124, 232, 0.15) !important;
 }
 .btn-ask-ai:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(91, 75, 219, 0.50), inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 0 5px rgba(139, 124, 232, 0.20);
+  transform: translateY(-1px) !important;
+  box-shadow: 0 8px 24px rgba(91, 75, 219, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 0 5px rgba(139, 124, 232, 0.25) !important;
 }
 
 /* Dual-Border Outline Pill Button */
 .btn-outline-gradient {
-  background: #FFFFFF;
-  color: #14142B;
-  border: 1px solid #E4E4EE;
-  box-shadow: 0 2px 8px rgba(20, 20, 60, 0.04);
-  transition: all 150ms ease;
+  background: #FFFFFF !important;
+  color: #14142B !important;
+  border: 1.5px solid #E4E4EE !important;
+  box-shadow: 0 2px 8px rgba(20, 20, 60, 0.04) !important;
 }
 .btn-outline-gradient:hover {
-  border-color: #5B4BDB;
-  color: #5B4BDB;
-  background: #F8F8FE;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(91, 75, 219, 0.12);
+  border-color: #5B4BDB !important;
+  color: #5B4BDB !important;
+  background: #F8F8FE !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 14px rgba(91, 75, 219, 0.15) !important;
 }
 
 /* Prodify Badges */

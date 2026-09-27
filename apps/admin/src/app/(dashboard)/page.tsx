@@ -63,30 +63,39 @@ export default async function DashboardHomePage() {
         </div>
 
         {/* Action Pills */}
-        <div className="flex flex-wrap items-center gap-2.5">
-          <button className="btn-pill btn-ask-ai">
-            <Sparkles className="h-4 w-4 fill-white text-white" />
-            <span>Hỏi Bro AI</span>
+        <div className="flex flex-wrap items-center gap-3">
+          <button className="btn-pill btn-ask-ai inline-flex items-center justify-center gap-2 h-10 px-5 rounded-full text-xs font-bold text-white shadow-md shadow-[#5B4BDB]/25 transition hover:scale-[1.02] active:scale-[0.98]">
+            <Sparkles className="h-4 w-4 fill-white text-white shrink-0" />
+            <span className="whitespace-nowrap">Hỏi Bro AI</span>
           </button>
           
-          <Link href="/disputes" className="btn-pill btn-outline-gradient">
-            <span className="flex items-center gap-1.5">
+          <Link
+            href="/disputes"
+            className="btn-pill btn-outline-gradient inline-flex items-center justify-center gap-2 h-10 px-4 rounded-full border border-[#E4E4EE] bg-white text-xs font-semibold text-[#14142B] shadow-sm transition hover:border-[#5B4BDB] hover:text-[#5B4BDB] hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <span className="flex items-center gap-1.5 whitespace-nowrap">
               <span>Hàng đợi khiếu nại</span>
               {kpi.openDisputesCount > 0 && (
-                <span className="rounded-full bg-[#E5484D] px-2 py-0.5 text-[11px] font-bold text-white">
+                <span className="rounded-full bg-[#E5484D] px-2 py-0.5 text-[10px] font-extrabold text-white">
                   {kpi.openDisputesCount}
                 </span>
               )}
             </span>
           </Link>
 
-          <Link href="/rooms" className="btn-pill btn-outline-gradient">
-            Giám sát {roomHealth.totalRooms} phòng KTX
+          <Link
+            href="/rooms"
+            className="btn-pill btn-outline-gradient inline-flex items-center justify-center gap-2 h-10 px-4 rounded-full border border-[#E4E4EE] bg-white text-xs font-semibold text-[#14142B] shadow-sm transition hover:border-[#5B4BDB] hover:text-[#5B4BDB] hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
+          >
+            <span>Giám sát {roomHealth.totalRooms} phòng KTX</span>
           </Link>
 
-          <Link href="/ml-monitor" className="btn-pill btn-outline-gradient">
-            <BrainCircuit className="h-4 w-4 text-[#5B4BDB]" />
-            <span>AI Matching &amp; ML</span>
+          <Link
+            href="/ml-monitor"
+            className="btn-pill btn-outline-gradient inline-flex items-center justify-center gap-2 h-10 px-4 rounded-full border border-[#E4E4EE] bg-white text-xs font-semibold text-[#14142B] shadow-sm transition hover:border-[#5B4BDB] hover:text-[#5B4BDB] hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <BrainCircuit className="h-4 w-4 text-[#5B4BDB] shrink-0" />
+            <span className="whitespace-nowrap">AI Matching &amp; ML</span>
           </Link>
         </div>
       </section>
