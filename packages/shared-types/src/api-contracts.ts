@@ -275,23 +275,48 @@ export const ComputeMatchesInputSchema = z.object({
 });
 export type ComputeMatchesInput = z.infer<typeof ComputeMatchesInputSchema>;
 
+// Bug B3 fix (2026-09-28): response shape đã được cập nhật cho khớp với
+// Edge Function compute-matches/index.ts sau khi vá Bug B2.
+// Mobile (src/modules/matching/api.ts) đọc trực tiếp strengths/conflicts (flat),
+// KHÔNG còn dạng lồng reasons.strengths/conflicts.
 export const MatchSuggestionItemSchema = z.object({
   candidate_id: z.string().uuid(),
-  compatibility_score: z.number().min(0).max(1),
-  breakdown: z.record(z.number()),
-  reasons: z.object({
-    strengths: z.array(z.string()),
-    conflicts: z.array(z.string()),
-  }),
+  display_name: z.string(),
+  avatar_url: z.string().nullable(),
+  compatibility_score: z.number().min(0).max(1),         // 0..1 (raw score)
+  compatibility_pct: z.number().int().min(0).max(100),   // 0..100 (hiển thị trên UI)
+  strengths: z.array(z.string()),                        // lý do tương hợp (tối đa 2)
+  conflicts: z.array(z.string()),                        // điểm lưu ý (tối đa 1)
+  lifestyle: z.null(),                                   // luôn null — mobile tự query
+  trust: z.null(),                                       // luôn null — dùng RPC get_user_trust()
+  is_seed_data: z.boolean(),
+  breakdown: z.record(z.string(), z.number()).optional(), // debug/analytics
 });
 export type MatchSuggestionItem = z.infer<typeof MatchSuggestionItemSchema>;
 
 export const ComputeMatchesResponseSchema = z.object({
-  model_version: z.string(),
+  ok: z.literal(true),
   count: z.number().int(),
+  total_candidates_scored: z.number().int().optional(),
+  model_version: z.string(),
   suggestions: z.array(MatchSuggestionItemSchema),
 });
 export type ComputeMatchesResponse = z.infer<typeof ComputeMatchesResponseSchema>;
+
+export const ComputeMatchesErrorSchema = z.object({
+  ok: z.literal(false),
+  error: z.string(),
+  message: z.string().optional(),
+  missing_fields: z.array(z.string()).optional(),
+});
+export type ComputeMatchesError = z.infer<typeof ComputeMatchesErrorSchema>;
+
+/** Union type cho toàn bộ response — dùng discriminatedUnion trên trường `ok` */
+export const ComputeMatchesApiResponseSchema = z.discriminatedUnion('ok', [
+  ComputeMatchesResponseSchema,
+  ComputeMatchesErrorSchema,
+]);
+export type ComputeMatchesApiResponse = z.infer<typeof ComputeMatchesApiResponseSchema>;
 
 export const SwipeInputSchema = z.object({
   p_candidate_id: z.string().uuid(),
